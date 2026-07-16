@@ -89,7 +89,7 @@ class PostResource extends Resource
                 Tables\Columns\ImageColumn::make('image')
                     ->label('Foto')
                     ->square()
-                    ->defaultImageUrl(asset('images/logo.png')),
+                    ->defaultImageUrl(fn ($record) => "https://picsum.photos/seed/post{$record->id}/80/80"),
 
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul Berita')
