@@ -19,11 +19,13 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin Desa',
-            'email' => 'admin@jayanti.desa.id',
-            'password' => bcrypt('password'),
-        ]);
+        User::updateOrCreate(
+            ['email' => 'admin@jayanti.desa.id'],
+            [
+                'name' => 'Admin Desa',
+                'password' => bcrypt('password'),
+            ]
+        );
 
         // Seed Posts
         for ($i = 1; $i <= 10; $i++) {
