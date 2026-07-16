@@ -73,7 +73,7 @@
                     </h3>
                     <div class="w-full bg-gray-200 rounded-xl overflow-hidden mb-3">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.3!2d106.4612!3d-6.2167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e42008f1b250785%3A0x6b107b71ea002a2!2sJayanti%2C%20Tangerang%20Regency%2C%20Banten!5e0!3m2!1sid!2sid!4v1752645600000!5m2!1sid!2sid"
+                            src="https://maps.google.com/maps?q=-6.2106306,106.4429381(Kantor+Kepala+Desa+Jayanti)&t=&z=16&ie=UTF8&iwloc=&output=embed"
                             width="100%"
                             height="280"
                             style="border:0;"
