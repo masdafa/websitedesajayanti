@@ -1,12 +1,13 @@
 <div>
     <!-- Hero Section -->
-    <div class="relative bg-gradient-to-br from-green-700 to-green-900 py-20 px-6 sm:px-12 lg:px-24">
-        <div class="absolute inset-0 overflow-hidden">
-            <img src="{{ asset('images/logo.png') }}" alt="Background" class="w-full h-full object-cover opacity-10">
+    <div class="relative py-28 px-6 sm:px-12 lg:px-24 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1400&q=80" alt="Hero Listing" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-900/85 via-emerald-800/80 to-teal-900/85"></div>
         </div>
         <div class="relative max-w-7xl mx-auto z-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">Listing Potensi Desa</h1>
-            <p class="text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">Listing Potensi Desa</h1>
+            <p class="text-xl text-green-100 max-w-3xl mx-auto leading-relaxed drop-shadow">
                 Direktori fasilitas, tempat wisata, dan potensi unggulan di Desa Jayanti.
             </p>
         </div>

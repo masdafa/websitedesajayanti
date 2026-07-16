@@ -38,16 +38,38 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex gap-5 xl:gap-7 items-center">
-                    <a href="/" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('home') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Home</a>
-                    <a href="/profil" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('profil') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Profil</a>
-                    <a href="/infografis" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('infografis') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Infografis</a>
-                    <a href="/listing" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('listing') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Listing</a>
-                    <a href="/idm" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('idm') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>IDM</a>
-                    <a href="/berita" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('berita') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Berita</a>
-                    <a href="/galeri" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('galeri') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Galeri</a>
-                    <a href="/belanja" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('belanja') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Belanja</a>
-                    <a href="/ppid" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('ppid') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>PPID</a>
+                <div class="hidden lg:flex gap-1 xl:gap-2 items-center" x-data="{ layananOpen: false }">
+                    <a href="/" class="text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('home') ? 'bg-white/20' : '' }}" wire:navigate>Home</a>
+                    <a href="/profil" class="text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('profil') ? 'bg-white/20' : '' }}" wire:navigate>Profil</a>
+                    <a href="/berita" class="text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('berita') ? 'bg-white/20' : '' }}" wire:navigate>Berita</a>
+                    <a href="/galeri" class="text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs('galeri') ? 'bg-white/20' : '' }}" wire:navigate>Galeri</a>
+
+                    <!-- Layanan Dropdown -->
+                    <div class="relative" @mouseenter="layananOpen = true" @mouseleave="layananOpen = false">
+                        <button class="flex items-center gap-1 text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs(['infografis','listing','idm','belanja','ppid']) ? 'bg-white/20' : '' }}">
+                            Layanan
+                            <svg class="w-4 h-4 transition-transform" :class="layananOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="layananOpen" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute top-full right-0 mt-1 w-48 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50">
+                            <a href="/infografis" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('infografis') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
+                                <span class="text-lg">📊</span> Infografis
+                            </a>
+                            <a href="/listing" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('listing') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
+                                <span class="text-lg">🗺️</span> Listing Desa
+                            </a>
+                            <a href="/idm" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('idm') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
+                                <span class="text-lg">📈</span> IDM
+                            </a>
+                            <a href="/belanja" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('belanja') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
+                                <span class="text-lg">🛒</span> Belanja Desa
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="/ppid" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('ppid') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
+                                <span class="text-lg">📄</span> PPID
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -62,16 +84,19 @@
             
             <!-- Mobile Menu Dropdown -->
             <div x-show="mobileMenuOpen" x-transition class="lg:hidden absolute top-full left-0 w-full bg-emerald-900 shadow-xl border-t border-emerald-800">
-                <div class="px-4 py-4 flex flex-col space-y-4">
-                    <a href="/" class="text-white font-bold" wire:navigate>Home</a>
-                    <a href="/profil" class="text-white font-bold" wire:navigate>Profil</a>
-                    <a href="/infografis" class="text-white font-bold" wire:navigate>Infografis</a>
-                    <a href="/listing" class="text-white font-bold" wire:navigate>Listing</a>
-                    <a href="/idm" class="text-white font-bold" wire:navigate>IDM</a>
-                    <a href="/berita" class="text-white font-bold" wire:navigate>Berita</a>
-                    <a href="/galeri" class="text-white font-bold" wire:navigate>Galeri</a>
-                    <a href="/belanja" class="text-white font-bold" wire:navigate>Belanja</a>
-                    <a href="/ppid" class="text-white font-bold" wire:navigate>PPID</a>
+                <div class="px-4 py-4 flex flex-col space-y-1">
+                    <a href="/" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10" wire:navigate>🏠 Home</a>
+                    <a href="/profil" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10" wire:navigate>🏘️ Profil Desa</a>
+                    <a href="/berita" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10" wire:navigate>📰 Berita</a>
+                    <a href="/galeri" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10" wire:navigate>🖼️ Galeri</a>
+                    <div class="border-t border-emerald-800 pt-2 mt-1">
+                        <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 pb-1">Layanan</p>
+                        <a href="/infografis" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>📊 Infografis</a>
+                        <a href="/listing" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>🗺️ Listing Desa</a>
+                        <a href="/idm" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>📈 IDM</a>
+                        <a href="/belanja" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>🛒 Belanja Desa</a>
+                        <a href="/ppid" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>📄 PPID</a>
+                    </div>
                 </div>
             </div>
         </header>

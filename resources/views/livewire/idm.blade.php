@@ -1,12 +1,13 @@
 <div>
     <!-- Hero Section -->
-    <div class="relative bg-gradient-to-br from-green-700 to-green-900 py-20 px-6 sm:px-12 lg:px-24">
-        <div class="absolute inset-0 overflow-hidden">
-            <img src="{{ asset('images/logo.png') }}" alt="Background" class="w-full h-full object-cover opacity-10">
+    <div class="relative py-28 px-6 sm:px-12 lg:px-24 overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1473177104440-ffee2f376098?w=1400&q=80" alt="Hero IDM" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-900/85 via-emerald-800/80 to-teal-900/85"></div>
         </div>
         <div class="relative max-w-7xl mx-auto z-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight">Indeks Desa Membangun (IDM)</h1>
-            <p class="text-xl text-green-100 max-w-3xl mx-auto leading-relaxed">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-6 tracking-tight drop-shadow-lg">Indeks Desa Membangun (IDM)</h1>
+            <p class="text-xl text-green-100 max-w-3xl mx-auto leading-relaxed drop-shadow">
                 Status perkembangan dan kemandirian Desa Jayanti berdasarkan penilaian Kemendes PDTT.
             </p>
         </div>
