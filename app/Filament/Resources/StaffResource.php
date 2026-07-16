@@ -30,7 +30,7 @@ class StaffResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Data Perangkat Desa')
+            \Filament\Schemas\Components\Section::make('Informasi Perangkat Desa')
                 ->schema([
                     Forms\Components\FileUpload::make('image')
                         ->label('Foto Perangkat')

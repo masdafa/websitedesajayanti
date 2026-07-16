@@ -33,7 +33,7 @@ class PostResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Informasi Berita')
+            \Filament\Schemas\Components\Section::make('Informasi Berita')
                 ->description('Isi informasi utama berita di sini.')
                 ->schema([
                     Forms\Components\TextInput::make('title')
@@ -58,7 +58,7 @@ class PostResource extends Resource
                         ->columnSpanFull(),
                 ])->columns(2),
 
-            Forms\Components\Section::make('Konten Berita')
+            \Filament\Schemas\Components\Section::make('Konten Berita')
                 ->schema([
                     Forms\Components\FileUpload::make('image')
                         ->label('Foto Sampul')

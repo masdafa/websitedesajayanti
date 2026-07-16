@@ -30,7 +30,7 @@ class GalleryResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Forms\Components\Section::make('Upload Foto')
+            \Filament\Schemas\Components\Section::make('Informasi Galeri Foto')
                 ->schema([
                     Forms\Components\FileUpload::make('image')
                         ->label('Foto')
