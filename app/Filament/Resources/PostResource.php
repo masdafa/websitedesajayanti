@@ -70,13 +70,6 @@ class PostResource extends Resource
                     Forms\Components\RichEditor::make('content')
                         ->label('Isi Berita')
                         ->required()
-                        ->toolbarButtons([
-                            'bold', 'italic', 'underline', 'strike',
-                            'h2', 'h3',
-                            'orderedList', 'unorderedList',
-                            'link', 'blockquote',
-                            'redo', 'undo',
-                        ])
                         ->columnSpanFull(),
                 ]),
         ]);
