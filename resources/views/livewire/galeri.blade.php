@@ -14,7 +14,11 @@
         <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             @forelse($galleries as $gallery)
                 <div class="break-inside-avoid relative group rounded-2xl overflow-hidden shadow-sm">
-                    <img src="{{ asset('storage/'.$gallery->image) }}" alt="{{ $gallery->title }}" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    @if($gallery->image)
+                        <img src="{{ asset('storage/'.$gallery->image) }}" alt="{{ $gallery->title }}" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    @else
+                        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=80" alt="Placeholder" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-500">
+                    @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
                         <h3 class="text-white font-bold text-lg">{{ $gallery->title }}</h3>
                         @if($gallery->description)
