@@ -38,15 +38,16 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex gap-7 items-center">
-                    <a href="/" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ $isHome ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Home</a>
-                    <a href="/profil" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('profil') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Profil Desa</a>
-                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Infografis</a>
-                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Listing</a>
-                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">IDM</a>
+                <div class="hidden lg:flex gap-5 xl:gap-7 items-center">
+                    <a href="/" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('home') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Home</a>
+                    <a href="/profil" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('profil') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Profil</a>
+                    <a href="/infografis" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('infografis') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Infografis</a>
+                    <a href="/listing" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('listing') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Listing</a>
+                    <a href="/idm" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('idm') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>IDM</a>
                     <a href="/berita" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('berita') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Berita</a>
-                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Belanja</a>
-                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">PPID</a>
+                    <a href="/galeri" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('galeri') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Galeri</a>
+                    <a href="/belanja" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('belanja') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Belanja</a>
+                    <a href="/ppid" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('ppid') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>PPID</a>
                 </div>
 
                 <!-- Mobile menu button -->
@@ -63,9 +64,14 @@
             <div x-show="mobileMenuOpen" x-transition class="lg:hidden absolute top-full left-0 w-full bg-emerald-900 shadow-xl border-t border-emerald-800">
                 <div class="px-4 py-4 flex flex-col space-y-4">
                     <a href="/" class="text-white font-bold" wire:navigate>Home</a>
-                    <a href="/profil" class="text-white font-bold" wire:navigate>Profil Desa</a>
+                    <a href="/profil" class="text-white font-bold" wire:navigate>Profil</a>
+                    <a href="/infografis" class="text-white font-bold" wire:navigate>Infografis</a>
+                    <a href="/listing" class="text-white font-bold" wire:navigate>Listing</a>
+                    <a href="/idm" class="text-white font-bold" wire:navigate>IDM</a>
                     <a href="/berita" class="text-white font-bold" wire:navigate>Berita</a>
                     <a href="/galeri" class="text-white font-bold" wire:navigate>Galeri</a>
+                    <a href="/belanja" class="text-white font-bold" wire:navigate>Belanja</a>
+                    <a href="/ppid" class="text-white font-bold" wire:navigate>PPID</a>
                 </div>
             </div>
         </header>
