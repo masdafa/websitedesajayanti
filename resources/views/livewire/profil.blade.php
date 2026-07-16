@@ -1,9 +1,12 @@
 <div class="bg-gray-50 min-h-screen pb-16">
     <!-- Header -->
-    <div class="bg-emerald-800 text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight mb-4">Profil Desa Jayanti</h1>
-            <p class="text-emerald-100 max-w-2xl mx-auto">Mengenal lebih dekat sejarah, visi misi, dan struktur pemerintahan Desa Jayanti.</p>
+    <div class="relative bg-emerald-900 pt-32 pb-20">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop" alt="Profil Desa" class="w-full h-full object-cover opacity-40">
+        </div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-white drop-shadow-md">Profil Desa Jayanti</h1>
+            <p class="text-emerald-50 max-w-2xl mx-auto text-lg drop-shadow">Mengenal lebih dekat sejarah, visi misi, dan struktur pemerintahan Desa Jayanti.</p>
         </div>
     </div>
 

@@ -1,18 +1,136 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $title ?? 'Website Desa Jayanti' }}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&display=swap" rel="stylesheet" />
 
-        <title>{{ $title ?? config('app.name') }}</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+</head>
+<body class="font-sans antialiased text-gray-900 bg-gray-50" style="font-family: 'Inter', sans-serif;">
+    <div class="min-h-screen flex flex-col relative">
+        @php
+            $isHome = request()->routeIs('home');
+        @endphp
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Navigation -->
+        <header x-data="{ scrolled: false, mobileMenuOpen: false }" 
+                @scroll.window="scrolled = (window.pageYOffset > 20)"
+                class="fixed w-full top-0 z-50 transition-all duration-300"
+                :class="{ 'bg-emerald-900/95 backdrop-blur-md shadow-lg py-3': scrolled, 'bg-transparent py-5': !scrolled }">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3">
+                    <!-- Placeholder Logo Kab Tangerang -->
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-11 h-11 object-contain drop-shadow-md">
+                    <div class="text-white drop-shadow-md">
+                        <a href="/" class="text-xl font-bold leading-none block tracking-wide" wire:navigate>Desa Jayanti</a>
+                        <span class="text-xs text-gray-100 font-medium">Kabupaten Tangerang</span>
+                    </div>
+                </div>
 
-        @livewireStyles
-    </head>
-    <body>
-        {{ $slot }}
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex gap-7 items-center">
+                    <a href="/" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ $isHome ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Home</a>
+                    <a href="/profil" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('profil') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Profil Desa</a>
+                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Infografis</a>
+                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Listing</a>
+                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">IDM</a>
+                    <a href="/berita" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow {{ request()->routeIs('berita') ? 'border-b-2 border-white pb-1' : '' }}" wire:navigate>Berita</a>
+                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">Belanja</a>
+                    <a href="#" class="text-white hover:text-emerald-200 font-bold text-sm tracking-wide transition drop-shadow">PPID</a>
+                </div>
 
-        @livewireScripts
-    </body>
+                <!-- Mobile menu button -->
+                <div class="lg:hidden">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-white hover:text-emerald-200 focus:outline-none drop-shadow">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div x-show="mobileMenuOpen" x-transition class="lg:hidden absolute top-full left-0 w-full bg-emerald-900 shadow-xl border-t border-emerald-800">
+                <div class="px-4 py-4 flex flex-col space-y-4">
+                    <a href="/" class="text-white font-bold" wire:navigate>Home</a>
+                    <a href="/profil" class="text-white font-bold" wire:navigate>Profil Desa</a>
+                    <a href="/berita" class="text-white font-bold" wire:navigate>Berita</a>
+                    <a href="/galeri" class="text-white font-bold" wire:navigate>Galeri</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow">
+            {{ $slot }}
+        </main>
+
+        <!-- Floating Widgets -->
+        <!-- Visitor Counter (Bottom Left) -->
+        <div class="fixed bottom-6 left-6 z-40 bg-[#c6e6b4]/95 backdrop-blur-md border border-white/50 text-emerald-900 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3">
+            <div class="bg-white/50 p-2 rounded-lg">
+                <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Kunjungan</div>
+                <div class="font-extrabold text-xl leading-none mt-0.5 text-white drop-shadow">8 <span class="text-xs font-semibold text-white ml-1">Hari Ini</span></div>
+            </div>
+        </div>
+
+        <!-- Buttons (Bottom Right) -->
+        <div class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
+            <!-- Accessibility Button -->
+            <button class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl transition-all hover:scale-105 border border-white/20">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
+            </button>
+            
+            <!-- Pengaduan Button -->
+            <a href="#" class="bg-[#f39c9c] hover:bg-red-400 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all hover:scale-105 border border-white/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="font-bold text-sm tracking-wide">Pengaduan</span>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="bg-emerald-950 text-emerald-100 py-12 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-white text-xl font-bold mb-4">Desa Jayanti</h3>
+                    <p class="text-sm text-emerald-200">Website resmi Desa Jayanti. Mewujudkan desa mandiri, sejahtera, dan berbudaya.</p>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">Tautan</h3>
+                    <ul class="space-y-2 text-sm text-emerald-200">
+                        <li><a href="/profil" class="hover:text-white transition" wire:navigate>Profil Desa</a></li>
+                        <li><a href="/berita" class="hover:text-white transition" wire:navigate>Berita & Artikel</a></li>
+                        <li><a href="/galeri" class="hover:text-white transition" wire:navigate>Galeri</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-white text-lg font-bold mb-4">Kontak</h3>
+                    <ul class="space-y-2 text-sm text-emerald-200">
+                        <li>Jl. Raya Desa Jayanti No. 1</li>
+                        <li>Kecamatan Jayanti, Kabupaten Tangerang</li>
+                        <li>Email: kontak@jayanti.desa.id</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-8 border-t border-emerald-800/50 text-sm text-center text-emerald-400">
+                &copy; {{ date('Y') }} Pemerintah Desa Jayanti. All rights reserved.
+            </div>
+        </footer>
+    </div>
+    
+    @livewireScripts
+</body>
 </html>
