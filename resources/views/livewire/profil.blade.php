@@ -73,7 +73,7 @@
                     </h3>
                     <div class="w-full bg-gray-200 rounded-xl overflow-hidden mb-3">
                         <iframe
-                            src="https://maps.google.com/maps?q=-6.2106306,106.4429381(Kantor+Kepala+Desa+Jayanti)&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            src="https://maps.google.com/maps?q=Balai+Desa+Jayanti,+Jayanti,+Tangerang&t=&z=16&ie=UTF8&iwloc=&output=embed"
                             width="100%"
                             height="280"
                             style="border:0;"
