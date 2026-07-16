@@ -4,11 +4,17 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
 use App\Models\Post;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\CreateAction;
 use Filament\Forms;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\TernaryFilter;
 use Illuminate\Support\Str;
 
 class PostResource extends Resource
@@ -48,7 +54,8 @@ class PostResource extends Resource
                     Forms\Components\Toggle::make('is_published')
                         ->label('Publikasikan')
                         ->default(true)
-                        ->helperText('Aktifkan untuk menampilkan berita di website.'),
+                        ->helperText('Aktifkan untuk menampilkan berita di website.')
+                        ->columnSpanFull(),
                 ])->columns(2),
 
             Forms\Components\Section::make('Konten Berita')
@@ -104,18 +111,18 @@ class PostResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_published')
+                TernaryFilter::make('is_published')
                     ->label('Status Publikasi')
                     ->trueLabel('Hanya Publikasi')
                     ->falseLabel('Hanya Draft'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
