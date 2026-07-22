@@ -34,7 +34,7 @@ use App\Http\Controllers\Admin\PublicDocumentController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
-        Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+        Route::get('login', [AuthController::class, 'showLogin'])->name('login');
         Route::post('login', [AuthController::class, 'login']);
     });
 
