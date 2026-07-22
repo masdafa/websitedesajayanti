@@ -1,37 +1,104 @@
 <div>
     <!-- Hero Fullscreen Section -->
-    <div class="relative w-full h-screen bg-gray-900 overflow-hidden flex items-center justify-center">
-        <!-- Background Image -->
-        <div class="absolute inset-0">
-            <!-- Rural education/technology theme background -->
-            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop" alt="Desa Jayanti" class="w-full h-full object-cover opacity-80">
-            <!-- Dark Gradient Overlay for text readability -->
-            <div class="absolute inset-0 bg-black/40"></div>
+    <div x-data="{
+            activeSlide: 0,
+            slideCount: {{ count($latestPosts) + 1 }},
+            init() {
+                setInterval(() => {
+                    this.next();
+                }, 30000); // 30 seconds
+            },
+            next() {
+                this.activeSlide = this.activeSlide === this.slideCount - 1 ? 0 : this.activeSlide + 1;
+            },
+            prev() {
+                this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1;
+            }
+        }" 
+        class="relative w-full h-screen bg-gray-900 overflow-hidden flex items-center justify-center">
+
+        <!-- Slides Container -->
+        <div class="relative w-full h-full">
+            
+            <!-- Default Slide -->
+            <div x-show="activeSlide === 0" 
+                 x-transition.opacity.duration.700ms
+                 class="absolute inset-0 w-full h-full flex items-center justify-center">
+                <!-- Background Image -->
+                <div class="absolute inset-0">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop" alt="Desa Jayanti" class="w-full h-full object-cover opacity-80">
+                    <div class="absolute inset-0 bg-black/50"></div>
+                </div>
+                
+                <!-- Hero Content -->
+                <div class="relative z-10 text-center px-4 sm:px-12 lg:px-24 max-w-6xl mx-auto mt-16">
+                    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4" style="text-shadow: 0 4px 6px rgba(0,0,0,0.8);">
+                        DESA JAYANTI RESIDENCE
+                    </h1>
+                    <p class="text-lg sm:text-2xl md:text-4xl lg:text-5xl text-white font-bold leading-tight mb-4 sm:mb-6" style="text-shadow: 0 3px 5px rgba(0,0,0,0.8);">
+                        Menuju Keterbukaan Informasi dan Tata kelola Desa pada informasi warga desa
+                    </p>
+                    <p class="text-sm sm:text-lg md:text-xl font-bold text-white tracking-wider" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                        TIM Teknologi Informasi Desa Jayanti Residence
+                    </p>
+                </div>
+            </div>
+
+            <!-- News Slides -->
+            @foreach($latestPosts as $index => $post)
+                <div x-show="activeSlide === {{ $index + 1 }}" 
+                     x-transition.opacity.duration.700ms
+                     class="absolute inset-0 w-full h-full flex items-center justify-center"
+                     style="display: none;">
+                    
+                    <!-- Background Image -->
+                    <div class="absolute inset-0">
+                        @if($post->image)
+                            <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover opacity-80">
+                        @else
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-80">
+                        @endif
+                        <div class="absolute inset-0 bg-black/60"></div>
+                    </div>
+                    
+                    <!-- News Content -->
+                    <div class="relative z-10 text-center px-4 sm:px-12 lg:px-24 max-w-6xl mx-auto mt-16">
+                        <div class="inline-block bg-emerald-600/90 backdrop-blur text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest mb-6 uppercase shadow-lg border border-emerald-400/30">Berita Terbaru</div>
+                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 line-clamp-3 leading-tight" style="text-shadow: 0 4px 6px rgba(0,0,0,0.8);">
+                            {{ $post->title }}
+                        </h1>
+                        <p class="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed mb-8 line-clamp-2 max-w-3xl mx-auto" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                            {{ Str::limit(strip_tags($post->content), 150) }}
+                        </p>
+                        <a href="/berita" wire:navigate class="inline-flex items-center gap-2 bg-white text-emerald-900 font-bold px-6 py-3.5 rounded-xl hover:bg-emerald-50 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transform hover:-translate-y-1">
+                            Baca Selengkapnya
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+
         </div>
 
-        <!-- Slider Arrows (Visual only for now) -->
+        <!-- Slider Arrows -->
         <div class="absolute inset-y-0 left-4 md:left-8 flex items-center z-20">
-            <button class="text-white hover:text-gray-300 p-2 transition">
-                <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <button @click="prev()" class="bg-black/20 hover:bg-black/50 text-white p-3 md:p-4 rounded-full backdrop-blur-sm transition border border-white/20 hover:scale-110">
+                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
         </div>
         <div class="absolute inset-y-0 right-4 md:right-8 flex items-center z-20">
-            <button class="text-white hover:text-gray-300 p-2 transition">
-                <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <button @click="next()" class="bg-black/20 hover:bg-black/50 text-white p-3 md:p-4 rounded-full backdrop-blur-sm transition border border-white/20 hover:scale-110">
+                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
         </div>
 
-        <!-- Hero Content -->
-        <div class="relative z-10 text-center px-4 sm:px-12 lg:px-24 max-w-6xl mx-auto mt-16">
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4" style="text-shadow: 0 4px 6px rgba(0,0,0,0.8);">
-                DESA JAYANTI
-            </h1>
-            <p class="text-2xl md:text-4xl lg:text-5xl text-white font-bold leading-tight mb-6" style="text-shadow: 0 3px 5px rgba(0,0,0,0.8);">
-                Menuju Tatakelola Pemerintahan yang Berorientasi pada Keterbukaan Informasi Publik
-            </p>
-            <p class="text-lg md:text-xl font-bold text-white tracking-wider" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
-                TIM PPID DESA JAYANTI
-            </p>
+        <!-- Slider Indicators -->
+        <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-2.5 z-20">
+            <template x-for="i in slideCount" :key="i">
+                <button @click="activeSlide = i - 1" 
+                        class="h-2.5 rounded-full transition-all duration-500 shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
+                        :class="activeSlide === (i - 1) ? 'bg-emerald-500 w-8' : 'bg-white/50 hover:bg-white/80 w-2.5'"></button>
+            </template>
         </div>
     </div>
 

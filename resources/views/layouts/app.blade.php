@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Website Desa Jayanti' }}</title>
+    <title>{{ $title ?? 'Website Desa Jayanti Residence' }}</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
@@ -32,7 +32,7 @@
                     <!-- Placeholder Logo Kab Tangerang -->
                     <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-11 h-11 object-contain drop-shadow-md">
                     <div class="text-white drop-shadow-md">
-                        <a href="/" class="text-xl font-bold leading-none block tracking-wide" wire:navigate>Desa Jayanti</a>
+                        <a href="/" class="text-xl font-bold leading-none block tracking-wide" wire:navigate>Desa Jayanti Residence</a>
                         <span class="text-xs text-gray-100 font-medium">Kabupaten Tangerang</span>
                     </div>
                 </div>
@@ -123,27 +123,27 @@
 
         <!-- Floating Widgets -->
         <!-- Visitor Counter (Bottom Left) -->
-        <div class="fixed bottom-6 left-6 z-40 bg-[#c6e6b4]/95 backdrop-blur-md border border-white/50 text-emerald-900 px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3">
-            <div class="bg-white/50 p-2 rounded-lg">
-                <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+        <div class="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 bg-[#c6e6b4]/95 backdrop-blur-md border border-white/50 text-emerald-900 px-3 py-2 sm:px-4 sm:py-3 rounded-2xl shadow-xl flex items-center gap-2 sm:gap-3 scale-90 sm:scale-100 origin-bottom-left">
+            <div class="bg-white/50 p-1.5 sm:p-2 rounded-lg">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
             </div>
             <div>
-                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Kunjungan</div>
-                <div class="font-extrabold text-xl leading-none mt-0.5 text-white drop-shadow">8 <span class="text-xs font-semibold text-white ml-1">Hari Ini</span></div>
+                <div class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-emerald-700">Kunjungan</div>
+                <div class="font-extrabold text-lg sm:text-xl leading-none mt-0.5 text-white drop-shadow">{{ \App\Models\Visitor::whereDate('date', today())->count() }} <span class="text-[10px] sm:text-xs font-semibold text-white ml-1">Hari Ini</span></div>
             </div>
         </div>
 
         <!-- Buttons (Bottom Right) -->
-        <div class="fixed bottom-6 right-6 z-40 flex items-center gap-3">
+        <div class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-3 scale-90 sm:scale-100 origin-bottom-right">
             <!-- Accessibility Button -->
-            <button class="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-xl transition-all hover:scale-105 border border-white/20">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white p-2.5 sm:p-3 rounded-full shadow-xl transition-all hover:scale-105 border border-white/20">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>
             </button>
             
             <!-- Pengaduan Button -->
-            <a href="#" class="bg-[#f39c9c] hover:bg-red-400 text-white px-5 py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all hover:scale-105 border border-white/20">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                <span class="font-bold text-sm tracking-wide">Pengaduan</span>
+            <a href="#" class="bg-[#f39c9c] hover:bg-red-400 text-white px-4 py-2 sm:px-5 sm:py-3 rounded-2xl shadow-xl flex items-center gap-2 transition-all hover:scale-105 border border-white/20">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="font-bold text-xs sm:text-sm tracking-wide">Pengaduan</span>
             </a>
         </div>
 
@@ -151,8 +151,8 @@
         <footer class="bg-emerald-950 text-emerald-100 py-12 relative z-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div>
-                    <h3 class="text-white text-xl font-bold mb-4">Desa Jayanti</h3>
-                    <p class="text-sm text-emerald-200">Website resmi Desa Jayanti. Mewujudkan desa mandiri, sejahtera, dan berbudaya.</p>
+                    <h3 class="text-white text-xl font-bold mb-4">Desa Jayanti Residence</h3>
+                    <p class="text-sm text-emerald-200">Website resmi Desa Jayanti Residence. Mewujudkan desa mandiri, sejahtera, dan berbudaya.</p>
                 </div>
                 <div>
                     <h3 class="text-white text-lg font-bold mb-4">Tautan</h3>
@@ -172,7 +172,7 @@
                 </div>
             </div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-8 border-t border-emerald-800/50 text-sm text-center text-emerald-400">
-                &copy; {{ date('Y') }} Pemerintah Desa Jayanti. All rights reserved.
+                &copy; {{ date('Y') }} Pemerintah Desa Jayanti Residence. All rights reserved.
             </div>
         </footer>
     </div>
