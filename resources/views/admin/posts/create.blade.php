@@ -1,6 +1,15 @@
 <x-admin-layout title="Tambah Berita">
     <x-slot:breadcrumb>Buat berita atau artikel baru</x-slot:breadcrumb>
 
+    {{-- Quill CSS --}}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+    <style>
+        #quill-editor { min-height: 260px; font-size: 14px; background: #f9fafb; border-radius: 0 0 0.75rem 0.75rem; }
+        .ql-toolbar { border-radius: 0.75rem 0.75rem 0 0 !important; border-color: #d1d5db !important; background: #fff; }
+        .ql-container { border-color: #d1d5db !important; border-radius: 0 0 0.75rem 0.75rem !important; }
+        .ql-editor { min-height: 240px; }
+    </style>
+
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl">
         <form action="{{ route('admin.posts.store') }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-6">
             @csrf
@@ -29,9 +38,10 @@
             <!-- Konten -->
             <div>
                 <label class="block text-sm font-semibold text-gray-900 mb-2">Isi Berita <span class="text-red-500">*</span></label>
-                <textarea name="content" rows="10" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                    placeholder="Tulis isi berita di sini...">{{ old('content') }}</textarea>
+                {{-- Hidden input yang dikirim ke server --}}
+                <input type="hidden" name="content" id="content-input">
+                {{-- Quill editor --}}
+                <div id="quill-editor"></div>
                 @error('content') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
@@ -66,15 +76,41 @@
         </form>
     </div>
 
-    <!-- Script auto-slug -->
+    <!-- Quill JS -->
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
     <script>
+        // Auto-slug
         document.getElementById('title').addEventListener('input', function() {
-            let title = this.value;
-            let slug = title.toLowerCase()
+            let slug = this.value.toLowerCase()
                             .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-                            .replace(/\s+/g, '-')       // Replace spaces with -
-                            .replace(/-+/g, '-');       // Replace multiple - with single -
+                            .replace(/\s+/g, '-')         // Replace spaces with -
+                            .replace(/-+/g, '-');         // Replace multiple - with single -
             document.getElementById('slug').value = slug;
+        });
+
+        // Init Quill
+        const quill = new Quill('#quill-editor', {
+            theme: 'snow',
+            placeholder: 'Tulis isi berita di sini...',
+            modules: {
+                toolbar: [
+                    [{ header: [2, 3, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['link'],
+                    ['clean']
+                ]
+            }
+        });
+
+        // Isi konten lama jika ada (validasi gagal)
+        @if(old('content'))
+        quill.clipboard.dangerouslyPasteHTML({!! json_encode(old('content')) !!});
+        @endif
+
+        // Sebelum submit, pindahkan isi Quill ke hidden input
+        document.querySelector('form').addEventListener('submit', function() {
+            document.getElementById('content-input').value = quill.getSemanticHTML();
         });
     </script>
 </x-admin-layout>

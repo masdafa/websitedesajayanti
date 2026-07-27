@@ -46,7 +46,7 @@
 
                     <!-- Layanan Dropdown -->
                     <div class="relative" @mouseenter="layananOpen = true" @mouseleave="layananOpen = false">
-                        <button class="flex items-center gap-1 text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs(['infografis','listing','idm','belanja','ppid']) ? 'bg-white/20' : '' }}">
+                        <button class="flex items-center gap-1 text-white hover:text-emerald-200 font-semibold text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition {{ request()->routeIs(['infografis','listing','idm','belanja']) ? 'bg-white/20' : '' }}">
                             Layanan
                             <svg class="w-4 h-4 transition-transform" :class="layananOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
@@ -76,13 +76,6 @@
                                 </span>
                                 Belanja Desa
                             </a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <a href="/ppid" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-700 font-medium transition {{ request()->routeIs('ppid') ? 'text-emerald-700 bg-emerald-50' : '' }}" wire:navigate>
-                                <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                </span>
-                                PPID
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -110,7 +103,6 @@
                         <a href="/listing" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>🗺️ Listing Desa</a>
                         <a href="/idm" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>📈 IDM</a>
                         <a href="/belanja" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>🛒 Belanja Desa</a>
-                        <a href="/ppid" class="text-white font-semibold px-3 py-2.5 rounded-lg hover:bg-white/10 flex items-center gap-2" wire:navigate>📄 PPID</a>
                     </div>
                 </div>
             </div>

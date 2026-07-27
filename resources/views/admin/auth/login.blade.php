@@ -21,7 +21,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                     </svg>
                 </div>
-                <h1 class="text-2xl font-bold text-white">Panel Admin</h1>
+                <h1 class="text-2xl font-bold text-white">Panel Admin Website Jayanti Residence</h1>
                 <p class="text-emerald-200 text-sm mt-1">Desa Jayanti — Kabupaten Tangerang</p>
             </div>
 
@@ -41,7 +41,7 @@
                     <label class="block text-emerald-100 text-sm font-semibold mb-2">Email</label>
                     <input type="email" name="email" value="{{ old('email') }}" required autofocus
                         class="w-full bg-white/10 border border-white/20 text-white placeholder-emerald-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition"
-                        placeholder="admin@jayanti.desa.id">
+                        placeholder="">
                 </div>
 
                 <div>
@@ -62,9 +62,6 @@
                 </button>
             </form>
 
-            <div class="mt-6 text-center">
-                <a href="{{ url('/') }}" class="text-emerald-300 hover:text-white text-xs transition">← Kembali ke Website</a>
-            </div>
         </div>
 
         <p class="text-center text-emerald-400 text-xs mt-6">© {{ date('Y') }} Pemerintah Desa Jayanti</p>
