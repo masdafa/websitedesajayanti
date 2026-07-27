@@ -98,8 +98,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7" id="gallery-grid">
                     @foreach($galleries->filter(fn($g) => $g->image) as $index => $gallery)
-                        <div class="gallery-card opacity-0 translate-y-10 transition-all duration-700 ease-out"
-                             style="transition-delay: {{ ($index % 3) * 120 }}ms">
+                        <div data-aos="fade-up" data-aos-delay="{{ ($index % 3) * 150 }}">
 
                             <div class="group relative bg-white rounded-3xl overflow-hidden cursor-pointer border border-gray-100/80"
                                  style="box-shadow: 0 4px 20px rgba(0,0,0,0.07); transition: all 0.45s cubic-bezier(.22,.68,0,1.2);"
@@ -167,7 +166,7 @@
 
             @else
                 {{-- Empty state --}}
-                <div class="gallery-card opacity-0 translate-y-10 text-center py-32 bg-white rounded-3xl border border-gray-100 shadow-sm">
+                <div data-aos="fade-up" class="text-center py-32 bg-white rounded-3xl border border-gray-100 shadow-sm">
                     <div style="width: 80px; height: 80px; background: #f0fdf4; border-radius: 9999px;
                                 display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">
                         <svg style="width: 40px; height: 40px; color: #6ee7b7;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -212,20 +211,6 @@
 
     {{-- ===== SCRIPTS ===== --}}
     <script>
-        // Scroll Animation
-        document.addEventListener('DOMContentLoaded', function () {
-            const cards = document.querySelectorAll('.gallery-card');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
-            cards.forEach(card => observer.observe(card));
-        });
-
         // Lightbox
         function galleryOpenLightbox(src, title, desc) {
             const lb = document.getElementById('gallery-lightbox');

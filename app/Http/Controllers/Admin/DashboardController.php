@@ -10,7 +10,6 @@ use App\Models\Product;
 use App\Models\Listing;
 use App\Models\Infographic;
 use App\Models\IdmData;
-use App\Models\PublicDocument;
 
 class DashboardController extends Controller
 {
@@ -24,7 +23,6 @@ class DashboardController extends Controller
             'listings'   => Listing::count(),
             'infographics' => Infographic::count(),
             'idm'        => IdmData::count(),
-            'documents'  => PublicDocument::count(),
         ];
 
         $latestPosts = Post::latest()->take(5)->get();

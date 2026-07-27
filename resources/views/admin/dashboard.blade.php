@@ -12,7 +12,6 @@
                 ['label' => 'Listing', 'value' => $stats['listings'], 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z M15 11a3 3 0 11-6 0 3 3 0 016 0z', 'color' => 'teal', 'route' => 'admin.listings.index'],
                 ['label' => 'Infografis', 'value' => $stats['infographics'], 'icon' => 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'color' => 'cyan', 'route' => 'admin.infographics.index'],
                 ['label' => 'Data IDM', 'value' => $stats['idm'], 'icon' => 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', 'color' => 'indigo', 'route' => 'admin.idm.index'],
-                ['label' => 'Dokumen', 'value' => $stats['documents'], 'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'color' => 'rose', 'route' => 'admin.documents.index'],
             ];
             $colorMap = [
                 'emerald' => 'bg-emerald-50 text-emerald-700 border-emerald-200',

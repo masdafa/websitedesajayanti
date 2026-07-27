@@ -11,6 +11,9 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&display=swap" rel="stylesheet" />
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -170,5 +173,31 @@
     </div>
     
     @livewireScripts
+    
+    <!-- AOS Init -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        const aosOptions = {
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        };
+        
+        // Initial load
+        AOS.init(aosOptions);
+
+        // Re-initialize on Livewire SPA navigation
+        document.addEventListener('livewire:navigated', () => {
+            // Remove previous aos-init classes to force re-render if necessary
+            document.querySelectorAll('.aos-init').forEach(el => {
+                el.classList.remove('aos-init', 'aos-animate');
+            });
+            AOS.init(aosOptions);
+            setTimeout(() => {
+                AOS.refreshHard();
+            }, 100);
+        });
+    </script>
 </body>
 </html>

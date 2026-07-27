@@ -43,7 +43,7 @@
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors line-clamp-2">{{ $post->title }}</h3>
                         <p class="text-gray-600 text-sm line-clamp-3 mb-4 flex-grow">{{ Str::limit(strip_tags($post->content), 120) }}</p>
-                        <a href="#" class="text-emerald-600 font-semibold hover:text-emerald-700 inline-flex items-center">
+                        <a href="{{ route('berita.detail', $post->slug) }}" wire:navigate class="text-emerald-600 font-semibold hover:text-emerald-700 inline-flex items-center">
                             Baca Selengkapnya
                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </a>
