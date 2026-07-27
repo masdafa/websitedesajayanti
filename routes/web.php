@@ -9,8 +9,6 @@ use App\Livewire\Infografis;
 use App\Livewire\Listing;
 use App\Livewire\Idm;
 use App\Livewire\Belanja;
-use App\Livewire\Ppid;
-
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
 Route::get('/berita', Berita::class)->name('berita');
@@ -19,8 +17,6 @@ Route::get('/infografis', Infografis::class)->name('infografis');
 Route::get('/listing', Listing::class)->name('listing');
 Route::get('/idm', Idm::class)->name('idm');
 Route::get('/belanja', Belanja::class)->name('belanja');
-Route::get('/ppid', Ppid::class)->name('ppid');
-
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
@@ -30,8 +26,6 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ListingController;
 use App\Http\Controllers\Admin\InfographicController;
 use App\Http\Controllers\Admin\IdmDataController;
-use App\Http\Controllers\Admin\PublicDocumentController;
-
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
         Route::get('login', [AuthController::class, 'showLogin'])->name('login');
@@ -50,6 +44,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('listings', ListingController::class);
         Route::resource('infographics', InfographicController::class);
         Route::resource('idm', IdmDataController::class);
-        Route::resource('documents', PublicDocumentController::class);
     });
 });
