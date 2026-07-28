@@ -1,317 +1,356 @@
 <div>
-    <!-- Hero Fullscreen Section -->
+    <!-- Hero Fullscreen Slider -->
     <div x-data="{
             activeSlide: 0,
             slideCount: {{ count($latestPosts) + 1 }},
-            init() {
-                setInterval(() => {
-                    this.next();
-                }, 30000); // 30 seconds
-            },
-            next() {
-                this.activeSlide = this.activeSlide === this.slideCount - 1 ? 0 : this.activeSlide + 1;
-            },
-            prev() {
-                this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1;
-            }
-        }" 
-        class="relative w-full h-screen bg-gray-900 overflow-hidden flex items-center justify-center">
+            init() { setInterval(() => this.next(), 6000); },
+            next() { this.activeSlide = (this.activeSlide + 1) % this.slideCount; },
+            prev() { this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1; }
+        }"
+         class="relative w-full h-screen bg-gray-900 overflow-hidden">
 
-        <!-- Slides Container -->
-        <div class="relative w-full h-full">
-            
-            <!-- Default Slide -->
-            <div x-show="activeSlide === 0" 
-                 x-transition.opacity.duration.700ms
-                 class="absolute inset-0 w-full h-full flex items-center justify-center">
-                <!-- Background Image -->
-                <div class="absolute inset-0">
-                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop" alt="Desa Jayanti" class="w-full h-full object-cover opacity-80">
-                    <div class="absolute inset-0 bg-black/50"></div>
+        <!-- Default Slide -->
+        <div x-show="activeSlide === 0" x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             class="absolute inset-0 flex items-center justify-center">
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop" alt="Jayanti Residence" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
+            </div>
+            <div class="relative z-10 text-center px-6 sm:px-12 max-w-5xl mx-auto">
+                <div class="inline-flex items-center gap-2 bg-green-500/20 border border-green-400/40 text-green-300 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 backdrop-blur">
+                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                    Website Resmi Perumahan
                 </div>
-                
-                <!-- Hero Content -->
-                <div class="relative z-10 text-center px-4 sm:px-12 lg:px-24 max-w-6xl mx-auto mt-16">
-                    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4" style="text-shadow: 0 4px 6px rgba(0,0,0,0.8);">
-                        DESA JAYANTI RESIDENCE
-                    </h1>
-                    <p class="text-lg sm:text-2xl md:text-4xl lg:text-5xl text-white font-bold leading-tight mb-4 sm:mb-6" style="text-shadow: 0 3px 5px rgba(0,0,0,0.8);">
-                        Menuju Keterbukaan Informasi dan Tata kelola Desa pada informasi warga desa
-                    </p>
-                    <p class="text-sm sm:text-lg md:text-xl font-bold text-white tracking-wider" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
-                        TIM Teknologi Informasi Desa Jayanti Residence
-                    </p>
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-5 leading-tight" style="text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+                    JAYANTI<br><span class="text-green-400">RESIDENCE</span>
+                </h1>
+                <p class="text-base sm:text-xl text-gray-300 max-w-2xl mx-auto mb-8 leading-relaxed">
+                    Hunian Nyaman, Aman, dan Harmonis — Bersama Kita Membangun Komunitas yang Lebih Baik
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a href="/profil" wire:navigate class="btn-primary text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg">
+                        Kenali Kami
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </a>
+                    <a href="/layanan" wire:navigate class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 transition-all backdrop-blur">
+                        Layanan Warga
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <!-- News Slides -->
-            @foreach($latestPosts as $index => $post)
-                <div x-show="activeSlide === {{ $index + 1 }}" 
-                     x-transition.opacity.duration.700ms
-                     class="absolute inset-0 w-full h-full flex items-center justify-center"
-                     style="display: none;">
-                    
-                    <!-- Background Image -->
-                    <div class="absolute inset-0">
-                        @if($post->image)
-                            <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover opacity-80">
-                        @else
-                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop" class="w-full h-full object-cover opacity-80">
-                        @endif
-                        <div class="absolute inset-0 bg-black/60"></div>
-                    </div>
-                    
-                    <!-- News Content -->
-                    <div class="relative z-10 text-center px-4 sm:px-12 lg:px-24 max-w-6xl mx-auto mt-16">
-                        <div class="inline-block bg-emerald-600/90 backdrop-blur text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest mb-6 uppercase shadow-lg border border-emerald-400/30">Berita Terbaru</div>
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 line-clamp-3 leading-tight" style="text-shadow: 0 4px 6px rgba(0,0,0,0.8);">
-                            {{ $post->title }}
-                        </h1>
-                        <p class="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed mb-8 line-clamp-2 max-w-3xl mx-auto" style="text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
-                            {{ Str::limit(strip_tags($post->content), 150) }}
-                        </p>
-                        <a href="/berita" wire:navigate class="inline-flex items-center gap-2 bg-white text-emerald-900 font-bold px-6 py-3.5 rounded-xl hover:bg-emerald-50 transition shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transform hover:-translate-y-1">
-                            Baca Selengkapnya
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        </a>
-                    </div>
+        <!-- News Slides -->
+        @foreach($latestPosts as $index => $post)
+            <div x-show="activeSlide === {{ $index + 1 }}" x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                 class="absolute inset-0 flex items-center justify-center" style="display:none;">
+                <div class="absolute inset-0">
+                    @if($post->image)
+                        <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                    @else
+                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000" class="w-full h-full object-cover">
+                    @endif
+                    <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80"></div>
                 </div>
-            @endforeach
+                <div class="relative z-10 text-center px-6 sm:px-12 max-w-5xl mx-auto">
+                    <div class="inline-flex items-center gap-1.5 bg-green-600/90 text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest mb-6 uppercase">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                        Berita Terbaru
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black text-white mb-5 leading-tight line-clamp-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.8);">
+                        {{ $post->title }}
+                    </h2>
+                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-8 line-clamp-2">
+                        {{ Str::limit(strip_tags($post->content), 150) }}
+                    </p>
+                    <a href="{{ route('berita.detail', $post->slug) }}" wire:navigate class="btn-primary text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg">
+                        Baca Selengkapnya
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                </div>
+            </div>
+        @endforeach
 
-        </div>
+        <!-- Arrows -->
+        <button @click="prev()" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button @click="next()" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
 
-        <!-- Slider Arrows -->
-        <div class="absolute inset-y-0 left-4 md:left-8 flex items-center z-20">
-            <button @click="prev()" class="bg-black/20 hover:bg-black/50 text-white p-3 md:p-4 rounded-full backdrop-blur-sm transition border border-white/20 hover:scale-110">
-                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            </button>
-        </div>
-        <div class="absolute inset-y-0 right-4 md:right-8 flex items-center z-20">
-            <button @click="next()" class="bg-black/20 hover:bg-black/50 text-white p-3 md:p-4 rounded-full backdrop-blur-sm transition border border-white/20 hover:scale-110">
-                <svg class="w-6 h-6 md:w-8 md:h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-            </button>
-        </div>
-
-        <!-- Slider Indicators -->
-        <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-2.5 z-20">
+        <!-- Dots -->
+        <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
             <template x-for="i in slideCount" :key="i">
-                <button @click="activeSlide = i - 1" 
-                        class="h-2.5 rounded-full transition-all duration-500 shadow-[0_2px_4px_rgba(0,0,0,0.5)]"
-                        :class="activeSlide === (i - 1) ? 'bg-emerald-500 w-8' : 'bg-white/50 hover:bg-white/80 w-2.5'"></button>
+                <button @click="activeSlide = i - 1"
+                        class="h-2 rounded-full transition-all duration-500"
+                        :class="activeSlide === (i-1) ? 'bg-green-400 w-8' : 'bg-white/40 hover:bg-white/70 w-2'"></button>
             </template>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 animate-bounce text-white/60">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </div>
     </div>
 
-    <!-- Info Singkat -->
-    <div class="py-16 bg-white relative z-20 shadow-xl">
+    <!-- Quick Stats -->
+    <div class="py-12 bg-white shadow-sm relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div data-aos="fade-up" data-aos-delay="0" class="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                @php
+                    $quickStats = [
+                        ['icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', 'value' => '2.500+', 'label' => 'Jiwa', 'color' => 'green'],
+                        ['icon' => 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6', 'value' => '800+', 'label' => 'Unit Rumah', 'color' => 'blue'],
+                        ['icon' => 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', 'value' => '24/7', 'label' => 'Keamanan', 'color' => 'red'],
+                        ['icon' => 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4', 'value' => '8+', 'label' => 'Fasilitas', 'color' => 'amber'],
+                    ];
+                    $statColors = ['green'=>'bg-green-50 text-green-600 border-green-100','blue'=>'bg-blue-50 text-blue-600 border-blue-100','red'=>'bg-red-50 text-red-600 border-red-100','amber'=>'bg-amber-50 text-amber-600 border-amber-100'];
+                @endphp
+                @foreach($quickStats as $i => $stat)
+                    <div data-aos="fade-up" data-aos-delay="{{ $i * 100 }}" class="text-center p-6 rounded-2xl border {{ $statColors[$stat['color']] }} card-hover">
+                        <div class="w-14 h-14 rounded-2xl {{ $statColors[$stat['color']] }} flex items-center justify-center mx-auto mb-3">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $stat['icon'] }}"/></svg>
+                        </div>
+                        <div class="text-3xl font-black text-gray-900 mb-1">{{ $stat['value'] }}</div>
+                        <div class="text-sm font-semibold text-gray-500">{{ $stat['label'] }}</div>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Populasi</h3>
-                    <p class="text-gray-600">Lebih dari 15.000 jiwa penduduk yang beragam dan rukun.</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="100" class="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Luas Wilayah</h3>
-                    <p class="text-gray-600">Terdiri dari beberapa dusun dengan potensi pertanian yang kuat.</p>
-                </div>
-                <div data-aos="fade-up" data-aos-delay="200" class="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:shadow-xl transition-shadow text-center">
-                    <div class="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-2">Fasilitas</h3>
-                    <p class="text-gray-600">Dilengkapi dengan sekolah, puskesmas, dan fasilitas umum memadai.</p>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
 
     <!-- Visi & Misi -->
-    <div class="py-20 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div data-aos="fade-up" class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-black text-emerald-900 mb-4">Visi & Misi Desa</h2>
-                <div class="w-24 h-1.5 bg-emerald-500 mx-auto rounded-full"></div>
+    <div class="py-20 bg-gradient-to-br from-green-950 via-green-900 to-green-950 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-96 h-96 rounded-full bg-green-400 blur-3xl"></div>
+            <div class="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-emerald-400 blur-3xl"></div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div data-aos="fade-up" class="text-center mb-14">
+                <span class="text-green-400 text-sm font-bold uppercase tracking-widest">Tentang Kami</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-2 mb-4">Visi & Misi</h2>
+                <div class="w-16 h-1 bg-green-400 mx-auto rounded-full"></div>
             </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div data-aos="fade-right" class="bg-emerald-50 p-8 md:p-12 rounded-3xl border border-emerald-100 shadow-sm relative overflow-hidden">
-                    <div class="absolute top-0 right-0 -mt-10 -mr-10 text-emerald-100 opacity-50">
-                        <svg class="w-48 h-48" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div data-aos="fade-right" class="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 backdrop-blur-sm">
+                    <div class="w-12 h-12 rounded-2xl bg-green-500/20 border border-green-500/30 flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                     </div>
-                    <div class="relative z-10">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-full text-sm font-bold mb-6 shadow-md">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                            VISI
-                        </div>
-                        <h3 class="text-2xl md:text-3xl font-extrabold text-emerald-950 leading-tight">
-                            "Mewujudkan Desa Jayanti yang Mandiri, Sejahtera, dan Berbudaya Berlandaskan Gotong Royong"
-                        </h3>
-                    </div>
+                    <span class="text-green-400 text-xs font-black uppercase tracking-widest">VISI</span>
+                    <h3 class="text-xl md:text-2xl font-black text-white mt-3 leading-relaxed">
+                        "Mewujudkan Perumahan Jayanti Residence sebagai Hunian Nyaman, Aman, dan Harmonis berlandaskan Gotong Royong"
+                    </h3>
                 </div>
-
-                <div data-aos="fade-left" class="space-y-6">
-                    <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full text-sm font-bold mb-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                        MISI
-                    </div>
-                    
-                    <div class="flex gap-4 items-start">
-                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-md">1</div>
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-900 mb-1">Peningkatan Infrastruktur</h4>
-                            <p class="text-gray-600">Membangun dan memperbaiki sarana dan prasarana publik yang memadai.</p>
+                <div data-aos="fade-left" class="space-y-4">
+                    <span class="text-green-400 text-xs font-black uppercase tracking-widest">MISI</span>
+                    @php
+                        $misi = [
+                            ['icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>', 'title' => 'Perawatan Infrastruktur', 'desc' => 'Menjaga dan meningkatkan sarana & prasarana perumahan agar selalu terawat dan layak.'],
+                            ['icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>', 'title' => 'Keamanan Terjamin', 'desc' => 'Menyelenggarakan sistem keamanan 24 jam yang profesional untuk ketenangan warga.'],
+                            ['icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>', 'title' => 'Harmoni & Kebersamaan', 'desc' => 'Menumbuhkan rasa kebersamaan dan kepedulian melalui kegiatan sosial dan kemasyarakatan.'],
+                            ['icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>', 'title' => 'Pelayanan Transparan', 'desc' => 'Memberikan pelayanan administrasi warga yang cepat, mudah, dan transparan.'],
+                        ];
+                    @endphp
+                    @foreach($misi as $i => $m)
+                        <div data-aos="fade-left" data-aos-delay="{{ $i * 80 }}" class="flex gap-4 bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hover:bg-white/10 transition-colors">
+                            <div class="text-emerald-400 bg-emerald-500/20 p-2.5 rounded-xl flex-shrink-0">{!! $m['icon'] !!}</div>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">{{ $m['title'] }}</h4>
+                                <p class="text-green-300 text-sm">{{ $m['desc'] }}</p>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="flex gap-4 items-start">
-                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-md">2</div>
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-900 mb-1">Penguatan Ekonomi Kerakyatan</h4>
-                            <p class="text-gray-600">Mendukung UMKM dan sektor pertanian untuk meningkatkan kesejahteraan warga.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="flex gap-4 items-start">
-                        <div class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-md">3</div>
-                        <div>
-                            <h4 class="text-lg font-bold text-gray-900 mb-1">Pelayanan Publik Prima</h4>
-                            <p class="text-gray-600">Memberikan pelayanan yang cepat, transparan, dan ramah melalui pemanfaatan teknologi.</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Perangkat Desa -->
-    <div class="py-20 bg-gray-50 border-t border-gray-100">
+    <!-- Pengurus / Perangkat -->
+    <div class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
                 <div data-aos="fade-up">
-                    <h2 class="text-3xl md:text-4xl font-black text-emerald-900 mb-4">Perangkat Desa</h2>
-                    <div class="w-24 h-1.5 bg-emerald-500 rounded-full"></div>
-                    <p class="mt-4 text-gray-600 max-w-xl">Mengenal lebih dekat para pengabdi masyarakat yang bertugas melayani warga Desa Jayanti dengan sepenuh hati.</p>
+                    <span class="text-green-600 text-sm font-bold uppercase tracking-widest">Tim Kami</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-2 mb-3">Pengurus Perumahan</h2>
+                    <div class="w-16 h-1 bg-green-500 rounded-full"></div>
+                    <p class="mt-4 text-gray-500 max-w-md">Para pengurus yang berdedikasi melayani warga Perumahan Jayanti Residence dengan sepenuh hati.</p>
                 </div>
-                <a href="/profil" wire:navigate class="inline-flex items-center gap-2 text-emerald-600 font-bold hover:text-emerald-800 transition-colors group">
-                    Lihat Selengkapnya
-                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                <a href="/profil" wire:navigate class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
+                    Lihat Semua <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($staffs as $staff)
-                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 transform hover:-translate-y-2 group">
+                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 card-hover group">
                         <div class="aspect-[4/5] overflow-hidden bg-gray-100 relative">
                             @if(!empty($staff->image))
                                 <img src="{{ asset('storage/'.$staff->image) }}" alt="{{ $staff->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             @else
-                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-400 bg-gray-50">
-                                    <svg class="w-20 h-20 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-green-50 to-green-100 text-green-600">
+                                    <div class="w-20 h-20 rounded-full bg-green-200 flex items-center justify-center text-3xl font-black mb-2">
+                                        {{ substr($staff->name, 0, 1) }}
+                                    </div>
                                 </div>
                             @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <div class="p-6 text-center border-t border-gray-50 relative bg-white">
-                            <h3 class="text-xl font-bold text-gray-900 mb-1 group-hover:text-emerald-700 transition-colors">{{ $staff->name }}</h3>
-                            <p class="text-emerald-600 font-medium text-sm">{{ $staff->position }}</p>
+                        <div class="p-5 text-center border-t border-gray-50">
+                            <h3 class="text-base font-black text-gray-900 mb-1 group-hover:text-green-700 transition-colors">{{ $staff->name }}</h3>
+                            <p class="text-green-600 font-semibold text-sm">{{ $staff->position }}</p>
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-full py-12 text-center text-gray-500 bg-white rounded-3xl border border-gray-200">
-                        Belum ada data perangkat desa yang ditambahkan.
+                    <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-3xl border border-dashed border-gray-200">
+                        Belum ada data pengurus yang ditambahkan.
                     </div>
                 @endforelse
             </div>
+        </div>
+    </div>
+
+    <!-- Agenda Terdekat -->
+    <div class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+                <div data-aos="fade-up">
+                    <span class="text-green-600 text-sm font-bold uppercase tracking-widest">Jadwal</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-2 mb-3">Agenda Kegiatan</h2>
+                    <div class="w-16 h-1 bg-green-500 rounded-full"></div>
+                </div>
+                <a href="/agenda" wire:navigate class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
+                    Lihat Semua <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+            @if($upcomingAgendas->count() > 0)
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @foreach($upcomingAgendas as $i => $agenda)
+                    <div data-aos="fade-up" data-aos-delay="{{ $i * 100 }}" class="bg-gray-50 rounded-2xl border border-gray-100 p-6 card-hover flex gap-4">
+                        <div class="flex-shrink-0 w-14 h-14 bg-green-600 text-white rounded-2xl flex flex-col items-center justify-center">
+                            <span class="text-xs font-bold uppercase leading-none">{{ $agenda->event_date->format('M') }}</span>
+                            <span class="text-2xl font-black leading-none">{{ $agenda->event_date->format('d') }}</span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <span class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2.5 py-1 rounded-full mb-2">{{ $agenda->category }}</span>
+                            <h3 class="font-bold text-gray-900 leading-snug line-clamp-2">{{ $agenda->title }}</h3>
+                            @if($agenda->location)
+                                <p class="text-xs text-gray-500 mt-1.5 flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                    {{ $agenda->location }}
+                                </p>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            @else
+            <div class="text-center py-12 text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                Belum ada agenda kegiatan yang dijadwalkan.
+            </div>
+            @endif
         </div>
     </div>
 
     <!-- Berita Terbaru -->
-    <div class="py-16 bg-white border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-end mb-10">
-                <div data-aos="fade-up">
-                    <h2 class="text-3xl font-black text-gray-900">Kabar Desa</h2>
-                    <p class="text-gray-600 mt-2 font-medium">Berita dan informasi terbaru dari Desa Jayanti Residence</p>
-                </div>
-                <a href="/berita" wire:navigate class="hidden sm:inline-flex items-center text-emerald-600 font-bold hover:text-emerald-700">
-                    Lihat Semua 
-                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                @forelse($latestPosts as $post)
-                    <a data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" href="{{ route('berita.detail', $post->slug) }}" wire:navigate class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-xl transition-all group cursor-pointer flex flex-col h-full block">
-                        <div class="h-52 bg-gray-200 overflow-hidden relative">
-                            @if(!empty($post->image))
-                                <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                            @else
-                                <div class="w-full h-full bg-emerald-100 flex items-center justify-center text-emerald-300">
-                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                </div>
-                            @endif
-                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-emerald-800 text-xs font-bold px-3 py-1 rounded-full shadow">
-                                {{ $post->created_at->format('d M Y') }}
-                            </div>
-                        </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-xl font-bold text-gray-900 mb-3 group-hover:text-emerald-600 transition-colors line-clamp-2">{{ $post->title }}</h3>
-                            <p class="text-gray-600 text-sm line-clamp-3 flex-grow">{{ Str::limit(strip_tags($post->content), 120) }}</p>
-                        </div>
-                    </a>
-                @empty
-                    <div class="col-span-3 text-center py-12 text-gray-500 font-medium">
-                        Belum ada berita yang dipublikasikan.
-                    </div>
-                @endforelse
-            </div>
-            
-            <div class="mt-8 text-center sm:hidden">
-                <a href="/berita" wire:navigate class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-bold rounded-md text-gray-700 bg-white hover:bg-gray-50 w-full">
-                    Lihat Semua Kabar
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Galeri Desa -->
     <div class="py-20 bg-gray-50 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
                 <div data-aos="fade-up">
-                    <h2 class="text-3xl md:text-4xl font-black text-emerald-900 mb-4">Galeri Desa</h2>
-                    <div class="w-24 h-1.5 bg-emerald-500 rounded-full"></div>
-                    <p class="mt-4 text-gray-600 max-w-xl">Momen kebersamaan, keindahan alam, dan dokumentasi kegiatan warga Desa Jayanti yang tak terlupakan.</p>
+                    <span class="text-green-600 text-sm font-bold uppercase tracking-widest">Informasi</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-2 mb-3">Berita & Pengumuman</h2>
+                    <div class="w-16 h-1 bg-green-500 rounded-full"></div>
                 </div>
-                <a href="/galeri" wire:navigate class="inline-flex items-center gap-2 text-emerald-600 font-bold hover:text-emerald-800 transition-colors group">
-                    Buka Galeri Penuh
-                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                <a href="/berita" wire:navigate class="hidden sm:inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
+                    Lihat Semua <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
-
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-                @forelse($galleries as $gallery)
-                    <a data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}" href="/galeri" wire:navigate class="group relative overflow-hidden rounded-2xl bg-gray-200 aspect-square block shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                        @if(!empty($gallery->image))
-                            <img src="{{ asset('storage/'.$gallery->image) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-100">No Image</div>
-                        @endif
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                            <h3 class="text-white font-bold text-lg leading-tight">{{ $gallery->title }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @forelse($latestPosts as $post)
+                    <a data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
+                       href="{{ route('berita.detail', $post->slug) }}" wire:navigate
+                       class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group flex flex-col">
+                        <div class="h-48 overflow-hidden relative bg-gray-100">
+                            @if(!empty($post->image))
+                                <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            @else
+                                <div class="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center text-green-400">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                </div>
+                            @endif
+                            <div class="absolute top-3 left-3 bg-white/95 text-green-800 text-xs font-bold px-2.5 py-1 rounded-lg shadow">
+                                {{ $post->created_at->format('d M Y') }}
+                            </div>
+                        </div>
+                        <div class="p-5 flex flex-col flex-grow">
+                            <h3 class="font-black text-gray-900 text-base mb-2 group-hover:text-green-700 transition-colors line-clamp-2">{{ $post->title }}</h3>
+                            <p class="text-gray-500 text-sm line-clamp-3 flex-grow">{{ Str::limit(strip_tags($post->content), 120) }}</p>
+                            <div class="mt-4 flex items-center text-green-600 text-sm font-bold">
+                                Baca Selengkapnya <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </div>
                         </div>
                     </a>
                 @empty
-                    <div class="col-span-full py-16 text-center text-gray-500 bg-white rounded-3xl border border-dashed border-gray-300">
-                        Belum ada foto galeri yang ditambahkan.
+                    <div class="col-span-3 text-center py-12 text-gray-400 bg-white rounded-2xl border border-dashed border-gray-200">
+                        Belum ada berita yang dipublikasikan.
                     </div>
                 @endforelse
+            </div>
+        </div>
+    </div>
+
+    <!-- Galeri -->
+    <div class="py-20 bg-white border-t border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-6">
+                <div data-aos="fade-up">
+                    <span class="text-green-600 text-sm font-bold uppercase tracking-widest">Dokumentasi</span>
+                    <h2 class="text-3xl md:text-4xl font-black text-gray-900 mt-2 mb-3">Galeri Kegiatan</h2>
+                    <div class="w-16 h-1 bg-green-500 rounded-full"></div>
+                </div>
+                <a href="/galeri" wire:navigate class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
+                    Buka Galeri <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                @forelse($galleries as $gallery)
+                    <a data-aos="zoom-in" data-aos-delay="{{ $loop->index * 80 }}" href="/galeri" wire:navigate
+                       class="group relative overflow-hidden rounded-2xl bg-gray-100 aspect-square block card-hover">
+                        @if(!empty($gallery->image))
+                            <img src="{{ asset('storage/'.$gallery->image) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        @else
+                            <div class="w-full h-full flex items-center justify-center text-gray-300 bg-gray-100">No Image</div>
+                        @endif
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+                            <h3 class="text-white font-bold text-sm leading-tight">{{ $gallery->title }}</h3>
+                        </div>
+                    </a>
+                @empty
+                    <div class="col-span-full py-16 text-center text-gray-400 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
+                        Belum ada foto galeri.
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="py-20 hero-gradient relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-96 h-96 rounded-full bg-green-300 blur-3xl"></div>
+        </div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative">
+            <div data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-black text-white mb-4">Ada Pertanyaan atau Pengaduan?</h2>
+                <p class="text-green-300 text-lg mb-8">Kami siap membantu Anda. Hubungi pengurus perumahan atau sampaikan laporan melalui fitur layanan warga kami.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/layanan" wire:navigate class="btn-primary text-white font-bold px-8 py-4 rounded-2xl inline-flex items-center gap-2 shadow-lg text-base">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                        Layanan Warga
+                    </a>
+                    <a href="/kontak" wire:navigate class="bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold px-8 py-4 rounded-2xl inline-flex items-center gap-2 transition-all backdrop-blur text-base">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        Hubungi Kami
+                    </a>
+                </div>
             </div>
         </div>
     </div>

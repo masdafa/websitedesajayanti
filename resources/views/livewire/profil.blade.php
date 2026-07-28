@@ -2,11 +2,11 @@
     <!-- Header -->
     <div class="relative bg-emerald-900 pt-32 pb-20">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop" alt="Profil Desa" class="w-full h-full object-cover opacity-40">
+            <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop" alt="Profil Perumahan" class="w-full h-full object-cover opacity-40">
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-white drop-shadow-md">Profil Desa Jayanti</h1>
-            <p class="text-emerald-50 max-w-2xl mx-auto text-lg drop-shadow">Mengenal lebih dekat sejarah, visi misi, dan struktur pemerintahan Desa Jayanti.</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-white drop-shadow-md">Profil Jayanti Residence</h1>
+            <p class="text-emerald-50 max-w-2xl mx-auto text-lg drop-shadow">Mengenal lebih dekat sejarah, visi misi, dan susunan pengurus Perumahan Jayanti Residence.</p>
         </div>
     </div>
 
@@ -23,9 +23,9 @@
                         Sejarah Singkat
                     </h2>
                     <div class="prose prose-emerald max-w-none text-gray-600 leading-relaxed">
-                        <p>Desa Jayanti merupakan salah satu desa yang terletak di Kecamatan Jayanti, Kabupaten Tangerang, Provinsi Banten. Desa ini memiliki sejarah panjang yang berkaitan erat dengan perkembangan wilayah sekitarnya.</p>
-                        <p>Sejak dahulu, mayoritas penduduk Desa Jayanti bermata pencaharian sebagai petani, mengingat luasnya lahan persawahan yang membentang. Seiring berjalannya waktu, desa ini berkembang dan mulai beradaptasi dengan kemajuan teknologi dan ekonomi.</p>
-                        <p>Dengan semangat gotong royong, warga Desa Jayanti terus berbenah menuju desa yang mandiri dan berdaya saing tinggi.</p>
+                        <p>Perumahan Jayanti Residence merupakan hunian asri dan strategis yang terletak di Kecamatan Jayanti, Kabupaten Tangerang, Provinsi Banten. Dibangun dengan konsep harmoni dengan alam, perumahan ini telah menjadi rumah bagi ratusan keluarga sejak awal pembangunannya.</p>
+                        <p>Seiring berjalannya waktu, Jayanti Residence terus berkembang dengan penambahan berbagai fasilitas umum dan sosial, guna menunjang kenyamanan dan kualitas hidup para warganya.</p>
+                        <p>Dengan semangat gotong royong dan kebersamaan, warga Jayanti Residence berkomitmen membangun komunitas yang aman, tentram, dan berdaya saing tinggi.</p>
                     </div>
                 </div>
 
@@ -35,7 +35,7 @@
                     
                     <div class="mb-8">
                         <h3 class="text-xl font-semibold text-emerald-700 mb-3">Visi</h3>
-                        <p class="text-gray-700 italic text-lg border-l-4 border-emerald-500 pl-4 py-2 bg-emerald-50 rounded-r-lg">"Terwujudnya Desa Jayanti yang Agamis, Mandiri, Sejahtera, dan Berbudaya Berlandaskan Gotong Royong."</p>
+                        <p class="text-gray-700 italic text-lg border-l-4 border-emerald-500 pl-4 py-2 bg-emerald-50 rounded-r-lg">"Mewujudkan Perumahan Jayanti Residence sebagai Hunian Nyaman, Aman, dan Harmonis berlandaskan Gotong Royong."</p>
                     </div>
 
                     <div>
@@ -43,19 +43,19 @@
                         <ul class="space-y-4">
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mr-4 mt-1">1</span>
-                                <p class="text-gray-600 pt-1">Meningkatkan kualitas sumber daya manusia melalui pendidikan dan pembinaan keagamaan.</p>
+                                <p class="text-gray-600 pt-1">Menjaga dan meningkatkan sarana & prasarana perumahan agar selalu terawat dan layak.</p>
                             </li>
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mr-4 mt-1">2</span>
-                                <p class="text-gray-600 pt-1">Mendorong pertumbuhan ekonomi kerakyatan dengan mengoptimalkan potensi desa dan UMKM.</p>
+                                <p class="text-gray-600 pt-1">Menyelenggarakan sistem keamanan 24 jam yang profesional untuk ketenangan warga.</p>
                             </li>
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mr-4 mt-1">3</span>
-                                <p class="text-gray-600 pt-1">Meningkatkan pelayanan publik yang transparan, cepat, dan mudah bagi seluruh warga desa.</p>
+                                <p class="text-gray-600 pt-1">Menumbuhkan rasa kebersamaan dan kepedulian melalui kegiatan sosial dan kemasyarakatan.</p>
                             </li>
                             <li class="flex items-start">
                                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold mr-4 mt-1">4</span>
-                                <p class="text-gray-600 pt-1">Membangun dan memelihara infrastruktur desa yang memadai dan merata.</p>
+                                <p class="text-gray-600 pt-1">Memberikan pelayanan administrasi warga yang cepat, mudah, dan transparan.</p>
                             </li>
                         </ul>
                     </div>
@@ -69,11 +69,11 @@
                         <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                         </svg>
-                        Lokasi Desa
+                        Lokasi Perumahan
                     </h3>
                     <div class="w-full bg-gray-200 rounded-xl overflow-hidden mb-3">
                         <iframe
-                            src="https://maps.google.com/maps?q=Balai+Desa+Jayanti,+Jayanti,+Tangerang&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            src="https://maps.google.com/maps?q=Jayanti,+Tangerang&t=&z=16&ie=UTF8&iwloc=&output=embed"
                             width="100%"
                             height="280"
                             style="border:0;"
@@ -86,7 +86,7 @@
                         <svg class="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                         </svg>
-                        <span>Kec. Jayanti, Kabupaten Tangerang, Provinsi Banten</span>
+                        <span>Kec. Jayanti, Kabupaten Tangerang, Provinsi Banten 15610</span>
                     </div>
                     <a href="https://maps.google.com/?q=Jayanti,+Tangerang+Regency,+Banten" target="_blank"
                        class="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-green-700 hover:bg-green-800 text-white text-sm font-medium rounded-xl transition-colors duration-200">
@@ -102,8 +102,8 @@
         <!-- Struktur Pemerintahan -->
         <div class="mt-16">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900">Perangkat Desa</h2>
-                <p class="text-gray-600 mt-2">Struktur organisasi pemerintahan Desa Jayanti</p>
+                <h2 class="text-3xl font-bold text-gray-900">Pengurus Perumahan</h2>
+                <p class="text-gray-600 mt-2">Susunan pengurus Perumahan Jayanti Residence</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -123,7 +123,7 @@
                     </div>
                 @empty
                     <div class="col-span-full text-center text-gray-500 py-12">
-                        Data perangkat desa belum ditambahkan.
+                        Data pengurus belum ditambahkan.
                     </div>
                 @endforelse
             </div>
