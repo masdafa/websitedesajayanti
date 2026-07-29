@@ -13,7 +13,8 @@ use App\Livewire\Dokumen;
 use App\Livewire\Kontak;
 use App\Livewire\Faq;
 use App\Livewire\Umkm;
-
+use App\Livewire\Pengurus;
+use App\Livewire\Dkm;
 // Public routes
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
@@ -27,6 +28,8 @@ Route::get('/dokumen', Dokumen::class)->name('dokumen');
 Route::get('/kontak', Kontak::class)->name('kontak');
 Route::get('/faq', Faq::class)->name('faq');
 Route::get('/umkm', Umkm::class)->name('umkm');
+Route::get('/pengurus', Pengurus::class)->name('pengurus');
+Route::get('/dkm', Dkm::class)->name('dkm');
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -38,6 +41,12 @@ use App\Http\Controllers\Admin\AgendaController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ResidentReportController;
+use App\Http\Controllers\Admin\SiteSettingController;
+use App\Http\Controllers\Admin\FacilityController;
+use App\Http\Controllers\Admin\RoutineActivityController;
+use App\Http\Controllers\Admin\SiskamlingController;
+use App\Http\Controllers\Admin\ServiceInfoController;
+use App\Http\Controllers\Admin\DkmStaffController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -63,5 +72,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('reports/{report}', [ResidentReportController::class, 'show'])->name('reports.show');
         Route::put('reports/{report}', [ResidentReportController::class, 'update'])->name('reports.update');
         Route::delete('reports/{report}', [ResidentReportController::class, 'destroy'])->name('reports.destroy');
+
+        // Website Settings
+        Route::get('settings', [SiteSettingController::class, 'edit'])->name('settings.edit');
+        Route::put('settings', [SiteSettingController::class, 'update'])->name('settings.update');
+
+        // New Dynamic Content
+        Route::resource('facilities', FacilityController::class)->except(['show']);
+        Route::resource('routine-activities', RoutineActivityController::class)->except(['show']);
+        Route::resource('siskamling', SiskamlingController::class)->except(['show']);
+        Route::resource('service-infos', ServiceInfoController::class)->except(['show']);
+        Route::resource('dkm-staff', DkmStaffController::class)->except(['show']);
     });
 });
