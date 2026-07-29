@@ -38,7 +38,7 @@
         </div>
 
         <!-- Nav -->
-        <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+        <nav id="sidebar-nav" class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mb-3">Menu Utama</p>
 
             <a href="{{ route('admin.dashboard') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -174,15 +174,21 @@
         <main class="flex-1 p-4 sm:p-6 fade-in">
             <!-- Flash messages -->
             @if(session('success'))
-                <div class="mb-4 flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl shadow-sm">
+                <div id="flash-success" class="mb-4 flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-xl shadow-sm transition-all duration-500">
                     <svg class="w-5 h-5 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span class="text-sm font-medium">{{ session('success') }}</span>
+                    <span class="text-sm font-medium flex-1">{{ session('success') }}</span>
+                    <button onclick="document.getElementById('flash-success').remove()" class="ml-auto text-emerald-500 hover:text-emerald-700 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
                 </div>
             @endif
             @if(session('error'))
-                <div class="mb-4 flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl shadow-sm">
+                <div id="flash-error" class="mb-4 flex items-center gap-3 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl shadow-sm transition-all duration-500">
                     <svg class="w-5 h-5 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span class="text-sm font-medium">{{ session('error') }}</span>
+                    <span class="text-sm font-medium flex-1">{{ session('error') }}</span>
+                    <button onclick="document.getElementById('flash-error').remove()" class="ml-auto text-red-500 hover:text-red-700 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
                 </div>
             @endif
 
@@ -214,6 +220,49 @@
     }
     window.addEventListener('resize', handleResize);
     handleResize();
+
+    // Preserve sidebar scroll position
+    document.addEventListener("DOMContentLoaded", function() {
+        const sidebarNav = document.getElementById('sidebar-nav');
+        if (sidebarNav) {
+            const scrollPos = sessionStorage.getItem('adminSidebarScroll');
+            if (scrollPos) {
+                sidebarNav.scrollTop = parseInt(scrollPos, 10);
+            }
+            sidebarNav.addEventListener('scroll', function() {
+                sessionStorage.setItem('adminSidebarScroll', sidebarNav.scrollTop);
+            });
+        }
+    });
+    // Auto-dismiss flash messages after 15 seconds
+    document.addEventListener("DOMContentLoaded", function() {
+        ['flash-success', 'flash-error'].forEach(function(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            // Add progress bar
+            const bar = document.createElement('div');
+            bar.style.cssText = 'position:absolute;bottom:0;left:0;height:3px;width:100%;border-radius:0 0 12px 12px;background:currentColor;opacity:0.25;transition:width 15s linear;';
+            el.style.position = 'relative';
+            el.style.overflow = 'hidden';
+            el.appendChild(bar);
+            requestAnimationFrame(() => { bar.style.width = '0%'; });
+
+            const timer = setTimeout(function() {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(-8px)';
+                el.style.maxHeight = el.offsetHeight + 'px';
+                setTimeout(() => {
+                    el.style.maxHeight = '0';
+                    el.style.marginBottom = '0';
+                    el.style.padding = '0';
+                    setTimeout(() => el.remove(), 400);
+                }, 300);
+            }, 15000);
+
+            // Cancel timer if manually closed
+            el.querySelector('button')?.addEventListener('click', () => clearTimeout(timer));
+        });
+    });
 </script>
 </body>
 </html>

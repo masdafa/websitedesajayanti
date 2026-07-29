@@ -2,7 +2,7 @@
     <!-- Hero Fullscreen Slider -->
     <div x-data="{
             activeSlide: 0,
-            slideCount: {{ count($latestPosts) + 1 }},
+            slideCount: {{ count($heroItems) + 1 }},
             init() { setInterval(() => this.next(), 6000); },
             next() { this.activeSlide = (this.activeSlide + 1) % this.slideCount; },
             prev() { this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1; }
@@ -39,31 +39,31 @@
             </div>
         </div>
 
-        <!-- News Slides -->
-        @foreach($latestPosts as $index => $post)
+        <!-- Dynamic Slides (Berita & Galeri) -->
+        @foreach($heroItems as $index => $item)
             <div x-show="activeSlide === {{ $index + 1 }}" x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                  class="absolute inset-0 flex items-center justify-center" style="display:none;">
                 <div class="absolute inset-0">
-                    @if($post->image)
-                        <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover">
+                    @if($item->image)
+                        <img src="{{ Str::startsWith($item->image, 'http') ? $item->image : asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
                     @else
                         <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000" class="w-full h-full object-cover">
                     @endif
                     <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80"></div>
                 </div>
                 <div class="relative z-10 text-center px-6 sm:px-12 max-w-5xl mx-auto">
-                    <div class="inline-flex items-center gap-1.5 bg-green-600/90 text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest mb-6 uppercase">
+                    <div class="inline-flex items-center gap-1.5 {{ $item->badge_color }} text-white px-4 py-1.5 rounded-full text-xs font-black tracking-widest mb-6 uppercase">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                        Berita Terbaru
+                        {{ $item->badge }}
                     </div>
                     <h2 class="text-3xl sm:text-5xl font-black text-white mb-5 leading-tight line-clamp-3" style="text-shadow: 0 4px 15px rgba(0,0,0,0.8);">
-                        {{ $post->title }}
+                        {{ $item->title }}
                     </h2>
                     <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-8 line-clamp-2">
-                        {{ Str::limit(strip_tags($post->content), 150) }}
+                        {{ $item->description }}
                     </p>
-                    <a href="{{ route('berita.detail', $post->slug) }}" wire:navigate class="btn-primary text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg">
-                        Baca Selengkapnya
+                    <a href="{{ $item->link }}" wire:navigate class="btn-primary text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg">
+                        {{ $item->button_text }}
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                     </a>
                 </div>
@@ -77,6 +77,8 @@
         <button @click="next()" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
         </button>
+
+
 
         <!-- Dots -->
         <div class="absolute bottom-8 left-0 right-0 flex justify-center gap-2 z-20">
@@ -152,29 +154,26 @@
                     <div class="w-16 h-1 bg-green-500 rounded-full"></div>
                     <p class="mt-4 text-gray-500 max-w-md">Para pengurus yang berdedikasi melayani warga Perumahan Jayanti Residence dengan sepenuh hati.</p>
                 </div>
-                <a href="/profil" wire:navigate class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
+                <a href="/pengurus" wire:navigate class="inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
                     Lihat Semua <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @forelse($staffs as $staff)
-                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 card-hover group">
-                        <div class="aspect-[4/5] overflow-hidden bg-gray-100 relative">
+                    <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="bg-white rounded-2xl p-6 text-center shadow-sm border border-gray-100 hover:shadow-xl transition-all card-hover group">
+                        <div class="w-32 h-32 mx-auto rounded-full overflow-hidden bg-gray-100 mb-5 border-4 border-green-50 shadow-inner group-hover:border-green-100 transition-colors relative">
                             @if(!empty($staff->image))
-                                <img src="{{ asset('storage/'.$staff->image) }}" alt="{{ $staff->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <img src="{{ asset('storage/'.$staff->image) }}" alt="{{ $staff->name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                             @else
-                                <div class="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-green-50 to-green-100 text-green-600">
-                                    <div class="w-20 h-20 rounded-full bg-green-200 flex items-center justify-center text-3xl font-black mb-2">
+                                <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-green-50 to-green-100 text-green-600">
+                                    <div class="w-16 h-16 rounded-full bg-green-200/60 flex items-center justify-center text-3xl font-black">
                                         {{ substr($staff->name, 0, 1) }}
                                     </div>
                                 </div>
                             @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <div class="p-5 text-center border-t border-gray-50">
-                            <h3 class="text-base font-black text-gray-900 mb-1 group-hover:text-green-700 transition-colors">{{ $staff->name }}</h3>
-                            <p class="text-green-600 font-semibold text-sm">{{ $staff->position }}</p>
-                        </div>
+                        <h3 class="text-lg font-black text-gray-900 mb-1 group-hover:text-green-600 transition-colors">{{ $staff->name }}</h3>
+                        <p class="text-green-600 font-bold text-sm bg-green-50/50 inline-block px-3 py-1 rounded-full">{{ $staff->position }}</p>
                     </div>
                 @empty
                     <div class="col-span-full py-12 text-center text-gray-400 bg-white rounded-3xl border border-dashed border-gray-200">

@@ -25,6 +25,34 @@ class Home extends Component
         $facilities      = Facility::orderBy('sort_order')->get();
         $settings        = SiteSetting::pluck('value', 'key');
 
+        $heroItems = collect();
+        
+        foreach($latestPosts as $post) {
+            $heroItems->push((object)[
+                'type' => 'post',
+                'title' => $post->title,
+                'description' => \Illuminate\Support\Str::limit(strip_tags($post->content), 150),
+                'image' => $post->image,
+                'link' => route('berita.detail', $post->slug),
+                'button_text' => 'Baca Selengkapnya',
+                'badge' => 'Berita & Pengumuman',
+                'badge_color' => 'bg-green-600/90'
+            ]);
+        }
+        
+        foreach($galleries->take(3) as $gallery) {
+            $heroItems->push((object)[
+                'type' => 'gallery',
+                'title' => $gallery->title,
+                'description' => $gallery->description ?? 'Dokumentasi kegiatan warga.',
+                'image' => $gallery->image,
+                'link' => route('galeri'),
+                'button_text' => 'Lihat Galeri',
+                'badge' => 'Galeri Foto',
+                'badge_color' => 'bg-orange-600/90'
+            ]);
+        }
+
         return view('livewire.home', [
             'latestPosts'     => $latestPosts,
             'staffs'          => $staffs,
@@ -32,6 +60,7 @@ class Home extends Component
             'upcomingAgendas' => $upcomingAgendas,
             'facilities'      => $facilities,
             'settings'        => $settings,
+            'heroItems'       => $heroItems,
         ])->layout('layouts.app', ['title' => 'Beranda - Perumahan Jayanti Residence']);
     }
 }

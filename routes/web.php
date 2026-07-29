@@ -15,6 +15,7 @@ use App\Livewire\Faq;
 use App\Livewire\Umkm;
 use App\Livewire\Pengurus;
 use App\Livewire\Dkm;
+use App\Livewire\PengaduanForm;
 // Public routes
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
@@ -24,6 +25,7 @@ Route::get('/galeri', Galeri::class)->name('galeri');
 Route::get('/agenda', Agenda::class)->name('agenda');
 Route::get('/layanan', Layanan::class)->name('layanan');
 Route::get('/keamanan', Keamanan::class)->name('keamanan');
+Route::get('/pengaduan', PengaduanForm::class)->name('pengaduan');
 Route::get('/dokumen', Dokumen::class)->name('dokumen');
 Route::get('/kontak', Kontak::class)->name('kontak');
 Route::get('/faq', Faq::class)->name('faq');

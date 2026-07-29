@@ -39,7 +39,6 @@
                 @empty
                     <div class="col-span-full text-center py-16">
                         <p class="text-gray-400 text-lg">Data pengurus DKM belum ditambahkan.</p>
-                        <p class="text-gray-400 text-sm mt-1">Silakan tambahkan melalui <a href="/admin/dkm-staff/create" class="text-emerald-600 underline">Admin Panel</a>.</p>
                     </div>
                 @endforelse
             </div>
