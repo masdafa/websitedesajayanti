@@ -3,16 +3,22 @@
 @php
     $themes = [
         'green' => [
-            'bg' => 'bg-gradient-to-br from-green-900 via-emerald-800 to-green-950',
-            'text_light' => 'text-green-300',
+            'bg' => 'bg-emerald-900',
+            'text_light' => 'text-emerald-100',
+            'badge_bg' => 'bg-emerald-800/50',
+            'badge_border' => 'border-emerald-700/50',
         ],
         'red' => [
-            'bg' => 'bg-gradient-to-br from-red-900 via-red-800 to-red-950',
-            'text_light' => 'text-red-300',
+            'bg' => 'bg-rose-900',
+            'text_light' => 'text-rose-100',
+            'badge_bg' => 'bg-rose-800/50',
+            'badge_border' => 'border-rose-700/50',
         ],
         'blue' => [
-            'bg' => 'bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950',
-            'text_light' => 'text-blue-300',
+            'bg' => 'bg-blue-900',
+            'text_light' => 'text-blue-100',
+            'badge_bg' => 'bg-blue-800/50',
+            'badge_border' => 'border-blue-700/50',
         ],
     ];
     $currentTheme = $themes[$theme] ?? $themes['green'];
@@ -20,14 +26,18 @@
 
 <!-- Page Header -->
 <div class="{{ $currentTheme['bg'] }} pt-28 pb-16 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
+    <!-- Subtle pattern overlay -->
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center z-10">
         @if($badge)
-        <span class="inline-flex items-center gap-1.5 bg-white/10 border border-white/20 {{ $currentTheme['text_light'] }} text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-4">
+        <span class="inline-flex items-center gap-1.5 {{ $currentTheme['badge_bg'] }} border {{ $currentTheme['badge_border'] }} text-white text-[11px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-6 shadow-sm">
             {{ $icon ?? '' }}
             {{ $badge }}
         </span>
         @endif
-        <h1 class="text-4xl md:text-5xl font-black text-white mb-4">{{ $title }}</h1>
-        <p class="{{ $currentTheme['text_light'] }} text-lg max-w-xl mx-auto">{{ $subtitle }}</p>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-5 tracking-tight">{{ $title }}</h1>
+        <p class="{{ $currentTheme['text_light'] }} text-lg max-w-2xl mx-auto leading-relaxed font-medium">{{ $subtitle }}</p>
     </div>
 </div>
+
