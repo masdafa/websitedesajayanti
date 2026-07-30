@@ -5,7 +5,20 @@
         $serviceColors = ['blue'=>'border-blue-100 bg-blue-50 text-blue-600','red'=>'border-red-100 bg-red-50 text-red-600','green'=>'border-green-100 bg-green-50 text-green-600','amber'=>'border-amber-100 bg-amber-50 text-amber-600'];
     @endphp
     @foreach($services as $s)
-        <a href="/pengaduan?kategori={{ urlencode($s->title) }}" wire:navigate class="block bg-white rounded-3xl border {{ $serviceColors[$s->color] ?? 'border-green-100 bg-green-50 text-green-600' }} p-6 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+        @php
+            $href = '/pengaduan?kategori=' . urlencode($s->title);
+            $title_lower = strtolower($s->title);
+            if ($title_lower == 'pengajuan surat pengantar') {
+                $href = route('layanan.surat');
+            } elseif ($title_lower == 'pendaftaran kegiatan warga') {
+                $href = route('layanan.kegiatan');
+            } elseif ($title_lower == 'buku tamu digital') {
+                $href = route('layanan.tamu');
+            } elseif ($title_lower == 'informasi iuran warga' || $title_lower == 'layanan iuran warga') {
+                $href = route('layanan.iuran');
+            }
+        @endphp
+        <a href="{{ $href }}" wire:navigate class="block bg-white rounded-3xl border {{ $serviceColors[$s->color] ?? 'border-green-100 bg-green-50 text-green-600' }} p-6 cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
             <div class="mb-4 bg-white/50 w-12 h-12 rounded-2xl flex items-center justify-center">
                 <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $s->icon }}"/></svg>
             </div>

@@ -33,6 +33,14 @@
                         placeholder="judul-berita-anda">
                     @error('slug') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
+
+                <!-- Tanggal Berita -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Tanggal Berita</label>
+                    <input type="datetime-local" name="created_at" id="created_at" value="{{ old('created_at', $post->created_at->format('Y-m-d\TH:i')) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error('created_at') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <!-- Konten -->

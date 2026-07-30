@@ -16,6 +16,10 @@ use App\Livewire\Umkm;
 use App\Livewire\Pengurus;
 use App\Livewire\Dkm;
 use App\Livewire\PengaduanForm;
+use App\Livewire\LetterRequestForm;
+use App\Livewire\ActivityRegistrationForm;
+use App\Livewire\GuestBookForm;
+use App\Livewire\IuranInfoView;
 // Public routes
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
@@ -33,6 +37,11 @@ Route::get('/umkm', Umkm::class)->name('umkm');
 Route::get('/pengurus', Pengurus::class)->name('pengurus');
 Route::get('/dkm', Dkm::class)->name('dkm');
 
+Route::get('/layanan/surat-pengantar', LetterRequestForm::class)->name('layanan.surat');
+Route::get('/layanan/pendaftaran-kegiatan', ActivityRegistrationForm::class)->name('layanan.kegiatan');
+Route::get('/layanan/buku-tamu', GuestBookForm::class)->name('layanan.tamu');
+Route::get('/layanan/iuran-warga', IuranInfoView::class)->name('layanan.iuran');
+
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
@@ -49,6 +58,10 @@ use App\Http\Controllers\Admin\RoutineActivityController;
 use App\Http\Controllers\Admin\SiskamlingController;
 use App\Http\Controllers\Admin\ServiceInfoController;
 use App\Http\Controllers\Admin\DkmStaffController;
+use App\Http\Controllers\Admin\LetterRequestController;
+use App\Http\Controllers\Admin\ActivityRegistrationController;
+use App\Http\Controllers\Admin\GuestBookController;
+use App\Http\Controllers\Admin\IuranInfoController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -74,6 +87,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('reports/{report}', [ResidentReportController::class, 'show'])->name('reports.show');
         Route::put('reports/{report}', [ResidentReportController::class, 'update'])->name('reports.update');
         Route::delete('reports/{report}', [ResidentReportController::class, 'destroy'])->name('reports.destroy');
+
+        // Layanan Warga Tambahan
+        Route::resource('letters', LetterRequestController::class)->except(['create', 'store', 'edit']);
+        Route::resource('activities-reg', ActivityRegistrationController::class)->except(['create', 'store', 'edit']);
+        Route::resource('guests', GuestBookController::class)->except(['create', 'store', 'edit']);
+        Route::resource('iuran', IuranInfoController::class)->except(['show']);
 
         // Website Settings
         Route::get('settings', [SiteSettingController::class, 'edit'])->name('settings.edit');

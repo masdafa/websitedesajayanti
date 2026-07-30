@@ -1,4 +1,4 @@
-@props(['title', 'subtitle', 'badge', 'icon', 'theme' => 'green'])
+@props(['title', 'subtitle', 'badge' => null, 'icon' => null, 'theme' => 'green'])
 
 @php
     $themes = [

@@ -1,0 +1,63 @@
+<div>
+    <!-- Hero Section -->
+    <x-ui.page-hero 
+        title="Pendaftaran Kegiatan Warga" 
+        subtitle="Ikuti dan ramaikan berbagai kegiatan positif di lingkungan warga kita."
+    />
+
+    <div class="py-16 bg-gray-50/50">
+        <div class="container mx-auto px-4 max-w-3xl">
+            @if($successMessage)
+                <div class="mb-8 p-6 bg-green-50 rounded-2xl border border-green-200 text-center animate-fade-in">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Pendaftaran Berhasil!</h3>
+                    <p class="text-gray-600">Terima kasih telah mendaftar. Data Anda telah kami terima dan akan segera direkap oleh pengurus kegiatan.</p>
+                    <button wire:click="$set('successMessage', false)" class="mt-6 px-6 py-2.5 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition">
+                        Daftar Kegiatan Lain
+                    </button>
+                </div>
+            @else
+                <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 overflow-hidden">
+                    <div class="p-8 sm:p-10">
+                        <form wire:submit.prevent="submit" class="space-y-6">
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">Nama Pendaftar <span class="text-red-500">*</span></label>
+                                    <input type="text" wire:model.defer="name" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" required>
+                                    @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-900 mb-2">No. Handphone / WA <span class="text-red-500">*</span></label>
+                                    <input type="text" wire:model.defer="phone" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" required>
+                                    @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">Pilih / Nama Kegiatan <span class="text-red-500">*</span></label>
+                                <input type="text" wire:model.defer="activity_name" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" placeholder="Contoh: Jalan Sehat, Lomba 17an, dll" required>
+                                @error('activity_name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">Keterangan Tambahan (Opsional)</label>
+                                <textarea wire:model.defer="notes" rows="3" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" placeholder="Sebutkan jika ada info tambahan (misal: usia, alamat, daftar berdua)"></textarea>
+                                @error('notes') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div class="pt-6">
+                                <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                                    <span>Kirim Pendaftaran</span>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>

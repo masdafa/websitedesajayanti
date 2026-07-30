@@ -35,6 +35,7 @@ class PostController extends Controller
             'content'      => 'required|string',
             'image'        => 'nullable|image|max:2048',
             'is_published' => 'nullable|boolean',
+            'created_at'   => 'nullable|date',
         ]);
 
         if ($request->hasFile('image')) {
@@ -59,6 +60,7 @@ class PostController extends Controller
             'content'      => 'required|string',
             'image'        => 'nullable|image|max:2048',
             'is_published' => 'nullable|boolean',
+            'created_at'   => 'nullable|date',
         ]);
 
         if ($request->hasFile('image')) {
