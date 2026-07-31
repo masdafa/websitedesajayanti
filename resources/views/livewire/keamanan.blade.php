@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Keamanan & Darurat" 
         subtitle="Informasi keamanan dan nomor darurat yang perlu diketahui seluruh warga perumahan."

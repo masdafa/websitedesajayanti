@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Agenda Kegiatan" 
         subtitle="Jadwal kegiatan dan acara di lingkungan Perumahan Jayanti Residence."

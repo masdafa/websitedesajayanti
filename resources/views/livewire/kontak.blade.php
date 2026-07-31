@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Hubungi Kami" 
         subtitle="Informasi kontak dan lokasi kantor sekretariat Perumahan Jayanti Residence."

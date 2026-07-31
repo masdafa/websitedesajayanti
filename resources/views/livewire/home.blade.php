@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-home.hero :heroItems="$heroItems" />
     <x-home.quick-stats />
     <x-home.facilities :facilities="$facilities" />

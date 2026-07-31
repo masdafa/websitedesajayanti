@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-galeri.styles />
 
     <div class="bg-slate-50 min-h-screen pb-24">

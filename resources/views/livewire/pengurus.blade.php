@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Pengurus Perumahan" 
         subtitle="Susunan Pengurus RT & RW di lingkungan Perumahan Jayanti Residence."

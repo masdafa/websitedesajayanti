@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Kabar Perumahan Jayanti Residence" 
         subtitle="Informasi dan berita terbaru seputar kegiatan di Perumahan Jayanti Residence."

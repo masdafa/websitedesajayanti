@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="DKM Al-Muhajirin" 
         subtitle="Susunan Pengurus Dewan Kemakmuran Masjid Al-Muhajirin Perumahan Jayanti Residence."

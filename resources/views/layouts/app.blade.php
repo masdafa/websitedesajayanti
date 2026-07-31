@@ -241,16 +241,20 @@
                         <h4 class="text-white font-semibold text-sm tracking-wider mb-6">Kontak</h4>
                         <ul class="space-y-4 text-sm">
                             <li class="flex items-start gap-3">
-                                <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                <span class="text-slate-400 leading-relaxed">Jl. Jayanti Residence RW 09 Desa Jayanti, Kab. Tangerang, Banten</span>
+                                <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <a href="https://maps.google.com/?q=-6.2198758,106.3852812" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 transition-colors leading-relaxed">Sekretariat Pengurus Perumahan Jayanti Residence Blok E, Jl. Jayanti Residence RW 09 Desa Jayanti, Kab. Tangerang, Banten</a>
                             </li>
                             <li class="flex items-center gap-3">
                                 <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                <span class="text-slate-400">admin@jayantiresidence.com</span>
+                                <a href="mailto:admin@jayantiresidence.co.id" class="text-slate-400 hover:text-emerald-400 transition-colors">admin@jayantiresidence.co.id</a>
                             </li>
                             <li class="flex items-center gap-3">
-                                <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                                <span class="text-slate-400">08xxxxxxxxxx</span>
+                                <svg class="w-5 h-5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                <a href="https://wa.me/628xxxxxxxxxx" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-emerald-400 transition-colors">08xxxxxxxxxx</a>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span class="text-slate-400">Senin – Jumat<br>08.00 – 16.00 WIB</span>
                             </li>
                         </ul>
                     </div>
@@ -270,10 +274,28 @@
     <script>
         const aosOptions = { once: true, offset: 50, duration: 750, easing: 'ease-out-cubic' };
         AOS.init(aosOptions);
+        
         document.addEventListener('livewire:navigated', () => {
             document.querySelectorAll('.aos-init').forEach(el => el.classList.remove('aos-init','aos-animate'));
             AOS.init(aosOptions);
             setTimeout(() => AOS.refreshHard(), 100);
+        });
+
+        // Mencegah elemen menghilang saat auto-update (wire:poll)
+        document.addEventListener('livewire:initialized', () => {
+            Livewire.hook('morph.updating', ({ el, toEl }) => {
+                if (el instanceof HTMLElement && toEl instanceof HTMLElement) {
+                    if (el.hasAttribute('data-aos') && el.classList.contains('aos-animate')) {
+                        toEl.classList.add('aos-init', 'aos-animate');
+                    }
+                }
+            });
+
+            Livewire.hook('commit', ({ succeed }) => {
+                succeed(() => {
+                    setTimeout(() => AOS.refreshHard(), 50);
+                });
+            });
         });
     </script>
 </body>

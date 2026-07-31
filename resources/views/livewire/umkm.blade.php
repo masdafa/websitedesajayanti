@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="UMKM Warga" 
         subtitle="Dukung produk dan jasa milik warga Perumahan Jayanti Residence."

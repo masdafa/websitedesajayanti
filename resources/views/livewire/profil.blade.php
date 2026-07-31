@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Profil Jayanti Residence" 
         subtitle="Mengenal lebih dekat sejarah, visi misi, dan susunan pengurus Perumahan Jayanti Residence."

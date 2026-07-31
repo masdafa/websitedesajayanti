@@ -16,11 +16,11 @@
     }"
     @touchstart="touchStartX = $event.touches[0].clientX"
     @touchend="touchEndX = $event.changedTouches[0].clientX; handleSwipe()"
-    class="relative w-full h-screen bg-gray-900 overflow-hidden">
+    class="relative w-full h-[100dvh] min-h-screen bg-gray-900 overflow-hidden flex flex-col justify-center">
 
     <!-- Default Slide -->
     <div x-show="activeSlide === 0" x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-        class="absolute inset-0 flex items-center justify-center">
+        class="absolute inset-0 flex flex-col items-center justify-center">
         <div class="absolute inset-0">
             <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop" alt="Jayanti Residence" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>

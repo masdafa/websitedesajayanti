@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Download Dokumen" 
         subtitle="Formulir, peraturan, dan dokumen penting yang dapat diunduh oleh warga perumahan."

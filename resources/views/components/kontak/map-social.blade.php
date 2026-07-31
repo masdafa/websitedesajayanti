@@ -2,14 +2,14 @@
 <div>
     <div data-aos="fade-left" class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden mb-5">
         <div class="bg-gray-200 h-64 flex items-center justify-center">
-            <!-- Embed Google Maps iframe here -->
+            <!-- Google Maps embed - Cluster Jayanti Residence (koordinat akurat) -->
             <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966!2d106.5!3d-6.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTUnMDAuMCJTIDEwNsKwMzAnMDAuMCJF!5e0!3m2!1sid!2sid!4v1"
+                src="https://www.google.com/maps?q=-6.2198758,106.3852812&output=embed&z=17"
                 class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
             </iframe>
         </div>
         <div class="p-5">
-            <p class="text-sm text-gray-600 text-center">📍 <strong>Sekretariat Perumahan Jayanti Residence</strong><br>Kec. Jayanti, Kab. Tangerang</p>
+            <p class="text-sm text-gray-600 text-center">📍 <strong>Sekretariat Pengurus Perumahan Jayanti Residence Blok E</strong><br>Jl. Jayanti Residence RW 09 Desa Jayanti, Kab. Tangerang, Banten</p>
         </div>
     </div>
 

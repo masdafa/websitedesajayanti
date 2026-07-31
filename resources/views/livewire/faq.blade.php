@@ -1,4 +1,4 @@
-<div>
+<div wire:poll.5s>
     <x-ui.page-hero 
         title="Pertanyaan Umum" 
         subtitle="Temukan jawaban atas pertanyaan yang sering diajukan warga perumahan."
