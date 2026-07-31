@@ -20,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force HTTPS if behind proxy (Cloudflare/Ngrok)
+        if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // Pastikan format angka bekerja dengan atau tanpa ekstensi intl
         if (extension_loaded('intl')) {
             Number::useLocale('id');

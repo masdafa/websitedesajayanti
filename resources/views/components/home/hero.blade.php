@@ -4,10 +4,18 @@
 <div x-data="{
         activeSlide: 0,
         slideCount: {{ count($heroItems) + 1 }},
+        touchStartX: 0,
+        touchEndX: 0,
         init() { setInterval(() => this.next(), 60000); },
         next() { this.activeSlide = (this.activeSlide + 1) % this.slideCount; },
-        prev() { this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1; }
+        prev() { this.activeSlide = this.activeSlide === 0 ? this.slideCount - 1 : this.activeSlide - 1; },
+        handleSwipe() {
+            if (this.touchEndX < this.touchStartX - 50) this.next();
+            if (this.touchEndX > this.touchStartX + 50) this.prev();
+        }
     }"
+    @touchstart="touchStartX = $event.touches[0].clientX"
+    @touchend="touchEndX = $event.changedTouches[0].clientX; handleSwipe()"
     class="relative w-full h-screen bg-gray-900 overflow-hidden">
 
     <!-- Default Slide -->
@@ -75,12 +83,13 @@
     @endforeach
 
     <!-- Arrows -->
-    <button @click="prev()" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
+    <!-- Arrows -->
+    <button @click="prev()" class="hidden md:block absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
     </button>
-    <button @click="next()" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
+    <button @click="next()" class="hidden md:block absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-black/30 hover:bg-black/60 text-white p-3 rounded-full backdrop-blur transition border border-white/20">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>

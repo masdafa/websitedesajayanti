@@ -185,23 +185,15 @@
         <!-- Floating Widgets -->
         <!-- Visitor Counter -->
         <div class="fixed bottom-5 left-4 sm:left-5 z-40">
-            <div class="bg-white text-slate-700 px-4 py-2.5 rounded-xl shadow-md flex items-center gap-3 border border-slate-200/60">
-                <div class="bg-emerald-50 text-emerald-600 p-1.5 rounded-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                </div>
-                <div>
-                    <div class="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Kunjungan Hari Ini</div>
-                    <div class="font-bold text-lg leading-none mt-0.5">{{ \App\Models\Visitor::whereDate('date', today())->count() }}</div>
-                </div>
-            </div>
+            <livewire:visitor-counter />
         </div>
 
         <!-- Pengaduan / Report Button -->
         <div class="fixed bottom-5 right-4 sm:right-5 z-40">
             <a href="/pengaduan" wire:navigate
-               class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 transition-all hover:-translate-y-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                <span class="font-semibold text-sm">Pengaduan</span>
+               class="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-xl shadow-md flex items-center gap-1.5 sm:gap-2 transition-all hover:-translate-y-1">
+                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span class="font-semibold text-xs sm:text-sm">Pengaduan</span>
             </a>
         </div>
 
