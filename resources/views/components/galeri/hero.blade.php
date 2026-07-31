@@ -3,7 +3,7 @@
     {{-- Background image --}}
     <div class="absolute inset-0">
         <img src="https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=2000&auto=format&fit=crop"
-                alt="Galeri Desa"
+                alt="Galeri Perumahan Jayanti Residence"
                 class="w-full h-full object-cover"
                 style="opacity: 0.25;">
     </div>
@@ -40,13 +40,13 @@
         <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; color: #ffffff;
                     line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem;
                     text-shadow: 0 4px 24px rgba(0,0,0,0.5);">
-            Galeri Desa
+            Galeri Perumahan Jayanti Residence
         </h1>
 
         {{-- Subtitle --}}
         <p style="color: #d1fae5; font-size: 1.1rem; max-width: 480px; line-height: 1.7; margin-bottom: 0;
                     text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
-            Dokumentasi foto berbagai kegiatan dan keindahan Desa Jayanti.
+            Abadikan setiap momen berharga — dari kegiatan warga, infrastruktur, hingga keindahan lingkungan Perumahan Jayanti Residence.
         </p>
 
         {{-- Divider line --}}

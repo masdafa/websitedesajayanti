@@ -18,12 +18,13 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80"></div>
         </div>
         <div class="relative z-10 text-center px-6 sm:px-12 max-w-5xl mx-auto">
-            <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-5 leading-tight" style="text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
-                JAYANTI<br><span class="text-green-400">RESIDENCE</span>
+            <h1 class="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-5 leading-tight" style="text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+                Selamat Datang di Website Resmi Perumahan <br><span class="text-green-400">Jayanti Residence</span>
             </h1>
-            <p class="text-sm sm:text-base text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-                Selamat datang di Website Resmi Perumahan Jayanti Residence. Website ini merupakan media komunikasi dan informasi bagi seluruh warga. Mari bersama-sama membangun lingkungan yang aman, nyaman, bersih, dan harmonis.
-            </p>
+            <div class="text-sm sm:text-base text-gray-300 max-w-3xl mx-auto mb-8 leading-relaxed space-y-4">
+                <p>Website ini merupakan media komunikasi dan informasi bagi seluruh warga. Melalui website ini, warga dapat memperoleh informasi terbaru mengenai kegiatan lingkungan, pengumuman, jadwal layanan, keamanan, serta berbagai program yang diselenggarakan oleh pengurus perumahan.</p>
+                <p>Mari bersama-sama membangun lingkungan yang aman, nyaman, bersih, dan harmonis.</p>
+            </div>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <a href="/profil" wire:navigate class="btn-primary text-white font-bold px-7 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg">
                     Kenali Kami

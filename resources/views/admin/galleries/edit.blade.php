@@ -11,17 +11,47 @@
                 <label class="block text-sm font-semibold text-gray-900 mb-2">Foto Galeri</label>
                 
                 @if($gallery->image)
-                    <div class="mb-4">
+                    <div id="current-image-container" class="mb-4">
                         <div class="w-full sm:w-64 h-48 rounded-xl bg-gray-100 overflow-hidden border border-gray-200 shadow-sm">
                             <img src="{{ Str::startsWith($gallery->image, 'http') ? $gallery->image : asset('storage/'.$gallery->image) }}" class="w-full h-full object-cover">
                         </div>
-                        <p class="text-xs font-medium text-gray-500 mt-2">Foto saat ini. Biarkan kosong jika tidak ingin mengubah foto.</p>
+                        <p class="text-xs font-medium text-gray-500 mt-2">Foto saat ini. Upload foto baru untuk menggantinya.</p>
                     </div>
                 @endif
 
-                <input type="file" name="image" accept="image/*"
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none file:mr-4 file:py-3 file:px-4 file:rounded-l-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG. Maksimal 3MB.</p>
+                <!-- New Preview Image -->
+                <div id="preview-container" class="relative w-full max-w-sm mb-4 hidden">
+                    <img id="preview-image" src="" class="w-full h-auto rounded-lg shadow-sm border border-gray-200 object-contain max-h-64">
+                    <button type="button" onclick="
+                        document.getElementById('image').value = '';
+                        document.getElementById('preview-container').classList.add('hidden');
+                        document.getElementById('upload-container').classList.remove('hidden');
+                        if(document.getElementById('current-image-container')) {
+                            document.getElementById('current-image-container').classList.remove('hidden');
+                        }
+                    " class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-md transition focus:outline-none" title="Batalkan pilihan">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+
+                <div id="upload-container">
+                    <input id="image" type="file" name="image" accept="image/*"
+                        onchange="
+                            if(this.files.length === 0) return;
+                            let reader = new FileReader();
+                            reader.onload = (e) => { 
+                                document.getElementById('preview-image').src = e.target.result;
+                                document.getElementById('preview-container').classList.remove('hidden');
+                                document.getElementById('upload-container').classList.add('hidden');
+                                if(document.getElementById('current-image-container')) {
+                                    document.getElementById('current-image-container').classList.add('hidden');
+                                }
+                            };
+                            reader.readAsDataURL(this.files[0]);
+                        "
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none file:mr-4 file:py-3 file:px-4 file:rounded-l-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                    <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG. Maksimal 3MB.</p>
+                </div>
                 @error('image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
