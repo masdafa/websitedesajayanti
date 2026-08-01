@@ -12,6 +12,6 @@ class Galeri extends Component
         $galleries = Gallery::latest()->get();
         return view('livewire.galeri', [
             'galleries' => $galleries
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', ['title' => 'Galeri Foto']);
     }
 }

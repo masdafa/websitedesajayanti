@@ -15,6 +15,6 @@ class Profil extends Component
         return view('livewire.profil', [
             'staffs'   => $staffs,
             'settings' => $settings,
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', ['title' => 'Profil Perumahan']);
     }
 }

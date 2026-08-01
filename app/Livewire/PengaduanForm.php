@@ -56,6 +56,6 @@ class PengaduanForm extends Component
     {
         $services = ServiceInfo::orderBy('sort_order')->get();
         return view('livewire.pengaduan-form', compact('services'))
-            ->layout('layouts.app', ['title' => 'Form Pengaduan & Layanan - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Form Pengaduan & Layanan']);
     }
 }

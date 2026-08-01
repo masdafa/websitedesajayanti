@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Website Resmi Perumahan Jayanti Residence' }}</title>
+    <title>{{ isset($title) ? $title . ' - Perumahan Jayanti Residence' : 'Website Resmi Perumahan Jayanti Residence' }}</title>
     <meta name="description" content="Website resmi Perumahan Jayanti Residence, Kabupaten Tangerang. Informasi, berita, layanan warga, dan agenda kegiatan perumahan.">
 
     <!-- Favicon -->
@@ -211,6 +211,9 @@
                             </div>
                         </div>
                         <p class="text-sm text-slate-400 leading-relaxed">Membangun lingkungan yang cerdas, aman, nyaman, dan harmonis untuk seluruh warga.</p>
+                        <p class="text-xs font-bold text-white mt-4 border-t border-slate-700/50 pt-4">
+                            Dibuat Oleh Kelompok Kuliah Kerja Mahasiswa (KKM) 91 Desa Jayanti Universitas Bina Bangsa
+                        </p>
                     </div>
 
                     <!-- Menu -->

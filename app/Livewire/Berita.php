@@ -29,6 +29,6 @@ class Berita extends Component
 
         return view('livewire.berita', [
             'posts' => $posts
-        ])->layout('layouts.app');
+        ])->layout('layouts.app', ['title' => 'Berita & Pengumuman']);
     }
 }

@@ -43,6 +43,6 @@ class ActivityRegistrationForm extends Component
 
     public function render()
     {
-        return view('livewire.activity-registration-form')->layout('layouts.app');
+        return view('livewire.activity-registration-form')->layout('layouts.app', ['title' => 'Pendaftaran Kegiatan']);
     }
 }

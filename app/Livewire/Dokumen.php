@@ -23,6 +23,6 @@ class Dokumen extends Component
             ->pluck('category');
 
         return view('livewire.dokumen', compact('documents', 'categories'))
-            ->layout('layouts.app', ['title' => 'Download Dokumen - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Download Dokumen']);
     }
 }

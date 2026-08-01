@@ -61,6 +61,6 @@ class Home extends Component
             'facilities'      => $facilities,
             'settings'        => $settings,
             'heroItems'       => $heroItems,
-        ])->layout('layouts.app', ['title' => 'Beranda - Perumahan Jayanti Residence']);
+        ])->layout('layouts.app', ['title' => 'Beranda']);
     }
 }

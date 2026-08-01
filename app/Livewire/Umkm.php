@@ -15,6 +15,6 @@ class Umkm extends Component
             ->latest()
             ->paginate(12);
         return view('livewire.umkm', compact('products'))
-            ->layout('layouts.app', ['title' => 'UMKM Warga - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'UMKM Warga']);
     }
 }

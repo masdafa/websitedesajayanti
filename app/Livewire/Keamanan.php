@@ -11,6 +11,6 @@ class Keamanan extends Component
     {
         $siskamlings = Siskamling::orderBy('sort_order')->get();
         return view('livewire.keamanan', compact('siskamlings'))
-            ->layout('layouts.app', ['title' => 'Keamanan & Darurat - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Keamanan & Darurat']);
     }
 }

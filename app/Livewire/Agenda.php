@@ -18,6 +18,6 @@ class Agenda extends Component
         $routineActivities = RoutineActivity::orderBy('sort_order')->get();
 
         return view('livewire.agenda', compact('agendas', 'routineActivities'))
-            ->layout('layouts.app', ['title' => 'Agenda Kegiatan - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Agenda Kegiatan']);
     }
 }

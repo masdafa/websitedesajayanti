@@ -13,6 +13,6 @@ class Layanan extends Component
     {
         $services = ServiceInfo::orderBy('sort_order')->get();
         return view('livewire.layanan', compact('services'))
-            ->layout('layouts.app', ['title' => 'Layanan Warga - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Layanan Warga']);
     }
 }

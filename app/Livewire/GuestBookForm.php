@@ -41,6 +41,6 @@ class GuestBookForm extends Component
 
     public function render()
     {
-        return view('livewire.guest-book-form')->layout('layouts.app');
+        return view('livewire.guest-book-form')->layout('layouts.app', ['title' => 'Buku Tamu']);
     }
 }

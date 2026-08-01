@@ -10,6 +10,6 @@ class Dkm extends Component
     public function render()
     {
         $dkmStaffs = DkmStaff::orderBy('sort_order')->get();
-        return view('livewire.dkm', compact('dkmStaffs'))->layout('layouts.app');
+        return view('livewire.dkm', compact('dkmStaffs'))->layout('layouts.app', ['title' => 'DKM Masjid']);
     }
 }

@@ -9,6 +9,6 @@ class Kontak extends Component
     public function render()
     {
         return view('livewire.kontak')
-            ->layout('layouts.app', ['title' => 'Kontak Kami - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'Kontak Kami']);
     }
 }

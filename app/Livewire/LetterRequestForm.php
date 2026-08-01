@@ -41,6 +41,6 @@ class LetterRequestForm extends Component
 
     public function render()
     {
-        return view('livewire.letter-request-form')->layout('layouts.app');
+        return view('livewire.letter-request-form')->layout('layouts.app', ['title' => 'Pengajuan Surat Pengantar']);
     }
 }

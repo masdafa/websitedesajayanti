@@ -10,6 +10,6 @@ class Pengurus extends Component
     public function render()
     {
         $staffs = Staff::orderBy('order', 'asc')->get();
-        return view('livewire.pengurus', compact('staffs'))->layout('layouts.app');
+        return view('livewire.pengurus', compact('staffs'))->layout('layouts.app', ['title' => 'Struktur Pengurus']);
     }
 }

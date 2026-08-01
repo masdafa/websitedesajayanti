@@ -11,6 +11,6 @@ class Faq extends Component
     {
         $faqs = FaqModel::where('is_published', true)->orderBy('order')->get();
         return view('livewire.faq', compact('faqs'))
-            ->layout('layouts.app', ['title' => 'FAQ - Perumahan Jayanti Residence']);
+            ->layout('layouts.app', ['title' => 'FAQ']);
     }
 }
