@@ -7,7 +7,7 @@
     <meta name="description" content="Website resmi Perumahan Jayanti Residence, Kabupaten Tangerang. Informasi, berita, layanan warga, dan agenda kegiatan perumahan.">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,7 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <script src="{{ asset('js/chart.js') }}"></script>
 
     <style>
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -65,50 +66,92 @@
         <header x-data="{ scrolled: false, mobileMenuOpen: false }"
                 @scroll.window="scrolled = (window.pageYOffset > 20)"
                 class="fixed z-50 transition-all duration-300 w-full left-0 right-0 top-0 nav-glass"
-                :class="scrolled ? 'py-3 shadow-sm' : 'py-4'">
+                :class="scrolled ? 'py-2 shadow-sm' : 'py-2.5'">
             <nav class="w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
                 <!-- Logo & Brand -->
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo Jayanti Residence" class="w-10 h-10 object-contain">
-                    <div class="text-slate-800 mt-1">
-                        <a href="/" class="text-lg font-bold leading-none block tracking-tight hover:text-emerald-600 transition-colors" wire:navigate>
+                <div class="flex items-center gap-2.5">
+                    <img src="{{ asset('images/logo-transparent.png') }}" alt="Logo Jayanti Residence" class="h-12 sm:h-14 w-auto object-contain">
+                    <div class="text-slate-800 mt-0.5">
+                        <a href="/" class="text-base sm:text-lg font-bold leading-none block tracking-tight hover:text-emerald-600 transition-colors" wire:navigate>
                             Perumahan Jayanti Residence
                         </a>
-                        <span class="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Kab. Tangerang</span>
+                        <span class="text-[10px] sm:text-[11px] text-slate-500 font-semibold uppercase tracking-wider">Kab. Tangerang</span>
                     </div>
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden xl:flex items-center gap-0.5 justify-center flex-wrap">
-                    @php
-                        $navItems = [
-                            ['href' => '/', 'route' => 'home', 'label' => 'Beranda'],
-                            ['href' => '/profil', 'route' => 'profil', 'label' => 'Profil'],
-                            ['href' => '/pengurus', 'route' => 'pengurus', 'label' => 'Pengurus RT/RW'],
-                            ['href' => '/dkm', 'route' => 'dkm', 'label' => 'DKM Masjid'],
-                            ['href' => '/berita', 'route' => 'berita', 'label' => 'Berita'],
-                            ['href' => '/agenda', 'route' => 'agenda', 'label' => 'Agenda'],
-                            ['href' => '/galeri', 'route' => 'galeri', 'label' => 'Galeri'],
-                            ['href' => '/layanan', 'route' => 'layanan', 'label' => 'Layanan'],
-                            ['href' => '/keamanan', 'route' => 'keamanan', 'label' => 'Keamanan'],
-                            ['href' => '/umkm', 'route' => 'umkm', 'label' => 'UMKM'],
-                            ['href' => '/dokumen', 'route' => 'dokumen', 'label' => 'Dokumen'],
-                            ['href' => '/faq', 'route' => 'faq', 'label' => 'FAQ'],
-                            ['href' => '/kontak', 'route' => 'kontak', 'label' => 'Kontak'],
-                        ];
-                    @endphp
-                    @foreach($navItems as $item)
-                        <a href="{{ $item['href'] }}" wire:navigate
-                           class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs($item['route']) ? 'text-emerald-700 font-bold underline underline-offset-8 decoration-[3px] decoration-emerald-500' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
-                            {{ $item['label'] }}
-                        </a>
-                    @endforeach
+                <div class="hidden xl:flex items-center gap-1 justify-center flex-wrap">
+                    <a href="/" wire:navigate
+                       class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('home') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        Beranda
+                    </a>
+
+                    <!-- Tentang Kami -->
+                    <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['profil', 'pengurus']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                            Tentang Kami
+                            <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full left-0 mt-1 min-w-[200px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
+                            <a href="/profil" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Profil Perumahan</a>
+                            <a href="/pengurus" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Struktur Pengurus</a>
+                        </div>
+                    </div>
+
+                    <!-- DKM Musholla -->
+                    <a href="/dkm" wire:navigate
+                       class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('dkm') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        DKM Musholla
+                    </a>
+
+                    <!-- Layanan & Keuangan -->
+                    <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['layanan', 'keamanan', 'iuran-rw', 'iuran-ruko']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                            Layanan Warga
+                            <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full left-0 mt-1 min-w-[200px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
+                            <a href="/layanan" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Layanan & Pengaduan</a>
+                            <a href="/keamanan" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Keamanan & Darurat</a>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <a href="/iuran-rw" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Info Iuran Warga</a>
+                            <a href="/iuran-ruko" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Info Iuran Ruko</a>
+                        </div>
+                    </div>
+
+                    <!-- Publikasi -->
+                    <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['berita', 'agenda', 'galeri', 'umkm']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                            Publikasi
+                            <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full left-0 mt-1 min-w-[200px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
+                            <a href="/berita" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Berita & Pengumuman</a>
+                            <a href="/agenda" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Agenda Kegiatan</a>
+                            <a href="/galeri" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Galeri Foto</a>
+                            <div class="border-t border-slate-100 my-1"></div>
+                            <a href="/umkm" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Direktori UMKM</a>
+                        </div>
+                    </div>
+
+                    <!-- Bantuan -->
+                    <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['dokumen', 'faq', 'kontak']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                            Pusat Bantuan
+                            <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full right-0 mt-1 min-w-[200px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
+                            <a href="/dokumen" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Download Dokumen</a>
+                            <a href="/faq" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Tanya Jawab (FAQ)</a>
+                            <a href="/kontak" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Hubungi Kami</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Mobile menu button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition">
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="xl:hidden text-slate-700 p-2 rounded-lg hover:bg-slate-100 transition focus:outline-none">
                     <svg x-show="!mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-                    <svg x-show="mobileMenuOpen" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    <svg x-show="mobileMenuOpen" style="display:none;" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </nav>
 
@@ -117,62 +160,84 @@
                  x-transition:enter="transition ease-out duration-200"
                  x-transition:enter-start="opacity-0 -translate-y-2"
                  x-transition:enter-end="opacity-100 translate-y-0"
-                 class="xl:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full left-0">
+                 class="xl:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full left-0 z-50" style="display: none;">
                 <div class="px-4 py-4 flex flex-col space-y-1 max-h-[70vh] overflow-y-auto">
-                    <a href="/" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
+                    
+                    <a href="/" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
                         <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                         Beranda
                     </a>
-                    <a href="/profil" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                        Profil Perumahan
-                    </a>
-                    <a href="/pengurus" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                        Struktur Pengurus
-                    </a>
-                    <a href="/dkm" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                        DKM Masjid
-                    </a>
-                    <a href="/berita" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                        Berita & Pengumuman
-                    </a>
-                    <a href="/agenda" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        Agenda Kegiatan
-                    </a>
-                    <a href="/galeri" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        Galeri
-                    </a>
-                    <div class="mt-1 border-t border-slate-100 pt-1">
-                        <a href="/layanan" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
-                            Layanan Warga
-                        </a>
-                        <a href="/keamanan" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                            Keamanan & Darurat
-                        </a>
-                        <a href="/umkm" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                            UMKM Warga
-                        </a>
-                        <a href="/dokumen" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                            Download Dokumen
-                        </a>
-                        <a href="/faq" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            FAQ
-                        </a>
-                        <a href="/kontak" class="text-slate-700 font-medium px-4 py-2.5 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
-                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                            Kontak
-                        </a>
+
+                    <!-- Tentang Kami -->
+                    <div x-data="{ expanded: false }">
+                        <button @click="expanded = !expanded" class="w-full text-left text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2 transition focus:outline-none">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                Tentang Kami
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="expanded" class="pl-11 pr-4 py-1 space-y-1" style="display: none;">
+                            <a href="/profil" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Profil Perumahan</a>
+                            <a href="/pengurus" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Struktur Pengurus</a>
+                        </div>
                     </div>
+
+                    <a href="/dkm" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        DKM Musholla
+                    </a>
+
+                    <!-- Layanan Warga -->
+                    <div x-data="{ expanded: false }">
+                        <button @click="expanded = !expanded" class="w-full text-left text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2 transition focus:outline-none">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                                Layanan & Keuangan
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="expanded" class="pl-11 pr-4 py-1 space-y-1" style="display: none;">
+                            <a href="/layanan" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Layanan & Pengaduan</a>
+                            <a href="/keamanan" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Keamanan & Darurat</a>
+                            <a href="/iuran-rw" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Info Iuran Warga</a>
+                            <a href="/iuran-ruko" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Info Iuran Ruko</a>
+                        </div>
+                    </div>
+
+                    <!-- Publikasi -->
+                    <div x-data="{ expanded: false }">
+                        <button @click="expanded = !expanded" class="w-full text-left text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2 transition focus:outline-none">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                                Publikasi
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="expanded" class="pl-11 pr-4 py-1 space-y-1" style="display: none;">
+                            <a href="/berita" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Berita & Pengumuman</a>
+                            <a href="/agenda" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Agenda Kegiatan</a>
+                            <a href="/galeri" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Galeri Foto</a>
+                            <a href="/umkm" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Direktori UMKM</a>
+                        </div>
+                    </div>
+
+                    <!-- Bantuan -->
+                    <div x-data="{ expanded: false }">
+                        <button @click="expanded = !expanded" class="w-full text-left text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2 transition focus:outline-none">
+                            <div class="flex items-center gap-2">
+                                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                Pusat Bantuan
+                            </div>
+                            <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </button>
+                        <div x-show="expanded" class="pl-11 pr-4 py-1 space-y-1" style="display: none;">
+                            <a href="/dokumen" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Download Dokumen</a>
+                            <a href="/faq" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Tanya Jawab (FAQ)</a>
+                            <a href="/kontak" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Hubungi Kami</a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </header>
@@ -204,7 +269,7 @@
                     <!-- Brand -->
                     <div class="md:col-span-1">
                         <div class="flex items-center gap-3 mb-5">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-10 h-10 object-contain grayscale brightness-200">
+                            <img src="{{ asset('images/logo-transparent.png') }}" alt="Logo" class="h-14 sm:h-16 w-auto object-contain grayscale brightness-200">
                             <div>
                                 <h3 class="text-white text-lg font-bold leading-tight">Jayanti Residence</h3>
                                 <span class="text-emerald-400 text-xs font-semibold">Kab. Tangerang</span>
@@ -216,26 +281,30 @@
                         </p>
                     </div>
 
-                    <!-- Menu -->
+                    <!-- Tentang & Publikasi -->
                     <div>
-                        <h4 class="text-white font-semibold text-sm tracking-wider mb-6">Navigasi</h4>
+                        <h4 class="text-white font-semibold text-sm tracking-wider mb-6">Tentang & Publikasi</h4>
                         <ul class="space-y-3 text-sm">
                             <li><a href="/profil" class="hover:text-emerald-400 transition-colors" wire:navigate>Profil Perumahan</a></li>
+                            <li><a href="/pengurus" class="hover:text-emerald-400 transition-colors" wire:navigate>Struktur Pengurus</a></li>
                             <li><a href="/berita" class="hover:text-emerald-400 transition-colors" wire:navigate>Berita & Pengumuman</a></li>
                             <li><a href="/agenda" class="hover:text-emerald-400 transition-colors" wire:navigate>Agenda Kegiatan</a></li>
-                            <li><a href="/galeri" class="hover:text-emerald-400 transition-colors" wire:navigate>Galeri</a></li>
+                            <li><a href="/galeri" class="hover:text-emerald-400 transition-colors" wire:navigate>Galeri Foto</a></li>
+                            <li><a href="/umkm" class="hover:text-emerald-400 transition-colors" wire:navigate>Direktori UMKM</a></li>
                         </ul>
                     </div>
 
-                    <!-- Layanan -->
+                    <!-- Layanan Warga -->
                     <div>
-                        <h4 class="text-white font-semibold text-sm tracking-wider mb-6">Layanan</h4>
+                        <h4 class="text-white font-semibold text-sm tracking-wider mb-6">Layanan Warga</h4>
                         <ul class="space-y-3 text-sm">
-                            <li><a href="/layanan" class="hover:text-emerald-400 transition-colors" wire:navigate>Layanan Warga</a></li>
+                            <li><a href="/layanan" class="hover:text-emerald-400 transition-colors" wire:navigate>Layanan & Pengaduan</a></li>
                             <li><a href="/keamanan" class="hover:text-emerald-400 transition-colors" wire:navigate>Keamanan & Darurat</a></li>
-                            <li><a href="/umkm" class="hover:text-emerald-400 transition-colors" wire:navigate>UMKM Warga</a></li>
+                            <li><a href="/iuran-rw" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Warga</a></li>
+                            <li><a href="/iuran-ruko" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Ruko</a></li>
+                            <li><a href="/dkm" class="hover:text-emerald-400 transition-colors" wire:navigate>DKM Musholla</a></li>
                             <li><a href="/dokumen" class="hover:text-emerald-400 transition-colors" wire:navigate>Download Dokumen</a></li>
-                            <li><a href="/faq" class="hover:text-emerald-400 transition-colors" wire:navigate>FAQ</a></li>
+                            <li><a href="/faq" class="hover:text-emerald-400 transition-colors" wire:navigate>Tanya Jawab (FAQ)</a></li>
                         </ul>
                     </div>
 
@@ -263,7 +332,7 @@
                     </div>
                 </div>
 
-                <div class="border-t border-slate-800 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+                <div class="border-t border-slate-800 pt-8 flex justify-center items-center text-center">
                     <p class="text-xs text-slate-500">&copy; {{ date('Y') }} Perumahan Jayanti Residence. Hak Cipta Dilindungi.</p>
                 </div>
             </div>

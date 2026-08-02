@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin — Desa Jayanti</title>
+    <title>Login Admin — Jayanti Residence</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -13,23 +13,21 @@
 
     <!-- Left Side: Image / Branding (Hidden on Mobile) -->
     <div class="hidden lg:flex w-1/2 bg-emerald-900 relative overflow-hidden">
-        <img src="{{ asset('images/login-bg.png') }}" alt="Desa Jayanti Background" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity scale-105">
+        <img src="{{ asset('images/login-bg.png') }}" alt="Jayanti Residence Background" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity scale-105">
         <div class="absolute inset-0 bg-gradient-to-br from-emerald-900/90 via-emerald-800/80 to-teal-900/90 mix-blend-multiply"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/80 via-transparent to-transparent"></div>
         
         <div class="absolute inset-0 flex flex-col justify-between p-12 xl:p-16 text-white z-10">
             <div>
-                <div class="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mb-8 shadow-2xl">
-                    <svg class="w-8 h-8 text-white drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
+                <div class="mb-8">
+                    <img src="{{ asset('images/logo-transparent.png') }}" alt="Logo" class="w-auto object-contain grayscale brightness-200 drop-shadow-lg" style="height: 112px;">
                 </div>
                 <h1 class="text-4xl xl:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
                     Sistem Informasi<br>
                     <span class="text-emerald-300">Jayanti Residence</span>
                 </h1>
                 <p class="text-emerald-50 text-lg xl:text-xl max-w-md font-medium leading-relaxed opacity-90">
-                    Sistem manajemen terpadu untuk pelayanan warga dan administrasi desa yang lebih baik.
+                    Sistem manajemen terpadu untuk pelayanan warga dan administrasi perumahan yang lebih baik.
                 </p>
             </div>
             
@@ -51,13 +49,11 @@
             
             <!-- Mobile Logo (Hidden on Large Screens) -->
             <div class="lg:hidden text-center mb-10">
-                <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-200">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
+                <div class="mb-6 flex justify-center">
+                    <img src="{{ asset('images/logo-transparent.png') }}" alt="Logo" class="w-auto object-contain drop-shadow-sm" style="height: 96px;">
                 </div>
                 <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Jayanti Residence</h1>
-                <p class="text-gray-500 text-sm mt-1.5 font-medium">Sistem Informasi Manajemen Desa</p>
+                <p class="text-gray-500 text-sm mt-1.5 font-medium">Sistem Informasi Manajemen Perumahan</p>
             </div>
 
             <div class="mb-10 lg:mb-12">

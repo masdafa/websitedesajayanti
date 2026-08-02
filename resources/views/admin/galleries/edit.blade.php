@@ -64,6 +64,15 @@
                 @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
 
+            <!-- Tanggal Foto -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Tanggal Foto</label>
+                <input type="date" name="published_date" value="{{ old('published_date', $gallery->published_date ? \Carbon\Carbon::parse($gallery->published_date)->format('Y-m-d') : '') }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah tanggal foto ini (otomatis menggunakan tanggal upload sebelumnya).</p>
+                @error('published_date') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
             <!-- Deskripsi -->
             <div>
                 <label class="block text-sm font-semibold text-gray-900 mb-2">Deskripsi Singkat</label>

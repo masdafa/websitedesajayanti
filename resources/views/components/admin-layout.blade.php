@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Admin Panel' }} — Jayanti Residence</title>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800,900&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -29,7 +29,7 @@
         <!-- Logo -->
         <div class="flex items-center gap-3 px-6 py-5 border-b border-emerald-700/50">
             <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <img src="{{ asset('images/logo-transparent.png') }}" alt="Logo Admin" class="w-8 h-8 object-contain">
             </div>
             <div>
                 <div class="text-white font-bold text-sm leading-tight">Admin Panel</div>
@@ -46,6 +46,11 @@
                 Dashboard
             </a>
 
+            <a href="{{ route('admin.residents.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.residents.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Data Warga
+            </a>
+
             <a href="{{ route('admin.posts.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                 Berita & Artikel
@@ -58,7 +63,7 @@
 
             <a href="{{ route('admin.staff.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                Pengurus
+                Pengurus RT/RW
             </a>
 
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Konten & Layanan</p>
@@ -135,6 +140,38 @@
             <a href="{{ route('admin.dkm-staff.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-staff.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                 Pengurus DKM
+            </a>
+
+            <a href="{{ route('admin.financial-reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.financial-reports.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                Iuran RW
+            </a>
+
+            <a href="{{ route('admin.ruko-financial-reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.ruko-financial-reports.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Iuran Ruko
+            </a>
+
+            <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">DKM Musholla</p>
+
+            <a href="{{ route('admin.dkm-activities.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-activities.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Kegiatan DKM
+            </a>
+
+            <a href="{{ route('admin.dkm-financial-reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-financial-reports.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                Laporan Keuangan
+            </a>
+
+            <a href="{{ route('admin.ziswaf-reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.ziswaf-reports.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Laporan ZISWAF
+            </a>
+
+            <a href="{{ route('admin.phbi-events.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.phbi-events.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"/></svg>
+                Dokumentasi PHBI
             </a>
 
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Pengaturan</p>

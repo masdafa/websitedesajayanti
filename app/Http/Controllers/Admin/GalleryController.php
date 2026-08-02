@@ -10,7 +10,7 @@ class GalleryController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Gallery::latest();
+        $query = Gallery::orderByRaw('COALESCE(published_date, created_at) desc');
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
@@ -26,12 +26,16 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
-            'image'       => 'required|image|max:3072',
+            'title'          => 'required|string|max:255',
+            'description'    => 'nullable|string|max:500',
+            'image'          => 'required|image|max:3072',
+            'published_date' => 'nullable|date',
         ]);
 
         $data['image'] = $request->file('image')->store('gallery', 'public');
+        if (empty($data['published_date'])) {
+            $data['published_date'] = now();
+        }
 
         Gallery::create($data);
         return redirect()->route('admin.galleries.index')->with('success', 'Foto galeri berhasil ditambahkan.');
@@ -45,9 +49,10 @@ class GalleryController extends Controller
     public function update(Request $request, Gallery $gallery)
     {
         $data = $request->validate([
-            'title'       => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
-            'image'       => 'nullable|image|max:3072',
+            'title'          => 'required|string|max:255',
+            'description'    => 'nullable|string|max:500',
+            'image'          => 'nullable|image|max:3072',
+            'published_date' => 'nullable|date',
         ]);
 
         if ($request->hasFile('image')) {
@@ -55,6 +60,10 @@ class GalleryController extends Controller
                 \Storage::disk('public')->delete($gallery->image);
             }
             $data['image'] = $request->file('image')->store('gallery', 'public');
+        }
+        
+        if (empty($data['published_date'])) {
+            $data['published_date'] = $gallery->created_at;
         }
 
         $gallery->update($data);

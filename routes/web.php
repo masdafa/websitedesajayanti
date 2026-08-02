@@ -20,6 +20,8 @@ use App\Livewire\LetterRequestForm;
 use App\Livewire\ActivityRegistrationForm;
 use App\Livewire\GuestBookForm;
 use App\Livewire\IuranInfoView;
+use App\Livewire\IuranRw;
+use App\Livewire\IuranRuko;
 // Public routes
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
@@ -41,6 +43,8 @@ Route::get('/layanan/surat-pengantar', LetterRequestForm::class)->name('layanan.
 Route::get('/layanan/pendaftaran-kegiatan', ActivityRegistrationForm::class)->name('layanan.kegiatan');
 Route::get('/layanan/buku-tamu', GuestBookForm::class)->name('layanan.tamu');
 Route::get('/layanan/iuran-warga', IuranInfoView::class)->name('layanan.iuran');
+Route::get('/iuran-rw', IuranRw::class)->name('iuran-rw');
+Route::get('/iuran-ruko', IuranRuko::class)->name('iuran-ruko');
 
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -62,6 +66,8 @@ use App\Http\Controllers\Admin\LetterRequestController;
 use App\Http\Controllers\Admin\ActivityRegistrationController;
 use App\Http\Controllers\Admin\GuestBookController;
 use App\Http\Controllers\Admin\IuranInfoController;
+use App\Http\Controllers\Admin\FinancialReportController;
+use App\Http\Controllers\Admin\RukoFinancialReportController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -104,5 +110,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('siskamling', SiskamlingController::class)->except(['show']);
         Route::resource('service-infos', ServiceInfoController::class)->except(['show']);
         Route::resource('dkm-staff', DkmStaffController::class)->except(['show']);
+        Route::resource('financial-reports', FinancialReportController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('ruko-financial-reports', RukoFinancialReportController::class)->only(['index', 'store', 'destroy']);
+        
+        // DKM Musholla Dynamic Content
+        Route::resource('dkm-activities', \App\Http\Controllers\Admin\DkmActivityController::class)->except(['show']);
+        Route::resource('dkm-financial-reports', \App\Http\Controllers\Admin\DkmFinancialReportController::class)->except(['show']);
+        Route::resource('ziswaf-reports', \App\Http\Controllers\Admin\ZiswafReportController::class)->except(['show']);
+        Route::resource('phbi-events', \App\Http\Controllers\Admin\PhbiEventController::class)->except(['show']);
+
+        // Data Warga
+        Route::post('residents/import', [\App\Http\Controllers\Admin\ResidentController::class, 'import'])->name('residents.import');
+        Route::resource('residents', \App\Http\Controllers\Admin\ResidentController::class)->except(['show']);
     });
 });

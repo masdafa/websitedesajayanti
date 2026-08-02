@@ -1,5 +1,5 @@
-<x-admin-layout title="Edit Perangkat Desa">
-    <x-slot:breadcrumb>Ubah data perangkat desa</x-slot:breadcrumb>
+<x-admin-layout title="Edit Pengurus RT/RW">
+    <x-slot:breadcrumb>Ubah data Pengurus RT/RW</x-slot:breadcrumb>
 
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-2xl">
         <form action="{{ route('admin.staff.update', $staff) }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-6">

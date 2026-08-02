@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gallery extends Model
 {
-    protected $fillable = ['title', 'image', 'description'];
+    protected $fillable = ['title', 'image', 'description', 'published_date'];
 }

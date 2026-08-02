@@ -1,0 +1,57 @@
+<x-admin-layout title="Edit Laporan ZISWAF">
+    <x-slot:breadcrumb>Edit Laporan ZISWAF</x-slot:breadcrumb>
+
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Edit Laporan ZISWAF</h1>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-2xl">
+        <form action="{{ route('admin.ziswaf-reports.update', $ziswafReport) }}" method="POST" class="p-6 sm:p-8 space-y-5">
+            @csrf @method('PUT')
+            <div>
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Bulan / Periode <span class="text-red-500">*</span></label>
+                <input type="text" name="month_name" value="{{ old('month_name', $ziswafReport->month_name) }}" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
+                    placeholder="Contoh: Ramadhan 1445 H atau Juli 2026">
+                @error('month_name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+            
+            <div>
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Penerimaan (Rp) <span class="text-red-500">*</span></label>
+                <input type="number" name="income" id="income" value="{{ old('income', (int)$ziswafReport->income) }}" required min="0"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                @error('income') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+            
+            <div>
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Penyaluran (Rp) <span class="text-red-500">*</span></label>
+                <input type="number" name="expense" id="expense" value="{{ old('expense', (int)$ziswafReport->expense) }}" required min="0"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                @error('expense') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+            
+            <div>
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Saldo (Rp) <span class="text-red-500">*</span></label>
+                <input type="number" name="balance" id="balance" value="{{ old('balance', (int)$ziswafReport->balance) }}" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3 bg-gray-100">
+                @error('balance') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            </div>
+
+            <div class="pt-4 flex gap-3 border-t border-gray-100">
+                <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-xl transition">Perbarui</button>
+                <a href="{{ route('admin.ziswaf-reports.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2.5 px-6 rounded-xl transition">Batal</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('income').addEventListener('input', calculateBalance);
+        document.getElementById('expense').addEventListener('input', calculateBalance);
+
+        function calculateBalance() {
+            let income = parseFloat(document.getElementById('income').value) || 0;
+            let expense = parseFloat(document.getElementById('expense').value) || 0;
+            document.getElementById('balance').value = income - expense;
+        }
+    </script>
+</x-admin-layout>

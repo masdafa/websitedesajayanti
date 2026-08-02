@@ -1,5 +1,5 @@
-<x-admin-layout title="Perangkat Desa">
-    <x-slot:breadcrumb>Kelola data perangkat dan staf desa</x-slot:breadcrumb>
+<x-admin-layout title="Pengurus RT/RW">
+    <x-slot:breadcrumb>Kelola data Pengurus RT/RW</x-slot:breadcrumb>
 
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
         <div class="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
@@ -11,7 +11,7 @@
             
             <a href="{{ route('admin.staff.create') }}" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah Perangkat Desa
+                Tambah Pengurus RT/RW
             </a>
         </div>
 
@@ -74,7 +74,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                Belum ada data perangkat desa.
+                                Belum ada data Pengurus RT/RW.
                             </td>
                         </tr>
                     @endforelse

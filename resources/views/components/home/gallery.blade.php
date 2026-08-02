@@ -21,8 +21,11 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
             @forelse($galleries as $index => $gallery)
                 @php
-                    // Create the alternating pattern: [2 cols, 1 col, 1 col], [1 col, 1 col, 2 cols]
-                    $isLarge = ($index % 6 == 0) || ($index % 6 == 5);
+                    // Create the alternating pattern for 8 photos max:
+                    // Row 1: [2 cols] [1 col] [1 col] (items 0,1,2)
+                    // Row 2: [1 col] [1 col] [2 cols] (items 3,4,5)
+                    // Row 3: [2 cols] [2 cols] (items 6,7)
+                    $isLarge = in_array($index % 8, [0, 5, 6, 7]);
                 @endphp
                 <a data-aos="zoom-in" data-aos-delay="{{ ($index % 6) * 100 }}" href="/galeri" wire:navigate
                     class="group relative overflow-hidden bg-gray-100 block 

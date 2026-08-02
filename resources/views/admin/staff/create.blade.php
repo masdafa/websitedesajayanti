@@ -1,5 +1,5 @@
-<x-admin-layout title="Tambah Perangkat Desa">
-    <x-slot:breadcrumb>Tambahkan data staf atau perangkat desa baru</x-slot:breadcrumb>
+<x-admin-layout title="Tambah Pengurus RT/RW">
+    <x-slot:breadcrumb>Tambahkan data pengurus RT/RW baru</x-slot:breadcrumb>
 
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-2xl">
         <form action="{{ route('admin.staff.store') }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-6">
