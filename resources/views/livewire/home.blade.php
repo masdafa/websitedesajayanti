@@ -4,7 +4,7 @@
     <x-home.facilities :facilities="$facilities" />
     <x-home.staff :staffs="$staffs" />
     <x-home.agendas :upcomingAgendas="$upcomingAgendas" />
-    <x-home.news :latestPosts="$latestPosts" />
+    <x-home.news :latestPosts="$latestPosts" :latestPengumuman="$latestPengumuman" />
     <x-home.gallery :galleries="$galleries" />
     <x-home.map :mapImage="$settings['housing_map_image'] ?? null" />
     <x-home.cta />

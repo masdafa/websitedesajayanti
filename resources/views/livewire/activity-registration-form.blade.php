@@ -7,6 +7,16 @@
 
     <div class="py-16 bg-gray-50/50">
         <div class="container mx-auto px-4 max-w-3xl">
+            <!-- Back to Layanan link -->
+            <div class="mb-6">
+                <a href="{{ route('layanan') }}" class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-emerald-600 transition-colors group">
+                    <svg class="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Kembali ke Halaman Layanan
+                </a>
+            </div>
+
             @if($successMessage)
                 <div class="mb-8 p-6 bg-green-50 rounded-2xl border border-green-200 text-center animate-fade-in">
                     <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -26,27 +36,35 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-900 mb-2">Nama Pendaftar <span class="text-red-500">*</span></label>
-                                    <input type="text" wire:model.defer="name" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" required>
+                                    <input type="text" wire:model.defer="name" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 outline-none text-sm placeholder-gray-400" required>
                                     @error('name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-900 mb-2">No. Handphone / WA <span class="text-red-500">*</span></label>
-                                    <input type="text" wire:model.defer="phone" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" required>
+                                    <input type="text" wire:model.defer="phone" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 outline-none text-sm placeholder-gray-400" required>
                                     @error('phone') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-gray-900 mb-2">Pilih / Nama Kegiatan <span class="text-red-500">*</span></label>
-                                <input type="text" wire:model.defer="activity_name" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" placeholder="Contoh: Jalan Sehat, Lomba 17an, dll" required>
+                                <input type="text" wire:model.defer="activity_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 outline-none text-sm placeholder-gray-400" placeholder="Contoh: Jalan Sehat, Lomba 17an, dll" required>
                                 @error('activity_name') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
 
                             <div>
+                                <label class="block text-sm font-semibold text-gray-900 mb-2">Alamat Rumah <span class="text-red-500">*</span></label>
+                                <input type="text" wire:model.defer="address" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 outline-none text-sm placeholder-gray-400" placeholder="Contoh: Blok A No. 10" required>
+                                @error('address') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
+                            </div>
+
+                            <div>
                                 <label class="block text-sm font-semibold text-gray-900 mb-2">Keterangan Tambahan (Opsional)</label>
-                                <textarea wire:model.defer="notes" rows="3" class="w-full rounded-xl border-gray-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 transition" placeholder="Sebutkan jika ada info tambahan (misal: usia, alamat, daftar berdua)"></textarea>
+                                <textarea wire:model.defer="notes" rows="3" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all duration-200 outline-none text-sm placeholder-gray-400 resize-none" placeholder="Sebutkan jika ada info tambahan (misal: usia, alamat, daftar berdua)"></textarea>
                                 @error('notes') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                             </div>
+
+                            <x-pin-captcha :num1="$captchaNum1" :num2="$captchaNum2" />
 
                             <div class="pt-6">
                                 <button type="submit" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">

@@ -17,10 +17,11 @@ class Home extends Component
     {
         $totalResidents  = Resident::count();
         $totalFacilities = Facility::count();
-        $latestPosts     = Post::where('is_published', true)->latest()->take(3)->get();
+        $latestPosts     = Post::where('is_published', true)->where('type', 'berita')->latest()->take(3)->get();
+        $latestPengumuman = Post::where('is_published', true)->where('type', 'pengumuman')->latest()->first();
         $staffs          = Staff::orderBy('order')->take(4)->get();
         // Mengambil foto galeri 1-2 foto per tahun, maksimal 8 foto
-        $allGalleries = Gallery::whereNotNull('image')
+        $allGalleries = Gallery::whereNotNull('images')
             ->orderByRaw('COALESCE(published_date, created_at) desc')
             ->get();
             
@@ -40,7 +41,8 @@ class Home extends Component
         }
         $galleries = $selectedGalleries;
         $upcomingAgendas = AgendaModel::where('is_published', true)
-            ->where('event_date', '>=', today())
+            ->where('event_date', '>=', today()->subDays(7))
+            ->where('event_date', '<=', today()->addDays(30))
             ->orderBy('event_date')
             ->take(3)
             ->get();
@@ -54,7 +56,7 @@ class Home extends Component
                 'type' => 'post',
                 'title' => $post->title,
                 'description' => \Illuminate\Support\Str::limit(strip_tags($post->content), 150),
-                'image' => $post->image,
+                'image' => !empty($post->images) && is_array($post->images) ? $post->images[0] : null,
                 'link' => route('berita.detail', $post->slug),
                 'button_text' => 'Baca Selengkapnya',
                 'badge' => 'Berita & Pengumuman',
@@ -67,7 +69,7 @@ class Home extends Component
                 'type' => 'gallery',
                 'title' => $gallery->title,
                 'description' => $gallery->description ?? 'Dokumentasi kegiatan warga.',
-                'image' => $gallery->image,
+                'image' => !empty($gallery->images) && is_array($gallery->images) ? $gallery->images[0] : null,
                 'link' => route('galeri'),
                 'button_text' => 'Lihat Galeri',
                 'badge' => 'Galeri Foto',
@@ -79,6 +81,7 @@ class Home extends Component
             'totalResidents'  => $totalResidents,
             'totalFacilities' => $totalFacilities,
             'latestPosts'     => $latestPosts,
+            'latestPengumuman'=> $latestPengumuman,
             'staffs'          => $staffs,
             'galleries'       => $galleries,
             'upcomingAgendas' => $upcomingAgendas,

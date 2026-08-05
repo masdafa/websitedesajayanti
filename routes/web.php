@@ -22,6 +22,8 @@ use App\Livewire\GuestBookForm;
 use App\Livewire\IuranInfoView;
 use App\Livewire\IuranRw;
 use App\Livewire\IuranRuko;
+use App\Livewire\IuranK3;
+use App\Livewire\Posyandu;
 // Public routes
 Route::get('/', Home::class)->name('home');
 Route::get('/profil', Profil::class)->name('profil');
@@ -45,7 +47,8 @@ Route::get('/layanan/buku-tamu', GuestBookForm::class)->name('layanan.tamu');
 Route::get('/layanan/iuran-warga', IuranInfoView::class)->name('layanan.iuran');
 Route::get('/iuran-rw', IuranRw::class)->name('iuran-rw');
 Route::get('/iuran-ruko', IuranRuko::class)->name('iuran-ruko');
-
+Route::get('/iuran-k3', IuranK3::class)->name('iuran-k3');
+Route::get('/posyandu', App\Livewire\Posyandu::class)->name('posyandu');
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
@@ -68,6 +71,12 @@ use App\Http\Controllers\Admin\GuestBookController;
 use App\Http\Controllers\Admin\IuranInfoController;
 use App\Http\Controllers\Admin\FinancialReportController;
 use App\Http\Controllers\Admin\RukoFinancialReportController;
+use App\Http\Controllers\Admin\K3DepositController;
+use App\Http\Controllers\Admin\K3BudgetController;
+use App\Http\Controllers\Admin\PosyanduProfileController;
+use App\Http\Controllers\Admin\PosyanduActivityController;
+use App\Http\Controllers\Admin\PosyanduGalleryController;
+use App\Http\Controllers\Admin\DkmSettingController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -112,12 +121,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('dkm-staff', DkmStaffController::class)->except(['show']);
         Route::resource('financial-reports', FinancialReportController::class)->only(['index', 'store', 'destroy']);
         Route::resource('ruko-financial-reports', RukoFinancialReportController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('k3-deposits', K3DepositController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('ruko-deposits', \App\Http\Controllers\Admin\RukoDepositController::class)->only(['store', 'destroy']);
+        Route::resource('k3-budgets', K3BudgetController::class)->except(['show']);
         
         // DKM Musholla Dynamic Content
         Route::resource('dkm-activities', \App\Http\Controllers\Admin\DkmActivityController::class)->except(['show']);
         Route::resource('dkm-financial-reports', \App\Http\Controllers\Admin\DkmFinancialReportController::class)->except(['show']);
+        Route::resource('dkm-galleries', \App\Http\Controllers\Admin\DkmGalleryController::class)->except(['show']);
         Route::resource('ziswaf-reports', \App\Http\Controllers\Admin\ZiswafReportController::class)->except(['show']);
         Route::resource('phbi-events', \App\Http\Controllers\Admin\PhbiEventController::class)->except(['show']);
+        Route::get('dkm-settings', [DkmSettingController::class, 'edit'])->name('dkm-settings.edit');
+        Route::put('dkm-settings', [DkmSettingController::class, 'update'])->name('dkm-settings.update');
+
+        // Posyandu
+        Route::get('posyandu-profile', [PosyanduProfileController::class, 'edit'])->name('posyandu-profile.edit');
+        Route::put('posyandu-profile', [PosyanduProfileController::class, 'update'])->name('posyandu-profile.update');
+        Route::resource('posyandu-activities', PosyanduActivityController::class)->except(['show']);
+        Route::resource('posyandu-galleries', PosyanduGalleryController::class)->except(['show']);
 
         // Data Warga
         Route::post('residents/import', [\App\Http\Controllers\Admin\ResidentController::class, 'import'])->name('residents.import');

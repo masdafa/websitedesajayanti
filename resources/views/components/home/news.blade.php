@@ -1,4 +1,4 @@
-@props(['latestPosts'])
+@props(['latestPosts', 'latestPengumuman'])
 
 <!-- Berita Terbaru -->
 <div class="py-20 bg-gray-50 border-t border-gray-100">
@@ -10,27 +10,20 @@
                 <div class="w-16 h-1 bg-green-500 rounded-full"></div>
             </div>
             <a href="/berita" wire:navigate class="hidden sm:inline-flex items-center gap-2 text-green-600 font-bold hover:text-green-800 transition group">
-                Lihat Semua <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                Lihat Semua
             </a>
         </div>
 
-        <!-- Pengumuman Statik -->
-        <div data-aos="fade-up" class="mb-10 bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-2xl shadow-sm">
-            <div class="flex items-center gap-3 mb-2">
-                <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                </svg>
-                <h3 class="text-lg font-bold text-emerald-900">Pengumuman: Kerja Bakti Bulanan</h3>
+        @if($latestPengumuman)
+        <!-- Pengumuman Dinamis -->
+        <a href="{{ route('berita.detail', $latestPengumuman->slug) }}" wire:navigate data-aos="fade-up" class="block mb-10 bg-emerald-50 border-l-4 border-emerald-500 p-6 rounded-r-2xl shadow-sm hover:shadow-md transition">
+            <h3 class="text-lg font-bold text-emerald-900 mb-2">Pengumuman: {{ $latestPengumuman->title }}</h3>
+            <div class="text-emerald-800 space-y-1">
+                <p class="text-sm line-clamp-3">{{ Str::limit(strip_tags($latestPengumuman->content), 200) }}</p>
+                <p class="mt-2 text-xs font-semibold">{{ $latestPengumuman->created_at->format('d M Y') }}</p>
             </div>
-            <div class="text-emerald-800 ml-9 space-y-1">
-                <p><strong>Hari/Tanggal:</strong> Minggu, Setiap Awal Bulan</p>
-                <p><strong>Waktu:</strong> 07.00 WIB</p>
-                <p><strong>Lokasi:</strong> Seluruh Area Perumahan</p>
-                <p class="mt-2 text-sm italic">Seluruh warga diharapkan berpartisipasi untuk menjaga kebersihan lingkungan.</p>
-            </div>
-        </div>
+        </a>
+        @endif
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @forelse($latestPosts as $post)
@@ -38,8 +31,8 @@
                 href="{{ route('berita.detail', $post->slug) }}" wire:navigate
                 class="bg-white rounded-2xl overflow-hidden border border-gray-100 card-hover group flex flex-col">
                 <div class="h-48 overflow-hidden relative bg-gray-100">
-                    @if(!empty($post->image))
-                    <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    @if(!empty((!empty($post->images) ? $post->images[0] : null)))
+                    <img src="{{ Str::startsWith((!empty($post->images) ? $post->images[0] : null), 'http') ? (!empty($post->images) ? $post->images[0] : null) : asset('storage/'.(!empty($post->images) ? $post->images[0] : null)) }}" alt="{{ $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     @else
                     <div class="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center text-green-400">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">

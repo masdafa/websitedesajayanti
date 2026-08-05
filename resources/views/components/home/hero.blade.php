@@ -52,8 +52,8 @@
     <div x-show="activeSlide === {{ $index + 1 }}" x-transition:enter="transition-opacity duration-700" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
         class="absolute inset-0 flex items-center justify-center" style="display:none;">
         <div class="absolute inset-0">
-            @if($item->image)
-            <img src="{{ Str::startsWith($item->image, 'http') ? $item->image : asset('storage/'.$item->image) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
+            @if((!empty($item->images) ? $item->images[0] : null))
+            <img src="{{ Str::startsWith((!empty($item->images) ? $item->images[0] : null), 'http') ? (!empty($item->images) ? $item->images[0] : null) : asset('storage/'.(!empty($item->images) ? $item->images[0] : null)) }}" alt="{{ $item->title }}" class="w-full h-full object-cover">
             @else
             <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000" class="w-full h-full object-cover">
             @endif

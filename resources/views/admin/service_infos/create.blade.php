@@ -18,11 +18,7 @@
                 @error('description') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Ikon (SVG Path) <span class="text-red-500">*</span></label>
-                <textarea name="icon" rows="3" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3 font-mono"
-                    placeholder="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5...">{{ old('icon') }}</textarea>
-                <p class="mt-1 text-xs text-gray-500">Nilai <code>d="..."</code> dari SVG Heroicons. Lihat <a href="https://heroicons.com" target="_blank" class="text-emerald-600 underline">heroicons.com</a>.</p>
+                <input type="hidden" name="icon" value='<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'>
                 @error('icon') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>

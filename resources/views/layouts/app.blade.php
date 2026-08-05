@@ -19,6 +19,10 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <script src="{{ asset('js/chart.js') }}"></script>
+    <!-- Leaflet Maps (free, no API key) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
 
     <style>
         * { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -101,7 +105,13 @@
                     <!-- DKM Musholla -->
                     <a href="/dkm" wire:navigate
                        class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('dkm') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
-                        DKM Musholla
+                        DKM Al-Muqimin
+                    </a>
+
+                    <!-- Posyandu -->
+                    <a href="/posyandu" wire:navigate
+                       class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('posyandu') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        Posyandu Komplek Jayanti Residence
                     </a>
 
                     <!-- Layanan & Keuangan -->
@@ -116,6 +126,7 @@
                             <div class="border-t border-slate-100 my-1"></div>
                             <a href="/iuran-rw" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Info Iuran Warga</a>
                             <a href="/iuran-ruko" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Info Iuran Ruko</a>
+                            <a href="/iuran-k3" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Info Iuran K3</a>
                         </div>
                     </div>
 
@@ -125,8 +136,10 @@
                             Publikasi
                             <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
-                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full left-0 mt-1 min-w-[200px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
-                            <a href="/berita" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Berita & Pengumuman</a>
+                        <div x-show="open" x-transition.opacity.duration.200ms class="absolute top-full left-0 mt-1 min-w-[210px] bg-white border border-slate-100 shadow-xl rounded-xl py-2 z-50" style="display: none;">
+                            <a href="/berita" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Berita</a>
+                            <a href="/berita?tab=pengumuman" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-orange-50 hover:text-orange-600 transition font-medium whitespace-nowrap">Pengumuman</a>
+                            <div class="border-t border-slate-100 my-1"></div>
                             <a href="/agenda" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Agenda Kegiatan</a>
                             <a href="/galeri" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Galeri Foto</a>
                             <div class="border-t border-slate-100 my-1"></div>
@@ -185,7 +198,12 @@
 
                     <a href="/dkm" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
                         <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                        DKM Musholla
+                        DKM Al-Muqimin
+                    </a>
+
+                    <a href="/posyandu" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                        Posyandu Komplek Jayanti Residence
                     </a>
 
                     <!-- Layanan Warga -->
@@ -202,6 +220,7 @@
                             <a href="/keamanan" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Keamanan & Darurat</a>
                             <a href="/iuran-rw" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Info Iuran Warga</a>
                             <a href="/iuran-ruko" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Info Iuran Ruko</a>
+                            <a href="/iuran-k3" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Info Iuran K3</a>
                         </div>
                     </div>
 
@@ -215,7 +234,8 @@
                             <svg class="w-4 h-4 transition-transform" :class="expanded ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
                         <div x-show="expanded" class="pl-11 pr-4 py-1 space-y-1" style="display: none;">
-                            <a href="/berita" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Berita & Pengumuman</a>
+                            <a href="/berita" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Berita</a>
+                            <a href="/berita?tab=pengumuman" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-orange-500" wire:navigate @click="mobileMenuOpen=false">Pengumuman</a>
                             <a href="/agenda" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Agenda Kegiatan</a>
                             <a href="/galeri" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Galeri Foto</a>
                             <a href="/umkm" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Direktori UMKM</a>
@@ -302,7 +322,9 @@
                             <li><a href="/keamanan" class="hover:text-emerald-400 transition-colors" wire:navigate>Keamanan & Darurat</a></li>
                             <li><a href="/iuran-rw" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Warga</a></li>
                             <li><a href="/iuran-ruko" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Ruko</a></li>
-                            <li><a href="/dkm" class="hover:text-emerald-400 transition-colors" wire:navigate>DKM Musholla</a></li>
+                            <li><a href="/iuran-k3" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran K3</a></li>
+                            <li><a href="/posyandu" class="hover:text-emerald-400 transition-colors" wire:navigate>Posyandu Komplek Jayanti Residence</a></li>
+                            <li><a href="/dkm" class="hover:text-emerald-400 transition-colors" wire:navigate>DKM Al-Muqimin</a></li>
                             <li><a href="/dokumen" class="hover:text-emerald-400 transition-colors" wire:navigate>Download Dokumen</a></li>
                             <li><a href="/faq" class="hover:text-emerald-400 transition-colors" wire:navigate>Tanya Jawab (FAQ)</a></li>
                         </ul>

@@ -6,5 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Facility extends Model
 {
-    protected $fillable = ['title', 'icon', 'sort_order'];
+    protected $fillable = ['title', 'description', 'icon', 'images', 'sort_order'];
+
+    protected $casts = [
+        'images' => 'array',
+    ];
 }

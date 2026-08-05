@@ -17,7 +17,7 @@
                 <h3 class="text-lg md:text-xl font-medium uppercase mt-2">PERUMAHAN JAYANTI RESIDENCE 2023 - 2028</h3>
             </div>
 
-            <div class="relative mx-auto bg-transparent rounded-xl p-4" style="width: 1200px; height: 700px;">
+            <div class="relative mx-auto bg-transparent rounded-xl p-4" style="width: 1300px; height: 700px;">
                 <style>
                     .org-box {
                         position: absolute;
@@ -63,8 +63,8 @@
                 <div class="org-line-solid" style="left:510px; top:229px; width:180px; height:2px;"></div>
                 
                 <!-- Dashed Line to DKM -->
-                <div class="absolute" style="left:730px; top:49px; width:320px; height:2px; border-top:2px dashed #185E82;"></div>
-                <div class="absolute" style="left:1049px; top:50px; width:2px; height:130px; border-left:2px dashed #185E82;"></div>
+                <div class="absolute" style="left:730px; top:49px; width:400px; height:2px; border-top:2px dashed #185E82;"></div>
+                <div class="absolute" style="left:1129px; top:50px; width:2px; height:130px; border-left:2px dashed #185E82;"></div>
 
                 <!-- Lines Level 3 -->
                 <div class="org-line-solid" style="left:250px; top:349px; width:700px; height:2px;"></div>
@@ -82,83 +82,111 @@
                 <div class="org-line-solid" style="left:849px; top:500px; width:2px; height:80px;"></div>
                 <div class="org-line-solid" style="left:850px; top:579px; width:50px; height:2px;"></div>
 
+                @php
+                    $rw = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'rw'));
+                    $sek = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'sekretaris'));
+                    $ben = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'bendahara'));
+                    $dkm = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'dkm'));
+                    
+                    $rt23 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'ketua rt 23') || str_contains(strtolower($s->position), 'ketua 23'));
+                    $rt24 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'ketua rt 24') || str_contains(strtolower($s->position), 'ketua 24'));
+                    $rt25 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'ketua rt 25') || str_contains(strtolower($s->position), 'ketua 25'));
+
+                    $hum23 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'humas rt 23'));
+                    $hum24 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'humas rt 24'));
+                    $hum25 = $staffs->first(fn($s) => str_contains(strtolower($s->position), 'humas rt 25'));
+                    
+                    $bg = fn($s) => $s?->image ? (Str::startsWith($s->image, 'http') ? $s->image : asset('storage/'.$s->image)) : '';
+                    $pos = fn($s, $def) => strtoupper($s?->position ?? $def);
+                    $name = fn($s, $def) => strtoupper($s?->name ?? $def);
+                @endphp
+
                 <!-- Level 1 -->
                 <div class="org-box" style="left:470px; top:0px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($rw) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>KETUA RW 09</strong>
-                        PARDIANSYAH
+                        <strong>{{ $pos($rw, 'KETUA RW 09') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($rw, 'PARDIANSYAH') }}</div>
                     </div>
                 </div>
 
                 <!-- Level 2 -->
                 <div class="org-box" style="left:250px; top:180px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($sek) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>SEKRETARIS</strong>
-                        EDY PURGIYANTO
+                        <strong>{{ $pos($sek, 'SEKRETARIS') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($sek, 'EDY PURGIYANTO') }}</div>
                     </div>
                 </div>
                 <div class="org-box" style="left:690px; top:180px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($ben) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>BENDAHARA</strong>
-                        M STIAWAN
+                        <strong>{{ $pos($ben, 'BENDAHARA') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($ben, 'M STIAWAN') }}</div>
                     </div>
                 </div>
-                <div class="org-box" style="left:920px; top:180px;">
-                    <div class="org-photo"></div>
+                <div class="org-box" style="left:1000px; top:180px;">
+                    <div class="org-photo" style="background-image: url('{{ $bg($dkm) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>DKM AL-MUQIMIN</strong>
+                        <strong>{{ $pos($dkm, 'DKM AL-MUQIMIN') }}</strong>
+                        @if($dkm && $dkm->name !== '-' && !empty(trim($dkm->name)))
+                            <div class="text-[12px] leading-tight mt-1">{{ $name($dkm, '') }}</div>
+                        @endif
                     </div>
                 </div>
 
                 <!-- Level 3 -->
                 <div class="org-box" style="left:120px; top:400px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($rt23) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>KETUA 23</strong>
-                        EDY SUSANTO
+                        <strong>{{ $pos($rt23, 'KETUA 23') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($rt23, 'EDY SUSANTO') }}</div>
                     </div>
                 </div>
                 <div class="org-box" style="left:470px; top:400px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($rt24) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>KETUA RT 24</strong>
-                        ATI SURYATI
+                        <strong>{{ $pos($rt24, 'KETUA RT 24') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($rt24, 'ATI SURYATI') }}</div>
                     </div>
                 </div>
                 <div class="org-box" style="left:820px; top:400px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($rt25) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>KETUA RT 25</strong>
-                        FAISAL
+                        <strong>{{ $pos($rt25, 'KETUA RT 25') }}</strong>
+                        <div class="text-[12px] leading-tight mt-1">{{ $name($rt25, 'FAISAL') }}</div>
                     </div>
                 </div>
 
                 <!-- Level 4 -->
                 <div class="org-box" style="left:200px; top:530px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($hum23) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>HUMAS RT 23</strong>
-                        SUKIA
+                        <strong>{{ $pos($hum23, 'HUMAS RT 23') }}</strong>
+                        <div class="text-[11px] leading-tight mt-1">{{ $name($hum23, 'SUKIA') }}</div>
                     </div>
                 </div>
                 <div class="org-box" style="left:550px; top:530px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($hum24) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>HUMAS RT 24</strong>
-                        <div class="text-left text-xs pl-6">
-                            1. EDY YUSMANTO<br>
-                            2. GEPENG
+                        <strong>{{ $pos($hum24, 'HUMAS RT 24') }}</strong>
+                        <div class="text-[11px] leading-tight mt-1">
+                            @if($hum24 && !empty(trim($hum24->name)))
+                                {!! nl2br(e($name($hum24, ''))) !!}
+                            @else
+                                <div class="text-left text-xs pl-6">
+                                    1. EDY YUSMANTO<br>
+                                    2. GEPENG
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="org-box" style="left:900px; top:530px;">
-                    <div class="org-photo"></div>
+                    <div class="org-photo" style="background-image: url('{{ $bg($hum25) }}'); background-size: cover; background-position: center;"></div>
                     <div class="org-text">
-                        <strong>HUMAS RT 25</strong>
-                        WAHONO
+                        <strong>{{ $pos($hum25, 'HUMAS RT 25') }}</strong>
+                        <div class="text-[11px] leading-tight mt-1">{{ $name($hum25, 'WAHONO') }}</div>
                     </div>
                 </div>
             </div>

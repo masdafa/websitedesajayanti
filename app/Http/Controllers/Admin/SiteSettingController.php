@@ -24,9 +24,6 @@ class SiteSettingController extends Controller
             'profil_text'      => 'nullable|string',
             'visi_text'        => 'nullable|string',
             'misi_text'        => 'nullable|string',
-            'dkm_profile_text' => 'nullable|string',
-            'dkm_vision_text'  => 'nullable|string',
-            'live_dakwah_url'  => 'nullable|string|url|max:255',
             'housing_map_image'=> 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 

@@ -7,52 +7,70 @@
 
             <!-- Foto -->
             <!-- Foto -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Foto <span class="text-red-500">*</span></label>
-                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-xl bg-gray-50 hover:bg-gray-100 transition relative" id="upload-wrapper">
+            {{-- Multiple Image Upload --}}
+            <div x-data="{ 
+                previews: [],
+                hasNewFiles: false,
+                handleFileChange(e) {
+                    let files = e.target.files;
+                    this.hasNewFiles = files.length > 0;
                     
-                    <!-- Preview Image -->
-                    <div id="preview-container" class="relative w-full max-w-sm hidden">
-                        <img id="preview-image" src="" class="w-full h-auto rounded-lg shadow-sm border border-gray-200 object-contain max-h-64">
-                        <button type="button" onclick="
-                            document.getElementById('image').value = '';
-                            document.getElementById('file-name').textContent = 'PNG, JPG, GIF hingga 3MB';
-                            document.getElementById('preview-container').classList.add('hidden');
-                            document.getElementById('placeholder-container').classList.remove('hidden');
-                        " class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-md transition focus:outline-none" title="Batalkan pilihan">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    if (!this.hasNewFiles) {
+                        this.previews = [];
+                        return;
+                    }
+                    
+                    this.previews = [];
+                    let count = files.length > 10 ? 10 : files.length;
+                    
+                    let newPreviews = [];
+                    for(let i = 0; i < count; i++) {
+                        newPreviews.push(URL.createObjectURL(files[i]));
+                    }
+                    this.previews = newPreviews;
+                },
+                cancelFiles() {
+                    this.previews = [];
+                    this.hasNewFiles = false;
+                    this.$refs.fileInput.value = '';
+                }
+            }">
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Gambar / Foto <span class="text-gray-400 font-normal">(opsional, maks 10)</span></label>
+                
+                <div class="flex flex-col gap-4">
+                    <!-- Preview Area -->
+                    <div class="flex flex-wrap gap-3" x-show="previews.length > 0" x-cloak>
+                        <template x-for="(preview, index) in previews" :key="index">
+                            <div class="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden border border-gray-200 flex-shrink-0 relative group">
+                                <img :src="preview" class="w-full h-full object-cover">
+                            </div>
+                        </template>
+                    </div>
+                    
+                    <!-- Placeholder if empty -->
+                    <div class="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden border border-gray-200 flex items-center justify-center" x-show="previews.length === 0">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+
+                    <!-- Input & Cancel Button -->
+                    <div class="flex items-start gap-3">
+                        <div class="flex-grow">
+                            <input type="file" name="images[]" multiple accept="image/*" x-ref="fileInput"
+                                x-on:change="handleFileChange($event)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                            <p class="mt-1 text-xs text-gray-500">Pilih hingga 10 gambar sekaligus. Format: JPG, PNG, WEBP. Maks. 2MB per file.</p>
+                        </div>
+                        <button type="button" x-show="hasNewFiles" x-on:click="cancelFiles()" 
+                                class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2 border border-red-200" x-cloak>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Batal
                         </button>
                     </div>
-
-                    <!-- Upload Placeholder -->
-                    <div id="placeholder-container" class="space-y-1 text-center">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <div class="flex text-sm text-gray-600 justify-center">
-                            <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-emerald-600 hover:text-emerald-500 focus-within:outline-none px-2 py-1 shadow-sm border border-gray-200">
-                                <span>Pilih file foto</span>
-                                <input id="image" name="image" type="file" class="sr-only" accept="image/*" required 
-                                       onchange="
-                                           if(this.files.length === 0) return;
-                                           document.getElementById('file-name').textContent = this.files[0].name;
-                                           let reader = new FileReader();
-                                           reader.onload = (e) => { 
-                                               document.getElementById('preview-image').src = e.target.result;
-                                               document.getElementById('preview-container').classList.remove('hidden');
-                                               document.getElementById('placeholder-container').classList.add('hidden');
-                                           };
-                                           reader.readAsDataURL(this.files[0]);
-                                       ">
-                            </label>
-                        </div>
-                        <p class="text-xs text-gray-500 font-medium mt-2" id="file-name">PNG, JPG, GIF hingga 3MB</p>
-                    </div>
                 </div>
-                @error('image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                @error('images') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                @error('images.*') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
-
-            <!-- Judul -->
+<!-- Judul -->
             <div>
                 <label class="block text-sm font-semibold text-gray-900 mb-2">Judul Foto <span class="text-red-500">*</span></label>
                 <input type="text" name="title" value="{{ old('title') }}" required

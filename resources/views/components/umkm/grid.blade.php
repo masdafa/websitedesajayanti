@@ -4,8 +4,8 @@
     @forelse($products as $product)
         <div data-aos="fade-up" data-aos-delay="{{ ($loop->index % 4) * 80 }}" class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden card-hover group">
             <div class="aspect-square bg-gray-100 overflow-hidden relative">
-                @if(!empty($product->image))
-                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                @if(!empty((!empty($product->images) ? $product->images[0] : null)))
+                    <img src="{{ Str::startsWith((!empty($product->images) ? $product->images[0] : null), 'http') ? (!empty($product->images) ? $product->images[0] : null) : asset('storage/'.(!empty($product->images) ? $product->images[0] : null)) }}" alt="{{ $product->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                 @else
                     <div class="w-full h-full flex items-center justify-center text-gray-300 bg-gradient-to-br from-green-50 to-emerald-100">
                         <svg class="w-16 h-16 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>

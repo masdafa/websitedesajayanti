@@ -102,15 +102,6 @@
             const incomeInput = document.getElementById('income-input');
             const expenseInput = document.getElementById('expense-input');
             const balanceInput = document.getElementById('balance-input');
-
-            function calculateBalance() {
-                const income = parseFloat(incomeInput.value) || 0;
-                const expense = parseFloat(expenseInput.value) || 0;
-                balanceInput.value = income - expense;
-            }
-
-            incomeInput.addEventListener('input', calculateBalance);
-            expenseInput.addEventListener('input', calculateBalance);
             
             window.editData = function(month, income, expense, balance) {
                 document.getElementById('month-input').value = month;

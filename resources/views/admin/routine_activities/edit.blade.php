@@ -9,11 +9,7 @@
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
                 @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Ikon (SVG Path) <span class="text-red-500">*</span></label>
-                <textarea name="icon" rows="3" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3 font-mono">{{ old('icon', $routineActivity->icon) }}</textarea>
-                @error('icon') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+            <input type="hidden" name="icon" value="{{ old('icon', $routineActivity->icon) }}">    @error('icon') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-900 mb-2">No. Urut Tampil</label>

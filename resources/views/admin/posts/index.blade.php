@@ -1,12 +1,18 @@
-<x-admin-layout title="Berita & Artikel">
-    <x-slot:breadcrumb>Kelola semua berita dan artikel desa</x-slot:breadcrumb>
+<x-admin-layout title="Berita & Pengumuman">
+    <x-slot:breadcrumb>Kelola semua berita dan pengumuman desa</x-slot:breadcrumb>
 
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row gap-4 items-center justify-between">
-            <form method="GET" action="{{ route('admin.posts.index') }}" class="w-full sm:max-w-md flex gap-2">
+        <div class="p-4 sm:p-6 border-b border-gray-100 flex flex-col lg:flex-row gap-4 items-center justify-between">
+            <form method="GET" action="{{ route('admin.posts.index') }}" class="w-full lg:flex-1 flex flex-col sm:flex-row gap-2">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari judul..." 
-                    class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5">
+                    class="flex-1 min-w-[200px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-2.5">
                 
+                <select name="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 px-4 py-2.5">
+                    <option value="">Semua Tipe</option>
+                    <option value="berita" {{ request('type') === 'berita' ? 'selected' : '' }}>Berita</option>
+                    <option value="pengumuman" {{ request('type') === 'pengumuman' ? 'selected' : '' }}>Pengumuman</option>
+                </select>
+
                 <select name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 px-4 py-2.5">
                     <option value="">Semua Status</option>
                     <option value="published" {{ request('status') === 'published' ? 'selected' : '' }}>Publikasi</option>
@@ -15,11 +21,16 @@
 
                 <button type="submit" class="bg-gray-800 text-white px-4 py-2.5 rounded-xl hover:bg-gray-900 transition">Cari</button>
             </form>
-            
-            <a href="{{ route('admin.posts.create') }}" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-2.5 px-5 rounded-xl transition flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah Berita
-            </a>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <a href="{{ route('admin.posts.create', ['type' => 'berita']) }}" class="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Tambah Berita
+                </a>
+                <a href="{{ route('admin.posts.create', ['type' => 'pengumuman']) }}" class="flex-1 sm:flex-none bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Tambah Pengumuman
+                </a>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -28,6 +39,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-4 font-bold">Foto</th>
                         <th scope="col" class="px-6 py-4 font-bold">Judul Berita</th>
+                        <th scope="col" class="px-6 py-4 font-bold">Tipe</th>
                         <th scope="col" class="px-6 py-4 font-bold">Status</th>
                         <th scope="col" class="px-6 py-4 font-bold">Dibuat</th>
                         <th scope="col" class="px-6 py-4 text-right font-bold">Aksi</th>
@@ -38,8 +50,8 @@
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4">
                                 <div class="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden">
-                                    @if($post->image)
-                                        <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" class="w-full h-full object-cover">
+                                    @if((!empty($post->images) ? $post->images[0] : null))
+                                        <img src="{{ Str::startsWith((!empty($post->images) ? $post->images[0] : null), 'http') ? (!empty($post->images) ? $post->images[0] : null) : asset('storage/'.(!empty($post->images) ? $post->images[0] : null)) }}" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-gray-300">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -49,6 +61,13 @@
                             </td>
                             <td class="px-6 py-4 font-semibold text-gray-900 max-w-xs truncate" title="{{ $post->title }}">
                                 {{ $post->title }}
+                            </td>
+                            <td class="px-6 py-4">
+                                @if($post->type === 'pengumuman')
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 border border-orange-200">Pengumuman</span>
+                                @else
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 border border-blue-200">Berita</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 <span class="px-2.5 py-1 rounded-full text-xs font-semibold {{ $post->is_published ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600 border border-gray-200' }}">

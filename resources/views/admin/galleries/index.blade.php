@@ -19,8 +19,8 @@
             @forelse($galleries as $gallery)
                 <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition group">
                     <div class="aspect-w-4 aspect-h-3 bg-gray-100 relative">
-                        @if($gallery->image)
-                            <img src="{{ Str::startsWith($gallery->image, 'http') ? $gallery->image : asset('storage/'.$gallery->image) }}" class="w-full h-48 object-cover">
+                        @if((!empty($gallery->images) ? $gallery->images[0] : null))
+                            <img src="{{ Str::startsWith((!empty($gallery->images) ? $gallery->images[0] : null), 'http') ? (!empty($gallery->images) ? $gallery->images[0] : null) : asset('storage/'.(!empty($gallery->images) ? $gallery->images[0] : null)) }}" class="w-full h-48 object-cover">
                         @else
                             <div class="w-full h-48 flex items-center justify-center text-gray-300">
                                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>

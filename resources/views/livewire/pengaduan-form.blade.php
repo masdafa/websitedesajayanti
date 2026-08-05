@@ -17,6 +17,8 @@
                 :is-locked="$isLocked" 
                 :category="$category" 
                 :services="$services" 
+                :captchaNum1="$captchaNum1"
+                :captchaNum2="$captchaNum2"
             />
             
             <div class="mt-8 text-center">

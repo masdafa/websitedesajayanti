@@ -17,12 +17,7 @@
                     @error('schedule') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="mb-5">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Ikon (SVG atau Teks/Emoji)</label>
-                    <input type="text" name="icon" value="{{ old('icon', $dkmActivity->icon) }}"
-                        class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 shadow-sm transition duration-150">
-                    @error('icon') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
+                <input type="hidden" name="icon" value="{{ old('icon', $dkmActivity->icon) }}">
 
                 <div class="mb-5">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>

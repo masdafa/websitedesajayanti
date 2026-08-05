@@ -30,13 +30,18 @@ class ProductController extends Controller
             'name'            => 'required|string|max:255',
             'price'           => 'nullable|integer|min:0',
             'description'     => 'nullable|string',
-            'image'           => 'nullable|image|max:2048',
+            'images'          => 'nullable|array|max:10',
+            'images.*'        => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'seller_name'     => 'nullable|string|max:255',
             'whatsapp_number' => 'nullable|string|max:20',
         ]);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('products', 'public');
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('products', 'public');
+            }
+            $data['images'] = $imagePaths;
         }
 
         Product::create($data);
@@ -54,16 +59,23 @@ class ProductController extends Controller
             'name'            => 'required|string|max:255',
             'price'           => 'nullable|integer|min:0',
             'description'     => 'nullable|string',
-            'image'           => 'nullable|image|max:2048',
+            'images'          => 'nullable|array|max:10',
+            'images.*'        => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'seller_name'     => 'nullable|string|max:255',
             'whatsapp_number' => 'nullable|string|max:20',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                \Storage::disk('public')->delete($product->image);
+        if ($request->hasFile('images')) {
+            if (!empty($product->images)) {
+                foreach ($product->images as $img) {
+                    if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+                }
             }
-            $data['image'] = $request->file('image')->store('products', 'public');
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('products', 'public');
+            }
+            $data['images'] = $imagePaths;
         }
 
         $product->update($data);
@@ -72,8 +84,10 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        if ($product->image) {
-            \Storage::disk('public')->delete($product->image);
+        if (!empty($product->images)) {
+            foreach ($product->images as $img) {
+                if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+            }
         }
         $product->delete();
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');

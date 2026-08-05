@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityRegistration extends Model
 {
-    protected $fillable = ['name', 'phone', 'activity_name', 'notes', 'status'];
+    protected $fillable = ['name', 'phone', 'address', 'activity_name', 'notes', 'status'];
 }

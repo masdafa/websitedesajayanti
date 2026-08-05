@@ -65,31 +65,7 @@
                 <p class="mt-1 text-xs text-gray-500">Pisahkan tiap poin misi dengan Enter (baris baru).</p>
             </div>
 
-            <div class="border-b border-gray-100 pb-4 mt-8 mb-2">
-                <h2 class="text-lg font-bold text-gray-800">Section DKM Musholla</h2>
-                <p class="text-sm text-gray-500 mt-1">Teks yang tampil di halaman DKM Musholla.</p>
-            </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Teks Profil DKM</label>
-                <textarea name="dkm_profile_text" rows="5"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                    placeholder="Uraian singkat tentang profil DKM...">{{ old('dkm_profile_text', $settings['dkm_profile_text'] ?? '') }}</textarea>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Visi & Misi DKM</label>
-                <textarea name="dkm_vision_text" rows="5"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                    placeholder="Visi dan misi DKM...">{{ old('dkm_vision_text', $settings['dkm_vision_text'] ?? '') }}</textarea>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">URL Live Dakwah (Saluran Dakwah)</label>
-                <input type="url" name="live_dakwah_url" value="{{ old('live_dakwah_url', $settings['live_dakwah_url'] ?? '') }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                    placeholder="Contoh: https://youtube.com/...">
-            </div>
 
             <div class="border-b border-gray-100 pb-4 mt-8 mb-2">
                 <h2 class="text-lg font-bold text-gray-800">Section Peta & Denah</h2>

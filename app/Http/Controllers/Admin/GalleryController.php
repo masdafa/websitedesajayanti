@@ -28,11 +28,18 @@ class GalleryController extends Controller
         $data = $request->validate([
             'title'          => 'required|string|max:255',
             'description'    => 'nullable|string|max:500',
-            'image'          => 'required|image|max:3072',
+            'images'         => 'required|array|max:10|min:1',
+            'images.*'       => 'image|mimes:jpeg,png,jpg,webp|max:3072',
             'published_date' => 'nullable|date',
         ]);
 
-        $data['image'] = $request->file('image')->store('gallery', 'public');
+        $imagePaths = [];
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('gallery', 'public');
+            }
+        }
+        $data['images'] = $imagePaths;
         if (empty($data['published_date'])) {
             $data['published_date'] = now();
         }
@@ -51,15 +58,22 @@ class GalleryController extends Controller
         $data = $request->validate([
             'title'          => 'required|string|max:255',
             'description'    => 'nullable|string|max:500',
-            'image'          => 'nullable|image|max:3072',
+            'images'         => 'nullable|array|max:10',
+            'images.*'       => 'image|mimes:jpeg,png,jpg,webp|max:3072',
             'published_date' => 'nullable|date',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($gallery->image) {
-                \Storage::disk('public')->delete($gallery->image);
+        if ($request->hasFile('images')) {
+            if (!empty($gallery->images)) {
+                foreach ($gallery->images as $img) {
+                    if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+                }
             }
-            $data['image'] = $request->file('image')->store('gallery', 'public');
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('gallery', 'public');
+            }
+            $data['images'] = $imagePaths;
         }
         
         if (empty($data['published_date'])) {
@@ -72,8 +86,10 @@ class GalleryController extends Controller
 
     public function destroy(Gallery $gallery)
     {
-        if ($gallery->image) {
-            \Storage::disk('public')->delete($gallery->image);
+        if (!empty($gallery->images)) {
+            foreach ($gallery->images as $img) {
+                if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+            }
         }
         $gallery->delete();
         return redirect()->route('admin.galleries.index')->with('success', 'Foto galeri berhasil dihapus.');

@@ -6,9 +6,9 @@
     <div class="relative bg-emerald-950 overflow-hidden" style="min-height: 440px;">
 
         {{-- Background Image --}}
-        @if($post->image)
+        @if(!empty($post->images) && isset($post->images[0]))
             <div class="absolute inset-0">
-                <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}"
+                <img src="{{ Str::startsWith($post->images[0], 'http') ? $post->images[0] : asset('storage/'.$post->images[0]) }}"
                      alt="{{ $post->title }}"
                      class="w-full h-full object-cover">
                 <div class="absolute inset-0" style="background: linear-gradient(to bottom, rgba(4,30,20,0.55) 0%, rgba(4,50,35,0.88) 65%, rgba(4,30,20,0.97) 100%);"></div>
@@ -83,11 +83,44 @@
                 <article class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
                     {{-- Featured image inside article (if available) --}}
-                    @if($post->image)
-                        <div class="w-full overflow-hidden border-b border-gray-100" style="height: 380px;">
-                            <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}"
-                                 alt="{{ $post->title }}"
-                                 class="w-full h-full object-cover object-center">
+                    @if(!empty($post->images))
+                        <div class="w-full overflow-hidden border-b border-gray-100 relative group" style="height: 380px;" x-data="{ activeSlide: 0, slides: {{ json_encode($post->images) }} }">
+                            
+                            <!-- Slides -->
+                            <template x-for="(slide, index) in slides" :key="index">
+                                <img x-show="activeSlide === index"
+                                     x-transition:enter="transition ease-out duration-500"
+                                     x-transition:enter-start="opacity-0 transform scale-95"
+                                     x-transition:enter-end="opacity-100 transform scale-100"
+                                     :src="slide.startsWith('http') ? slide : '{{ asset('storage/') }}/' + slide"
+                                     alt="{{ $post->title }}"
+                                     class="w-full h-full object-cover object-center absolute inset-0">
+                            </template>
+
+                            <!-- Prev/Next Arrows -->
+                            <template x-if="slides.length > 1">
+                                <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <button @click="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1" 
+                                            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-2.5 rounded-full shadow-lg transition z-10 focus:outline-none">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                    </button>
+                                    <button @click="activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1" 
+                                            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white text-gray-800 p-2.5 rounded-full shadow-lg transition z-10 focus:outline-none">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                    </button>
+                                </div>
+                            </template>
+                            
+                            <!-- Indicators -->
+                            <template x-if="slides.length > 1">
+                                <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10 bg-black/30 px-3 py-1.5 rounded-full backdrop-blur-sm">
+                                    <template x-for="(slide, index) in slides" :key="index">
+                                        <button @click="activeSlide = index"
+                                                :class="activeSlide === index ? 'w-6 bg-emerald-400' : 'w-2.5 bg-white/60 hover:bg-white'"
+                                                class="h-2.5 rounded-full shadow transition-all duration-300 focus:outline-none"></button>
+                                    </template>
+                                </div>
+                            </template>
                         </div>
                     @endif
 

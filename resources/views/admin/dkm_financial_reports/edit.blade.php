@@ -52,13 +52,6 @@
     </div>
 
     <script>
-        document.getElementById('income').addEventListener('input', calculateBalance);
-        document.getElementById('expense').addEventListener('input', calculateBalance);
-
-        function calculateBalance() {
-            let income = parseFloat(document.getElementById('income').value) || 0;
-            let expense = parseFloat(document.getElementById('expense').value) || 0;
-            document.getElementById('balance').value = income - expense;
-        }
+        // Automatic balance calculation has been removed to allow manual input of cumulative balance
     </script>
 </x-admin-layout>

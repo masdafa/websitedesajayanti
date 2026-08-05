@@ -13,8 +13,8 @@
 
         <div class="max-w-5xl mx-auto">
             <div class="bg-gray-50 p-4 md:p-8 rounded-3xl shadow-lg border border-gray-100 relative group" x-data="{}" x-intersect="$el.classList.add('animate-fade-in-up')" style="animation-delay: 100ms;">
-                <a href="{{ Storage::url($mapImage) }}" target="_blank" title="Klik untuk memperbesar denah" class="block overflow-hidden rounded-2xl relative">
-                    <img src="{{ Storage::url($mapImage) }}" alt="Denah Perumahan" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 cursor-zoom-in">
+                <a href="{{ asset('storage/' . $mapImage) }}" target="_blank" title="Klik untuk memperbesar denah" class="block overflow-hidden rounded-2xl relative">
+                    <img src="{{ asset('storage/' . $mapImage) }}" alt="Denah Perumahan" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 cursor-zoom-in">
                     
                     <div class="absolute inset-0 bg-emerald-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center pointer-events-none">
                         <div class="bg-white/90 backdrop-blur-sm text-emerald-800 font-bold px-6 py-3 rounded-full flex items-center gap-3 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 shadow-xl">

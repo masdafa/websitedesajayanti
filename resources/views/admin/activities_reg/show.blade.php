@@ -22,6 +22,10 @@
                             <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">No. Handphone / WA</p>
                             <p class="text-gray-900 font-medium">{{ $activities_reg->phone ?: '-' }}</p>
                         </div>
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Alamat Rumah</p>
+                            <p class="text-gray-900 font-medium">{{ $activities_reg->address ?: '-' }}</p>
+                        </div>
                     </div>
                     
                     <hr class="border-gray-100 border-dashed">

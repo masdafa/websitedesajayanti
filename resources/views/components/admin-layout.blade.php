@@ -19,6 +19,7 @@
         .sidebar-link.active { border-left: 3px solid #6ee7b7; font-weight: 700; }
         .fade-in { animation: fadeIn .3s ease; }
         @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 antialiased">
@@ -39,6 +40,8 @@
 
         <!-- Nav -->
         <nav id="sidebar-nav" class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+            @php $role = auth()->user()->role ?? 'admin'; @endphp
+            
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mb-3">Menu Utama</p>
 
             <a href="{{ route('admin.dashboard') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -46,33 +49,42 @@
                 Dashboard
             </a>
 
+            @if($role === 'admin')
             <a href="{{ route('admin.residents.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.residents.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Data Warga
             </a>
+            @endif
 
-            <a href="{{ route('admin.posts.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                Berita & Artikel
+            @if($role === 'admin' || $role === 'karang_taruna')
+            <a href="{{ route('admin.posts.index') }}" class="group flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all {{ request()->routeIs('admin.posts.*') ? 'bg-white/10 text-white shadow-sm' : 'text-emerald-100 hover:bg-white/10 hover:text-white' }}">
+                <svg class="mr-3 flex-shrink-0 h-5 w-5 {{ request()->routeIs('admin.posts.*') ? 'text-white' : 'text-emerald-200 group-hover:text-white' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                Berita & Pengumuman
             </a>
 
             <a href="{{ route('admin.galleries.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.galleries.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Galeri Foto
             </a>
+            @endif
 
+            @if($role === 'admin')
             <a href="{{ route('admin.staff.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.staff.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Pengurus RT/RW
             </a>
+            @endif
 
+            @if($role === 'admin' || $role === 'karang_taruna')
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Konten & Layanan</p>
 
             <a href="{{ route('admin.agendas.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.agendas.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Agenda Kegiatan
             </a>
+            @endif
 
+            @if($role === 'admin')
             <a href="{{ route('admin.products.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                 UMKM Warga
@@ -92,12 +104,20 @@
 
             <a href="{{ route('admin.reports.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                Pengaduan Warga
+                <span class="flex-1">Pengaduan Warga</span>
+                @php $reportCount = \App\Models\ResidentReport::count(); @endphp
+                @if($reportCount > 0)
+                <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $reportCount }}</span>
+                @endif
             </a>
 
             <a href="{{ route('admin.letters.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.letters.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                Surat Pengantar
+                <span class="flex-1">Surat Pengantar</span>
+                @php $letterCount = \App\Models\LetterRequest::count(); @endphp
+                @if($letterCount > 0)
+                <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{{ $letterCount }}</span>
+                @endif
             </a>
 
             <a href="{{ route('admin.activities-reg.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.activities-reg.*') ? 'active' : '' }}">
@@ -110,11 +130,10 @@
                 Buku Tamu Digital
             </a>
 
-            <a href="{{ route('admin.iuran.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.iuran.*') ? 'active' : '' }}">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Informasi Iuran
-            </a>
 
+            @endif
+
+            @if($role === 'admin')
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Konten Dinamis</p>
 
             <a href="{{ route('admin.facilities.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.facilities.*') ? 'active' : '' }}">
@@ -152,7 +171,25 @@
                 Iuran Ruko
             </a>
 
-            <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">DKM Musholla</p>
+
+            <a href="{{ route('admin.k3-deposits.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.k3-deposits.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                Setoran Iuran K3
+            </a>
+
+            <a href="{{ route('admin.k3-budgets.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.k3-budgets.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                Budgeting K3
+            </a>
+            @endif
+
+            @if($role === 'admin' || $role === 'dkm')
+            <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">DKM Al-Muqimin</p>
+
+            <a href="{{ route('admin.dkm-settings.edit') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-settings.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Pengaturan DKM
+            </a>
 
             <a href="{{ route('admin.dkm-activities.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-activities.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -174,12 +211,39 @@
                 Dokumentasi PHBI
             </a>
 
+            <a href="{{ route('admin.dkm-galleries.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.dkm-galleries.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Dokumentasi DKM
+            </a>
+            @endif
+
+            @if($role === 'admin')
+            <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Posyandu</p>
+
+            <a href="{{ route('admin.posyandu-profile.edit') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.posyandu-profile.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Profil Posyandu
+            </a>
+
+            <a href="{{ route('admin.posyandu-activities.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.posyandu-activities.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Kegiatan Posyandu
+            </a>
+
+            <a href="{{ route('admin.posyandu-galleries.index') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.posyandu-galleries.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Dokumentasi Posyandu
+            </a>
+            @endif
+
+            @if($role === 'admin')
             <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 mt-5 mb-3">Pengaturan</p>
 
             <a href="{{ route('admin.settings.edit') }}" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-emerald-100 text-sm {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Pengaturan Website
             </a>
+            @endif
 
         </nav>
 
@@ -196,7 +260,7 @@
             </div>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
-                <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-emerald-200 hover:bg-white/10 hover:text-white text-xs transition">
+                <button type="submit" class="w-full flex items-center gap-2 px-3 py-2 rounded-lg bg-red-500/10 text-red-400 font-bold hover:bg-red-500 hover:text-white hover:translate-x-1.5 transition-all duration-300 text-xs">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
                     Keluar
                 </button>

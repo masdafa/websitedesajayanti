@@ -18,6 +18,9 @@ class PostController extends Controller
         if ($request->filled('status')) {
             $query->where('is_published', $request->status === 'published');
         }
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
         $posts = $query->paginate(10)->withQueryString();
         return view('admin.posts.index', compact('posts'));
     }
@@ -32,19 +35,25 @@ class PostController extends Controller
         $data = $request->validate([
             'title'        => 'required|string|max:255',
             'slug'         => 'required|string|max:255|unique:posts,slug',
+            'type'         => 'required|in:berita,pengumuman',
             'content'      => 'required|string',
-            'image'        => 'nullable|image|max:2048',
+            'images'       => 'nullable|array|max:10',
+            'images.*'     => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_published' => 'nullable|boolean',
             'created_at'   => 'nullable|date',
         ]);
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('posts', 'public');
+        if ($request->hasFile('images')) {
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('posts', 'public');
+            }
+            $data['images'] = $imagePaths;
         }
         $data['is_published'] = $request->boolean('is_published');
 
         Post::create($data);
-        return redirect()->route('admin.posts.index')->with('success', 'Berita berhasil ditambahkan.');
+        return redirect()->route('admin.posts.index')->with('success', 'Berhasil ditambahkan.');
     }
 
     public function edit(Post $post)
@@ -57,28 +66,38 @@ class PostController extends Controller
         $data = $request->validate([
             'title'        => 'required|string|max:255',
             'slug'         => 'required|string|max:255|unique:posts,slug,' . $post->id,
+            'type'         => 'required|in:berita,pengumuman',
             'content'      => 'required|string',
-            'image'        => 'nullable|image|max:2048',
+            'images'       => 'nullable|array|max:10',
+            'images.*'     => 'image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_published' => 'nullable|boolean',
             'created_at'   => 'nullable|date',
         ]);
 
-        if ($request->hasFile('image')) {
-            if ($post->image) {
-                \Storage::disk('public')->delete($post->image);
+        if ($request->hasFile('images')) {
+            if (!empty($post->images)) {
+                foreach ($post->images as $img) {
+                    if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+                }
             }
-            $data['image'] = $request->file('image')->store('posts', 'public');
+            $imagePaths = [];
+            foreach ($request->file('images') as $image) {
+                $imagePaths[] = $image->store('posts', 'public');
+            }
+            $data['images'] = $imagePaths;
         }
         $data['is_published'] = $request->boolean('is_published');
 
         $post->update($data);
-        return redirect()->route('admin.posts.index')->with('success', 'Berita berhasil diperbarui.');
+        return redirect()->route('admin.posts.index')->with('success', 'Berhasil diperbarui.');
     }
 
     public function destroy(Post $post)
     {
-        if ($post->image) {
-            \Storage::disk('public')->delete($post->image);
+        if (!empty($post->images)) {
+            foreach ($post->images as $img) {
+                if (\Storage::disk('public')->exists($img)) \Storage::disk('public')->delete($img);
+            }
         }
         $post->delete();
         return redirect()->route('admin.posts.index')->with('success', 'Berita berhasil dihapus.');

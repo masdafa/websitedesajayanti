@@ -4,9 +4,11 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\GuestBook;
+use App\Livewire\Traits\WithPinAndCaptcha;
 
 class GuestBookForm extends Component
 {
+    use WithPinAndCaptcha;
     public $name;
     public $phone;
     public $origin;
@@ -22,8 +24,14 @@ class GuestBookForm extends Component
         'visit_date' => 'nullable|date',
     ];
 
+    public function mount()
+    {
+        $this->generateCaptcha();
+    }
+
     public function submit()
     {
+        $this->validatePinAndCaptcha();
         $this->validate();
 
         GuestBook::create([
@@ -35,7 +43,7 @@ class GuestBookForm extends Component
             'status' => 'pending',
         ]);
 
-        $this->reset(['name', 'phone', 'origin', 'purpose', 'visit_date']);
+        $this->reset(['name', 'phone', 'origin', 'purpose', 'visit_date', 'pin', 'captchaAnswer']);
         $this->successMessage = true;
     }
 

@@ -31,8 +31,8 @@
                     class="group relative overflow-hidden bg-gray-100 block 
                     {{ $isLarge ? 'md:col-span-2 sm:col-span-2' : 'md:col-span-1 sm:col-span-1' }} h-[250px] md:h-[300px]">
                     
-                    @if(!empty($gallery->image))
-                    <img src="{{ Str::startsWith($gallery->image, 'http') ? $gallery->image : asset('storage/'.$gallery->image) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                    @if(!empty((!empty($gallery->images) ? $gallery->images[0] : null)))
+                    <img src="{{ Str::startsWith((!empty($gallery->images) ? $gallery->images[0] : null), 'http') ? (!empty($gallery->images) ? $gallery->images[0] : null) : asset('storage/'.(!empty($gallery->images) ? $gallery->images[0] : null)) }}" alt="{{ $gallery->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-in-out">
                     @else
                     <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-200 font-medium">No Image</div>
                     @endif

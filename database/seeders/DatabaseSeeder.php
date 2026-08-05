@@ -20,20 +20,36 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $admins = [
-            ['email' => 'admin@jayanti.desa.id', 'name' => 'Admin Utama'],
-            ['email' => 'admin2@jayanti.desa.id', 'name' => 'Admin Dua'],
-            ['email' => 'admin3@jayanti.desa.id', 'name' => 'Admin Tiga'],
-            ['email' => 'admin4@jayanti.desa.id', 'name' => 'Admin Empat'],
+            [
+                'email' => 'pengurusrw@jayantiresidence.id', 
+                'name' => 'Pengurus RW', 
+                'password' => 'jayantiresidence-11',
+                'role' => 'admin'
+            ],
+            [
+                'email' => 'dkm@jayantiresidence.id', 
+                'name' => 'DKM Musholla', 
+                'password' => 'DKMJR99',
+                'role' => 'dkm'
+            ],
+            [
+                'email' => 'karangtaruna@jayantiresidence.id', 
+                'name' => 'Karang Taruna', 
+                'password' => 'KTjayantiresidence',
+                'role' => 'karang_taruna'
+            ],
         ];
 
+        // Clear existing users to apply the new 3 specific users
+        User::truncate();
+
         foreach ($admins as $admin) {
-            User::updateOrCreate(
-                ['email' => $admin['email']],
-                [
-                    'name' => $admin['name'],
-                    'password' => bcrypt('password'),
-                ]
-            );
+            User::create([
+                'name' => $admin['name'],
+                'email' => $admin['email'],
+                'password' => bcrypt($admin['password']),
+                'role' => $admin['role']
+            ]);
         }
 
         // Seed Posts

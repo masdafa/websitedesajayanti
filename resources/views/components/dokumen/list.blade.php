@@ -23,7 +23,7 @@
                 <p class="text-gray-400 text-xs mt-1">{{ strtoupper($ext) }} &bull; {{ $doc->created_at->format('d M Y') }}</p>
             </div>
             <!-- Download Button -->
-            <a href="{{ asset('storage/'.$doc->file_path) }}" download
+            <a href="{{ asset('storage/'.$doc->file_path) }}" download="{{ $doc->title }}.{{ pathinfo($doc->file_path, PATHINFO_EXTENSION) }}"
                class="flex-shrink-0 btn-primary text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 text-sm shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 Unduh

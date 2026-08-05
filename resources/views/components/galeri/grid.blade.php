@@ -2,28 +2,30 @@
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-    @if($galleries->filter(fn($g) => $g->image)->count() > 0)
+    @if($galleries->filter(fn($g) => (!empty($g->images) ? $g->images[0] : null))->count() > 0)
 
-        <!-- Header to match the image style -->
+        <!-- Header -->
         <div class="flex items-center gap-4 mb-10 w-full" data-aos="fade-up">
             <div class="h-[2px] bg-gray-900 w-16 md:w-48"></div>
             <h2 class="text-2xl md:text-3xl font-black text-gray-900 tracking-wide uppercase flex items-baseline gap-3">
                 Gallery
-                <span class="text-sm md:text-base font-normal text-gray-500 tracking-normal normal-case">{{ $galleries->filter(fn($g) => $g->image)->count() }} foto ditemukan</span>
+                <span class="text-sm md:text-base font-normal text-gray-500 tracking-normal normal-case">{{ $galleries->filter(fn($g) => (!empty($g->images) ? $g->images[0] : null))->count() }} foto ditemukan</span>
             </h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-2" id="gallery-grid">
-            @foreach($galleries->filter(fn($g) => $g->image) as $index => $gallery)
+            @foreach($galleries->filter(fn($g) => (!empty($g->images) ? $g->images[0] : null)) as $index => $gallery)
                 @php
-                    // Pattern block of 6 items: [2 cols, 1 col, 1 col], [1 col, 1 col, 2 cols]
                     $isLarge = ($index % 6 == 0) || ($index % 6 == 5);
+                    $firstImage = Str::startsWith($gallery->images[0], 'http') ? $gallery->images[0] : asset('storage/'.$gallery->images[0]);
+                    $allImages = collect($gallery->images ?? [])->map(fn($img) => Str::startsWith($img, 'http') ? $img : asset('storage/'.$img))->toArray();
+                    $imageCount = count($allImages);
                 @endphp
-                <div data-aos="fade-up" data-aos-delay="{{ ($index % 6) * 100 }}" 
+                <div data-aos="fade-up" data-aos-delay="{{ ($index % 6) * 100 }}"
                      class="group relative bg-gray-100 overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow {{ $isLarge ? 'md:col-span-2' : 'md:col-span-1' }} h-[300px] lg:h-[350px]"
-                     onclick="galleryOpenLightbox('{{ Str::startsWith($gallery->image, 'http') ? $gallery->image : asset('storage/'.$gallery->image) }}', '{{ addslashes($gallery->title) }}', '{{ addslashes($gallery->description ?? '') }}')">
+                     onclick="galleryOpenLightbox({{ json_encode($allImages) }}, '{{ addslashes($gallery->title) }}', '{{ addslashes($gallery->description ?? '') }}')">
 
-                    <img src="{{ Str::startsWith($gallery->image, 'http') ? $gallery->image : asset('storage/'.$gallery->image) }}"
+                    <img src="{{ $firstImage }}"
                             alt="{{ $gallery->title }}"
                             class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105" />
 
@@ -41,8 +43,18 @@
                             </p>
                         @endif
                     </div>
-                    
-                    {{-- Top right badge icon --}}
+
+                    {{-- Multi-image badge --}}
+                    @if($imageCount > 1)
+                    <div class="absolute top-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm text-white text-xs font-semibold px-2.5 py-1.5 rounded-full">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                        </svg>
+                        {{ $imageCount }}
+                    </div>
+                    @endif
+
+                    {{-- Top right icon --}}
                     <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div class="bg-white/20 backdrop-blur-md border border-white/40 rounded-full w-10 h-10 flex items-center justify-center shadow-lg">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

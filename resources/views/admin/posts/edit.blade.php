@@ -1,81 +1,75 @@
-<x-admin-layout title="Edit Berita">
-    <x-slot:breadcrumb>Ubah konten berita atau artikel</x-slot:breadcrumb>
+@php
+    $initialType = old('type', $post->type);
+    $initialLabel = $initialType === 'pengumuman' ? 'Pengumuman' : 'Berita';
+@endphp
+<x-admin-layout title="Edit {{ $initialLabel }}">
+    <x-slot:breadcrumb>Ubah konten {{ strtolower($initialLabel) }}</x-slot:breadcrumb>
 
-    {{-- Quill CSS --}}
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
-    <style>
-        #quill-editor { min-height: 260px; font-size: 14px; background: #f9fafb; border-radius: 0 0 0.75rem 0.75rem; }
-        .ql-toolbar { border-radius: 0.75rem 0.75rem 0 0 !important; border-color: #d1d5db !important; background: #fff; }
-        .ql-container { border-color: #d1d5db !important; border-radius: 0 0 0.75rem 0.75rem !important; }
-        .ql-editor { min-height: 240px; }
-    </style>
-
-    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden max-w-4xl">
-        <form action="{{ route('admin.posts.update', $post) }}" method="POST" enctype="multipart/form-data" class="p-6 sm:p-8 space-y-6">
-            @csrf
-            @method('PUT')
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <!-- Judul -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-900 mb-2">Judul Berita <span class="text-red-500">*</span></label>
-                    <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                        placeholder="Masukkan judul berita">
-                    @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Slug -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-900 mb-2">Slug URL <span class="text-red-500">*</span></label>
-                    <input type="text" name="slug" id="slug" value="{{ old('slug', $post->slug) }}" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
-                        placeholder="judul-berita-anda">
-                    @error('slug') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-
-                <!-- Tanggal Berita -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-900 mb-2">Tanggal Berita</label>
-                    <input type="datetime-local" name="created_at" id="created_at" value="{{ old('created_at', $post->created_at->format('Y-m-d\TH:i')) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('created_at') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                </div>
-            </div>
-
-            <!-- Konten -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Isi Berita <span class="text-red-500">*</span></label>
-                {{-- Hidden input yang dikirim ke server --}}
-                <input type="hidden" name="content" id="content-input">
-                {{-- Quill editor --}}
-                <div id="quill-editor"></div>
-                @error('content') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-            </div>
-
-            <!-- Foto -->
-            <div>
-                <label class="block text-sm font-semibold text-gray-900 mb-2">Foto Sampul</label>
+    {{-- Multiple Image Upload --}}
+            <div x-data="{ 
+                initialPreviews: {{ json_encode(collect($post->images ?? [])->map(fn($img) => asset('storage/'.$img))->toArray()) }},
+                previews: {{ json_encode(collect($post->images ?? [])->map(fn($img) => asset('storage/'.$img))->toArray()) }},
+                hasNewFiles: false,
+                handleFileChange(e) {
+                    let files = e.target.files;
+                    this.hasNewFiles = files.length > 0;
+                    
+                    if (!this.hasNewFiles) {
+                        this.previews = JSON.parse(JSON.stringify(this.initialPreviews));
+                        return;
+                    }
+                    
+                    this.previews = [];
+                    let count = files.length > 10 ? 10 : files.length;
+                    
+                    let newPreviews = [];
+                    for(let i = 0; i < count; i++) {
+                        newPreviews.push(URL.createObjectURL(files[i]));
+                    }
+                    this.previews = newPreviews;
+                },
+                cancelFiles() {
+                    this.previews = JSON.parse(JSON.stringify(this.initialPreviews));
+                    this.hasNewFiles = false;
+                    this.$refs.fileInput.value = '';
+                }
+            }">
+                <label class="block text-sm font-semibold text-gray-900 mb-2">Gambar / Foto <span class="text-gray-400 font-normal">(opsional, maks 10)</span></label>
                 
-                @if($post->image)
-                    <div class="mb-4 flex items-start gap-4">
-                        <div class="w-32 h-24 rounded-lg bg-gray-100 overflow-hidden border border-gray-200">
-                            <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/'.$post->image) }}" class="w-full h-full object-cover">
-                        </div>
-                        <div class="text-xs text-gray-500 pt-1">
-                            <p class="font-medium text-gray-700 mb-1">Foto saat ini</p>
-                            <p>Upload foto baru untuk mengganti foto ini.</p>
-                        </div>
+                <div class="flex flex-col gap-4">
+                    <!-- Preview Area -->
+                    <div class="flex flex-wrap gap-3" x-show="previews.length > 0" x-cloak>
+                        <template x-for="(preview, index) in previews" :key="index">
+                            <div class="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden border border-gray-200 flex-shrink-0 relative group">
+                                <img :src="preview" class="w-full h-full object-cover">
+                            </div>
+                        </template>
                     </div>
-                @endif
+                    
+                    <!-- Placeholder if empty -->
+                    <div class="w-24 h-24 rounded-xl bg-gray-100 overflow-hidden border border-gray-200 flex items-center justify-center" x-show="previews.length === 0">
+                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
 
-                <input type="file" name="image" accept="image/*"
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-xl cursor-pointer bg-gray-50 focus:outline-none file:mr-4 file:py-3 file:px-4 file:rounded-l-xl file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG. Maksimal 2MB.</p>
-                @error('image') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <!-- Input & Cancel Button -->
+                    <div class="flex items-start gap-3">
+                        <div class="flex-grow">
+                            <input type="file" name="images[]" multiple accept="image/*" x-ref="fileInput"
+                                x-on:change="handleFileChange($event)"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                            <p class="mt-1 text-xs text-gray-500">Pilih hingga 10 gambar sekaligus. Memilih file baru akan menggantikan gambar lama. Format: JPG, PNG, WEBP. Maks. 2MB per file.</p>
+                        </div>
+                        <button type="button" x-show="hasNewFiles" x-on:click="cancelFiles()" 
+                                class="bg-red-50 hover:bg-red-100 text-red-600 px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center gap-2 border border-red-200" x-cloak>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            Batal
+                        </button>
+                    </div>
+                </div>
+                @error('images') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                @error('images.*') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
             </div>
-
-            <!-- Status Publikasi -->
+<!-- Status Publikasi -->
             <div>
                 <label class="inline-flex items-center cursor-pointer">
                     <input type="hidden" name="is_published" value="0">
@@ -91,7 +85,7 @@
                         Simpan Perubahan
                     </button>
                     <a href="{{ route('admin.posts.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-2.5 px-6 rounded-xl transition">
-                        Batal
+                        Kembali
                     </a>
                 </div>
                 <button type="submit" form="delete-form" class="bg-red-50 hover:bg-red-500 text-red-600 hover:text-white border border-red-200 font-bold py-2.5 px-6 rounded-xl transition flex items-center gap-2">

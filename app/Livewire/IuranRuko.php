@@ -3,10 +3,23 @@
 namespace App\Livewire;
 
 use App\Models\RukoFinancialReport;
+use App\Models\RukoDeposit;
 use Livewire\Component;
 
 class IuranRuko extends Component
 {
+    public $selectedYear;
+
+    public function mount()
+    {
+        $this->selectedYear = (int) date('Y');
+    }
+
+    public function setYear($year)
+    {
+        $this->selectedYear = $year;
+    }
+
     public function render()
     {
         $currentYear = (int) date('Y');
@@ -27,7 +40,6 @@ class IuranRuko extends Component
             
             $income = RukoFinancialReport::where('year', $year)->sum('income');
             $expense = RukoFinancialReport::where('year', $year)->sum('expense');
-            // The yearly balance is the accumulation for the year (or total income - total expense)
             $balance = $income - $expense; 
             
             $totalIncome += $income;
@@ -47,6 +59,10 @@ class IuranRuko extends Component
         
         $totalBalance = $totalIncome - $totalExpense;
 
+        $rukoDeposits = RukoDeposit::where('year', $this->selectedYear)
+                                   ->orderBy('ruko_no')
+                                   ->get();
+
         return view('livewire.iuran-ruko', [
             'labels' => $labels,
             'incomeData' => $incomeData,
@@ -56,6 +72,8 @@ class IuranRuko extends Component
             'totalIncome' => $totalIncome,
             'totalExpense' => $totalExpense,
             'totalBalance' => $totalBalance,
+            'rukoDeposits' => $rukoDeposits,
+            'yearsList' => $years,
         ])->layout('layouts.app');
     }
 }

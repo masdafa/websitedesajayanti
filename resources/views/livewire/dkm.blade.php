@@ -1,8 +1,9 @@
 <div class="min-h-screen bg-slate-50" x-data="{ tab: 'profil' }">
+    <x-galeri.styles />
     <x-ui.page-hero 
-        title="DKM Musholla" 
-        subtitle="Dewan Kemakmuran Musholla Al-Muhajirin Perumahan Jayanti Residence."
-        badge="DKM Musholla"
+        title="DKM Al-Muqimin" 
+        subtitle="Dewan Kemakmuran Musholla Al-Muqimin Perumahan Jayanti Residence."
+        badge="DKM Al-Muqimin"
         theme="green"
     >
         <x-slot:icon>
@@ -19,6 +20,7 @@
                 { id: 'laporan', label: 'Laporan Keuangan' },
                 { id: 'ziswaf', label: 'Ziswaf' },
                 { id: 'phbi', label: 'PHBI' },
+                { id: 'dokumentasi', label: 'Dokumentasi' },
                 { id: 'saluran', label: 'Saluran Dakwah' }
             ]">
                 <button @click="tab = item.id"
@@ -35,7 +37,7 @@
             <!-- Tab Profil -->
             <div x-show="tab === 'profil'" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
                 <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Profil Musholla</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Profil DKM Al-Muqimin</h2>
                     <div class="prose max-w-none text-gray-600 leading-relaxed text-lg">
                         <p>{!! nl2br(e($profileText)) !!}</p>
                         @if($visionText)
@@ -72,7 +74,7 @@
                                 <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             </div>
                             <h3 class="text-2xl font-bold text-gray-900 mb-3">Jadwal Kegiatan</h3>
-                            <p class="text-gray-500 text-lg">Jadwal kegiatan rutin DKM Musholla belum tersedia.</p>
+                            <p class="text-gray-500 text-lg">Jadwal kegiatan rutin DKM Al-Muqimin belum tersedia.</p>
                         </div>
                     @endif
                 </div>
@@ -82,7 +84,7 @@
             <div x-show="tab === 'laporan'" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
                 <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
                     <div class="px-8 py-6 border-b border-gray-100 bg-blue-50">
-                        <h2 class="text-xl font-bold text-blue-900">Laporan Keuangan Kas Musholla</h2>
+                        <h2 class="text-xl font-bold text-blue-900">Laporan Keuangan Kas Al-Muqimin</h2>
                         <p class="text-sm text-blue-700 mt-1">Transparansi pemasukan dan pengeluaran kas.</p>
                     </div>
                     <div class="p-8">
@@ -187,21 +189,47 @@
                 </div>
 
                 <!-- Simulasi Kalkulator Zakat -->
-                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden" x-data="{ income: '', zakat: 0, calculate() { this.zakat = this.income ? (this.income * 0.025) : 0; } }">
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden" 
+                     x-data="{ 
+                        incomeRaw: '', 
+                        incomeFormatted: '', 
+                        zakat: 0,
+                        nisabPerBulan: 8500000, // Asumsi 85 gram emas/tahun dibagi 12 bulan (misal harga emas 1.2jt/gram)
+                        wajibZakat: false,
+                        formatIncome(value) {
+                            let val = value.replace(/\D/g, '');
+                            this.incomeRaw = val;
+                            this.incomeFormatted = val ? new Intl.NumberFormat('id-ID').format(val) : '';
+                            this.wajibZakat = this.incomeRaw >= this.nisabPerBulan;
+                            // Sesuai syariat, zakat dihitung jika mencapai nishab
+                            this.zakat = this.wajibZakat ? (this.incomeRaw * 0.025) : 0;
+                        }
+                     }">
                     <div class="px-8 py-6 border-b border-gray-100 bg-blue-50">
                         <h2 class="text-xl font-bold text-blue-900">Simulasi Perhitungan Zakat Penghasilan</h2>
-                        <p class="text-sm text-blue-700 mt-1">Nishab zakat penghasilan sebesar 85 gram emas per tahun (2,5%)</p>
+                        <p class="text-sm text-blue-700 mt-1">Nishab zakat penghasilan sebesar 85 gram emas per tahun (2,5%). Asumsi nishab per bulan ~Rp 8.500.000.</p>
                     </div>
                     <div class="p-8">
                         <div class="max-w-xl mx-auto space-y-6">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-2">Total Penghasilan Per Bulan (Rp)</label>
-                                <input type="number" x-model="income" @input="calculate()" placeholder="Contoh: 10000000" class="w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 text-lg py-3">
+                                <input type="text" x-model="incomeFormatted" @input="formatIncome($event.target.value)" placeholder="Contoh: 10.000.000" class="w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-slate-50 text-lg py-3">
                             </div>
-                            <div class="bg-blue-500 text-white rounded-2xl p-6 text-center shadow-lg">
-                                <p class="text-sm font-medium opacity-90 mb-1">Zakat yang harus dikeluarkan per bulan (2,5%)</p>
+                            <div class="bg-blue-500 text-white rounded-2xl p-6 text-center shadow-lg relative overflow-hidden">
+                                <!-- Indikator Wajib Zakat -->
+                                <div x-show="incomeRaw > 0 && !wajibZakat" class="absolute top-0 left-0 w-full bg-yellow-500 text-yellow-900 text-xs font-bold py-1" style="display: none;">
+                                    Belum Mencapai Nishab (Belum Wajib Zakat)
+                                </div>
+                                <div x-show="wajibZakat" class="absolute top-0 left-0 w-full bg-emerald-500 text-white text-xs font-bold py-1" style="display: none;">
+                                    Sudah Mencapai Nishab (Wajib Zakat)
+                                </div>
+                                
+                                <p class="text-sm font-medium opacity-90 mb-1 mt-4">Zakat yang harus dikeluarkan per bulan (2,5%)</p>
                                 <div class="text-4xl font-black" x-text="new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(zakat)"></div>
                             </div>
+                            <p class="text-xs text-center text-gray-500 mt-4">
+                                *Sumber referensi nishab dan perhitungan: <strong>Badan Amil Zakat Nasional (BAZNAS) RI</strong> dan <strong>Fatwa MUI</strong>.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -242,25 +270,81 @@
                 <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
                     <div class="px-8 py-6 border-b border-gray-100 bg-purple-50">
                         <h2 class="text-xl font-bold text-purple-900">Peringatan Hari Besar Islam (PHBI)</h2>
-                        <p class="text-sm text-purple-700 mt-1">Dokumentasi dan kegiatan hari besar Islam di Musholla Al-Muhajirin.</p>
+                        <p class="text-sm text-purple-700 mt-1">Dokumentasi dan kegiatan hari besar Islam di Musholla Al-Muqimin.</p>
                     </div>
                     <div class="p-8">
                         @if($phbiEvents->count() > 0)
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($phbiEvents as $event)
-                            <div class="bg-slate-50 border border-slate-100 p-6 rounded-2xl hover:shadow-md hover:border-purple-200 transition-all duration-300 group">
-                                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <div class="bg-slate-50 border border-slate-100 rounded-2xl hover:shadow-md hover:border-purple-200 transition-all duration-300 group overflow-hidden">
+                                @if(!empty($event->images))
+                                <div class="w-full h-40 bg-gray-200 overflow-hidden relative group" x-data="{ activeSlide: 0, slides: {{ json_encode($event->images) }} }">
+                                    <template x-for="(slide, index) in slides" :key="index">
+                                        <img x-show="activeSlide === index" :src="'{{ asset('storage') }}/' + slide" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 absolute inset-0" x-transition.opacity.duration.300ms>
+                                    </template>
+                                    <template x-if="slides.length > 1">
+                                        <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <button @click.prevent="activeSlide = activeSlide === 0 ? slides.length - 1 : activeSlide - 1" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-1.5 rounded-full shadow z-10 focus:outline-none text-gray-800">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                                            </button>
+                                            <button @click.prevent="activeSlide = activeSlide === slides.length - 1 ? 0 : activeSlide + 1" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/70 hover:bg-white p-1.5 rounded-full shadow z-10 focus:outline-none text-gray-800">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                            </button>
+                                        </div>
+                                    </template>
                                 </div>
-                                <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $event->title }}</h3>
-                                <div class="text-xs font-semibold text-purple-600 mb-3">{{ $event->date }}</div>
-                                <p class="text-sm text-gray-500 leading-relaxed">{{ $event->description }}</p>
+                                @endif
+                                <div class="p-6">
+                                    @if(empty($event->images))
+                                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    </div>
+                                    @endif
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">{{ $event->title }}</h3>
+                                    <p class="text-sm text-gray-500 leading-relaxed">{{ $event->description }}</p>
+                                </div>
                             </div>
                             @endforeach
                         </div>
                         @else
                         <div class="text-center text-gray-500">Belum ada kegiatan PHBI.</div>
                         @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Dokumentasi -->
+            <div x-show="tab === 'dokumentasi'" style="display: none;" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" x-transition:enter-end="opacity-100 translate-y-0">
+                <div class="pt-4">
+                    <div class="flex flex-col sm:flex-row gap-4 items-center justify-end mb-6">
+                        <!-- Filter Bulan -->
+                        <select wire:model.live="selectedMonth" class="bg-white border-gray-200 text-gray-700 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 w-full sm:w-48 shadow-sm py-2.5">
+                            <option value="">Semua Bulan</option>
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select>
+
+                        <!-- Filter Tahun -->
+                        <select wire:model.live="selectedYear" class="bg-white border-gray-200 text-gray-700 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 w-full sm:w-40 shadow-sm py-2.5">
+                            <option value="">Semua Tahun</option>
+                            @foreach($availableYears as $year)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="-mx-4 sm:-mx-6 lg:-mx-8 -my-16">
+                        <x-galeri.grid :galleries="$galleries" />
                     </div>
                 </div>
             </div>
@@ -277,15 +361,34 @@
                         </div>
                     </div>
                     <div class="p-8">
-                        @if($liveDakwahUrl)
-                        <div class="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-lg border border-gray-200">
-                            <iframe class="w-full h-full" src="{{ str_replace('watch?v=', 'embed/', $liveDakwahUrl) }}" title="Live Dakwah" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <div class="mt-4 text-center">
-                            <a href="{{ $liveDakwahUrl }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-                                Buka di YouTube
-                            </a>
+                        @php
+                            $dakwahUrls = array_filter([$liveDakwahUrl, $liveDakwahUrl2 ?? null, $liveDakwahUrl3 ?? null, $liveDakwahUrl4 ?? null]);
+                            if (!function_exists('getYoutubeEmbedUrl')) {
+                                function getYoutubeEmbedUrl($url) {
+                                    $videoId = '';
+                                    if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?|live)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match)) {
+                                        $videoId = $match[1];
+                                    }
+                                    return $videoId ? 'https://www.youtube.com/embed/' . $videoId : $url;
+                                }
+                            }
+                        @endphp
+                        
+                        @if(count($dakwahUrls) > 0)
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            @foreach($dakwahUrls as $index => $url)
+                            <div class="bg-gray-50 p-4 rounded-3xl border border-gray-100">
+                                <div class="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-sm border border-gray-200">
+                                    <iframe class="w-full h-full" src="{{ getYoutubeEmbedUrl($url) }}" title="Live Dakwah {{ $index + 1 }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <a href="{{ $url }}" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                                        Buka di YouTube
+                                    </a>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                         @else
                         <div class="aspect-video bg-gray-50 rounded-2xl flex flex-col items-center justify-center text-gray-400 border-2 border-dashed border-gray-200">
@@ -297,37 +400,100 @@
                 </div>
 
                 <!-- Live Waktu Sholat -->
-                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
-                    <div class="px-8 py-6 border-b border-gray-100 bg-emerald-50">
-                        <h2 class="text-xl font-bold text-emerald-900">Jadwal Waktu Sholat</h2>
-                        <p class="text-sm text-emerald-700 mt-1">Resmi Wilayah Kabupaten Tangerang</p>
+                <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden"
+                     x-data="{
+                        times: [
+                            { name: 'Imsak', time: '04:20' },
+                            { name: 'Subuh', time: '04:30' },
+                            { name: 'Dzuhur', time: '11:55' },
+                            { name: 'Ashar', time: '15:15' },
+                            { name: 'Maghrib', time: '18:00' },
+                            { name: 'Isya', time: '19:15' }
+                        ],
+                        nextPrayer: null,
+                        notification: '',
+                        currentTime: '',
+                        init() {
+                            this.update();
+                            setInterval(() => this.update(), 1000);
+                        },
+                        update() {
+                            let now = new Date();
+                            // Convert to WIB (UTC+7)
+                            let utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+                            let wibDate = new Date(utc + (3600000 * 7));
+                            let h = wibDate.getHours();
+                            let m = wibDate.getMinutes();
+                            let s = wibDate.getSeconds();
+                            
+                            this.currentTime = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+                            let timeStr = (h < 10 ? '0' + h : h) + ':' + (m < 10 ? '0' + m : m);
+                            
+                            let nIdx = -1;
+                            for (let i = 0; i < this.times.length; i++) {
+                                if (timeStr < this.times[i].time) {
+                                    nIdx = i;
+                                    break;
+                                }
+                            }
+                            if (nIdx === -1) nIdx = 0;
+                            this.nextPrayer = this.times[nIdx];
+                            
+                            let cIdx = nIdx - 1;
+                            if (cIdx === -1) cIdx = this.times.length - 1;
+                            let currentPrayer = this.times[cIdx];
+                            
+                            let nextH = parseInt(this.nextPrayer.time.split(':')[0]);
+                            let nextM = parseInt(this.nextPrayer.time.split(':')[1]);
+                            
+                            let currentTotalSeconds = (h * 3600) + (m * 60) + s;
+                            let nextTotalSeconds = (nextH * 3600) + (nextM * 60);
+                            
+                            if (nextTotalSeconds < currentTotalSeconds) {
+                                nextTotalSeconds += 24 * 3600;
+                            }
+                            
+                            let diffSeconds = nextTotalSeconds - currentTotalSeconds;
+                            
+                            if (diffSeconds > 0 && diffSeconds <= 1800) {
+                                let diffM = Math.floor(diffSeconds / 60);
+                                let diffS = diffSeconds % 60;
+                                this.notification = 'Peringatan: Waktu ' + this.nextPrayer.name + ' kurang dari ' + (diffM > 0 ? diffM + ' menit ' : '') + diffS + ' detik lagi.';
+                            } else if (timeStr === currentPrayer.time) { 
+                                this.notification = 'Saat ini telah masuk waktu ' + currentPrayer.name + '.';
+                            } else {
+                                this.notification = '';
+                            }
+                        }
+                     }">
+                    <div class="px-8 py-6 border-b border-gray-100 bg-emerald-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-emerald-900">Jadwal Waktu Sholat</h2>
+                            <p class="text-sm text-emerald-700 mt-1">Resmi Wilayah Kabupaten Tangerang</p>
+                        </div>
+                        <div class="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl shadow-md">
+                            <svg class="w-5 h-5 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span class="font-bold text-lg tracking-wider" x-text="currentTime"></span>
+                            <span class="text-sm font-medium opacity-90">WIB</span>
+                        </div>
                     </div>
                     <div class="p-8">
+                        
+                        <!-- Notification Alert -->
+                        <div x-show="notification" class="mb-8 bg-amber-50 border border-amber-200 text-amber-800 px-6 py-4 rounded-xl flex items-center gap-4 shadow-sm" style="display: none;" x-transition>
+                            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 animate-pulse">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            </div>
+                            <p class="font-bold text-lg" x-text="notification"></p>
+                        </div>
+
                         <div class="grid grid-cols-2 md:grid-cols-6 gap-4 text-center">
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <p class="text-sm text-slate-500 font-medium mb-1">Imsak</p>
-                                <p class="text-xl font-bold text-emerald-700">04:20</p>
-                            </div>
-                            <div class="bg-emerald-500 p-4 rounded-2xl border border-emerald-600 shadow-sm text-white">
-                                <p class="text-sm font-medium mb-1 opacity-90">Subuh</p>
-                                <p class="text-xl font-bold">04:30</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <p class="text-sm text-slate-500 font-medium mb-1">Dzuhur</p>
-                                <p class="text-xl font-bold text-emerald-700">11:55</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <p class="text-sm text-slate-500 font-medium mb-1">Ashar</p>
-                                <p class="text-xl font-bold text-emerald-700">15:15</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <p class="text-sm text-slate-500 font-medium mb-1">Maghrib</p>
-                                <p class="text-xl font-bold text-emerald-700">18:00</p>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                <p class="text-sm text-slate-500 font-medium mb-1">Isya</p>
-                                <p class="text-xl font-bold text-emerald-700">19:15</p>
-                            </div>
+                            <template x-for="prayer in times">
+                                <div :class="nextPrayer && nextPrayer.name === prayer.name ? 'bg-emerald-500 border-emerald-600 shadow-sm text-white transform scale-105' : 'bg-slate-50 border-slate-100 text-slate-500 hover:border-emerald-200 hover:bg-emerald-50/50'" class="p-4 rounded-2xl border transition-all duration-300">
+                                    <p class="text-sm font-medium mb-1" :class="nextPrayer && nextPrayer.name === prayer.name ? 'opacity-90' : 'text-slate-500'" x-text="prayer.name"></p>
+                                    <p class="text-xl font-bold" :class="nextPrayer && nextPrayer.name === prayer.name ? 'text-white' : 'text-emerald-700'" x-text="prayer.time"></p>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -366,4 +532,7 @@
             
         </div>
     </div>
+
+    <x-galeri.lightbox />
+    <x-galeri.scripts />
 </div>

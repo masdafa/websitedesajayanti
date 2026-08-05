@@ -37,9 +37,9 @@
         <div class="space-y-3">
             @php
                 $schedule = [
-                    ['shift' => 'Pagi', 'time' => '07:00 – 15:00 WIB', 'count' => '2 Personel'],
-                    ['shift' => 'Siang', 'time' => '15:00 – 23:00 WIB', 'count' => '2 Personel'],
-                    ['shift' => 'Malam', 'time' => '23:00 – 07:00 WIB', 'count' => '2 Personel'],
+                    ['shift' => 'Pagi', 'time' => '07:00 – 15:00 WIB', 'count' => '1 Personel'],
+                    ['shift' => 'Siang', 'time' => '15:00 – 23:00 WIB', 'count' => '1 Personel'],
+                    ['shift' => 'Malam', 'time' => '23:00 – 07:00 WIB', 'count' => '1 Personel'],
                 ];
             @endphp
             @foreach($schedule as $s)

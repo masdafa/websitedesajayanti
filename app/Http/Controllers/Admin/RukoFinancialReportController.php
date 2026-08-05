@@ -20,7 +20,9 @@ class RukoFinancialReportController extends Controller
             return array_search($report->month, $months);
         });
 
-        return view('admin.ruko-financial-reports.index', compact('reports', 'year', 'months'));
+        $deposits = \App\Models\RukoDeposit::where('year', $year)->orderBy('ruko_no')->get();
+
+        return view('admin.ruko-financial-reports.index', compact('reports', 'year', 'months', 'deposits'));
     }
 
     public function store(Request $request)
