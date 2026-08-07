@@ -12,19 +12,23 @@ class ResidentImport implements ToModel, WithHeadingRow
     {
         // Sesuaikan dengan header di excel, misalnya 'nama_lengkap', 'blok_rumah', dll.
         // Jika header di Excel menggunakan spasi seperti "Nama Lengkap", maatwebsite akan mengubahnya menjadi "nama_lengkap" (snake_case).
-        if (empty($row['nama_lengkap'])) {
-            return null; // Abaikan jika nama lengkap kosong
+        // Abaikan jika tidak ada blok
+        if (empty($row['block'])) {
+            return null; 
         }
 
         return new Resident([
-            'nama_lengkap' => $row['nama_lengkap'] ?? null,
-            'nik'          => $row['nik'] ?? null,
-            'no_kk'        => $row['no_kk'] ?? null,
-            'blok_rumah'   => $row['blok_rumah'] ?? null,
-            'no_hp'        => $row['no_hp'] ?? null,
-            'status_warga' => $row['status_warga'] ?? null,
-            'agama'        => $row['agama'] ?? null,
-            'pekerjaan'    => $row['pekerjaan'] ?? null,
+            'block'       => $row['block'] ?? null,
+            'rt'          => $row['rt'] ?? null,
+            'nama_ayah'   => $row['nama_ayah'] ?? null,
+            'nama_ibu'    => $row['nama_ibu'] ?? null,
+            'nama_anak_1' => $row['nama_anak_1'] ?? null,
+            'nama_anak_2' => $row['nama_anak_2'] ?? null,
+            'nama_anak_3' => $row['nama_anak_3'] ?? null,
+            'nama_anak_4' => $row['nama_anak_4'] ?? null,
+            'nama_anak_5' => $row['nama_anak_5'] ?? null,
+            'nama_anak_6' => $row['nama_anak_6'] ?? null,
+            'keterangan'  => $row['keterangan'] ?? null,
         ]);
     }
 }

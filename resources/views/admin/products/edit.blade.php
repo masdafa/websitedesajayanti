@@ -46,6 +46,29 @@
                 </div>
             </div>
 
+            <!-- Social Media & E-Commerce -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Sosial Media -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Link Sosial Media (Opsional)</label>
+                    <input type="url" name="social_media_link" value="{{ old('social_media_link', $product->social_media_link) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
+                        placeholder="Contoh: https://instagram.com/toko">
+                    <p class="mt-1 text-xs text-gray-500">Link Instagram atau Facebook.</p>
+                    @error('social_media_link') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+
+                <!-- E-Commerce -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-900 mb-2">Link E-Commerce (Opsional)</label>
+                    <input type="url" name="ecommerce_link" value="{{ old('ecommerce_link', $product->ecommerce_link) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3"
+                        placeholder="Contoh: https://shopee.co.id/toko">
+                    <p class="mt-1 text-xs text-gray-500">Link Shopee, Tokopedia, GoFood, dll.</p>
+                    @error('ecommerce_link') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                </div>
+            </div>
+
             <!-- Deskripsi -->
             <div>
                 <label class="block text-sm font-semibold text-gray-900 mb-2">Deskripsi Produk</label>

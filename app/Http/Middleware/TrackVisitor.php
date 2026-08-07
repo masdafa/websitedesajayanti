@@ -27,9 +27,13 @@ class TrackVisitor
             if (str_contains($ip, ',')) {
                 $ip = explode(',', $ip)[0];
             }
+            
+            // Buat identifier unik per device menggunakan kombinasi IP dan User Agent
+            $userAgent = $request->userAgent() ?? 'unknown';
+            $visitorId = md5(trim($ip) . $userAgent);
 
             \App\Models\Visitor::firstOrCreate([
-                'ip_address' => trim($ip),
+                'ip_address' => $visitorId,
                 'date' => today(),
             ]);
         }

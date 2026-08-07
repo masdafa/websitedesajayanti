@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Resident extends Model
 {
     protected $fillable = [
-        'nama_lengkap',
-        'nik',
-        'no_kk',
-        'blok_rumah',
-        'no_hp',
-        'status_warga',
-        'agama',
-        'pekerjaan'
+        'block',
+        'rt',
+        'nama_ayah',
+        'nama_ibu',
+        'nama_anak_1',
+        'nama_anak_2',
+        'nama_anak_3',
+        'nama_anak_4',
+        'nama_anak_5',
+        'nama_anak_6',
+        'keterangan'
     ];
 }

@@ -15,7 +15,20 @@ class Home extends Component
 {
     public function render()
     {
-        $totalResidents  = Resident::count();
+        $residentsData = Resident::all();
+        $totalResidents = 0;
+        foreach($residentsData as $r) {
+            $totalResidents += !empty(trim($r->nama_ayah)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_ibu)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_1)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_2)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_3)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_4)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_5)) ? 1 : 0;
+            $totalResidents += !empty(trim($r->nama_anak_6)) ? 1 : 0;
+        }
+        
+        $totalHouses = Resident::whereNotNull('block')->where('block', '!=', '')->distinct('block')->count('block');
         $totalFacilities = Facility::count();
         $latestPosts     = Post::where('is_published', true)->where('type', 'berita')->latest()->take(3)->get();
         $latestPengumuman = Post::where('is_published', true)->where('type', 'pengumuman')->latest()->first();
@@ -79,6 +92,7 @@ class Home extends Component
 
         return view('livewire.home', [
             'totalResidents'  => $totalResidents,
+            'totalHouses'     => $totalHouses,
             'totalFacilities' => $totalFacilities,
             'latestPosts'     => $latestPosts,
             'latestPengumuman'=> $latestPengumuman,

@@ -24,14 +24,17 @@ class ResidentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'nullable|string|max:255',
-            'no_kk' => 'nullable|string|max:255',
-            'blok_rumah' => 'nullable|string|max:255',
-            'no_hp' => 'nullable|string|max:255',
-            'status_warga' => 'nullable|string|max:255',
-            'agama' => 'nullable|string|max:255',
-            'pekerjaan' => 'nullable|string|max:255',
+            'block' => 'required|string|max:255',
+            'rt' => 'nullable|string|max:255',
+            'nama_ayah' => 'nullable|string|max:255',
+            'nama_ibu' => 'nullable|string|max:255',
+            'nama_anak_1' => 'nullable|string|max:255',
+            'nama_anak_2' => 'nullable|string|max:255',
+            'nama_anak_3' => 'nullable|string|max:255',
+            'nama_anak_4' => 'nullable|string|max:255',
+            'nama_anak_5' => 'nullable|string|max:255',
+            'nama_anak_6' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string',
         ]);
 
         Resident::create($validated);
@@ -46,14 +49,17 @@ class ResidentController extends Controller
     public function update(Request $request, Resident $resident)
     {
         $validated = $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'nullable|string|max:255',
-            'no_kk' => 'nullable|string|max:255',
-            'blok_rumah' => 'nullable|string|max:255',
-            'no_hp' => 'nullable|string|max:255',
-            'status_warga' => 'nullable|string|max:255',
-            'agama' => 'nullable|string|max:255',
-            'pekerjaan' => 'nullable|string|max:255',
+            'block' => 'required|string|max:255',
+            'rt' => 'nullable|string|max:255',
+            'nama_ayah' => 'nullable|string|max:255',
+            'nama_ibu' => 'nullable|string|max:255',
+            'nama_anak_1' => 'nullable|string|max:255',
+            'nama_anak_2' => 'nullable|string|max:255',
+            'nama_anak_3' => 'nullable|string|max:255',
+            'nama_anak_4' => 'nullable|string|max:255',
+            'nama_anak_5' => 'nullable|string|max:255',
+            'nama_anak_6' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string',
         ]);
 
         $resident->update($validated);

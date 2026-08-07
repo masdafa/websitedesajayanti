@@ -49,6 +49,7 @@ Route::get('/iuran-rw', IuranRw::class)->name('iuran-rw');
 Route::get('/iuran-ruko', IuranRuko::class)->name('iuran-ruko');
 Route::get('/iuran-k3', IuranK3::class)->name('iuran-k3');
 Route::get('/posyandu', App\Livewire\Posyandu::class)->name('posyandu');
+Route::get('/karang-taruna', App\Livewire\KarangTaruna::class)->name('karang-taruna');
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostController;
@@ -77,6 +78,7 @@ use App\Http\Controllers\Admin\PosyanduProfileController;
 use App\Http\Controllers\Admin\PosyanduActivityController;
 use App\Http\Controllers\Admin\PosyanduGalleryController;
 use App\Http\Controllers\Admin\DkmSettingController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('guest')->group(function () {
@@ -108,6 +110,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('activities-reg', ActivityRegistrationController::class)->except(['create', 'store', 'edit']);
         Route::resource('guests', GuestBookController::class)->except(['create', 'store', 'edit']);
         Route::resource('iuran', IuranInfoController::class)->except(['show']);
+
+        // User Management (Admin & Pengurus RT)
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('users/{user}/edit-password', [UserController::class, 'editPassword'])->name('users.edit-password');
+        Route::put('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
 
         // Website Settings
         Route::get('settings', [SiteSettingController::class, 'edit'])->name('settings.edit');
@@ -143,5 +150,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Data Warga
         Route::post('residents/import', [\App\Http\Controllers\Admin\ResidentController::class, 'import'])->name('residents.import');
         Route::resource('residents', \App\Http\Controllers\Admin\ResidentController::class)->except(['show']);
+        
+        // Karang Taruna
+        Route::get('karang-taruna-profile', [\App\Http\Controllers\Admin\KarangTarunaProfileController::class, 'edit'])->name('karang-taruna-profile.edit');
+        Route::put('karang-taruna-profile', [\App\Http\Controllers\Admin\KarangTarunaProfileController::class, 'update'])->name('karang-taruna-profile.update');
+        Route::resource('karang-taruna-staff', \App\Http\Controllers\Admin\KarangTarunaStaffController::class)->except(['show']);
+        Route::resource('karang-taruna-activities', \App\Http\Controllers\Admin\KarangTarunaActivityController::class)->except(['show']);
+        Route::resource('karang-taruna-galleries', \App\Http\Controllers\Admin\KarangTarunaGalleryController::class)->except(['show']);
+        Route::delete('karang-taruna-galleries/{karang_taruna_gallery}/image', [\App\Http\Controllers\Admin\KarangTarunaGalleryController::class, 'deleteImage'])->name('karang-taruna-galleries.delete-image');
     });
 });

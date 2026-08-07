@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-slate-50" x-data="{ tab: 'profil' }">
     <x-galeri.styles />
     <x-ui.page-hero 
-        title="Posyandu Komplek Jayanti Residence" 
+        title="Posyandu Tulip 1" 
         subtitle="Pusat Pelayanan Keluarga Berencana dan Kesehatan Terpadu."
         badge="Posyandu"
         theme="emerald"

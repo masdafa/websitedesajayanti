@@ -63,13 +63,12 @@
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="antialiased text-slate-800 bg-slate-50">
-    <div class="min-h-screen flex flex-col relative">
+<body class="antialiased text-slate-800 bg-slate-50 overflow-x-hidden flex flex-col min-h-screen">
 
         <!-- Navigation -->
         <header x-data="{ scrolled: false, mobileMenuOpen: false }"
                 @scroll.window="scrolled = (window.pageYOffset > 20)"
-                class="fixed z-50 transition-all duration-300 w-full left-0 right-0 top-0 nav-glass"
+                class="fixed z-50 transition-all duration-300 left-0 right-0 top-0 nav-glass"
                 :class="scrolled ? 'py-2 shadow-sm' : 'py-2.5'">
             <nav class="w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
                 <!-- Logo & Brand -->
@@ -111,7 +110,19 @@
                     <!-- Posyandu -->
                     <a href="/posyandu" wire:navigate
                        class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('posyandu') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
-                        Posyandu Komplek Jayanti Residence
+                        Posyandu Tulip 1
+                    </a>
+
+                    <!-- Karang Taruna -->
+                    <a href="/karang-taruna" wire:navigate
+                       class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('karang-taruna') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        Karang Taruna
+                    </a>
+
+                    <!-- UMKM -->
+                    <a href="/umkm" wire:navigate
+                       class="whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs('umkm') ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        UMKM Warga
                     </a>
 
                     <!-- Layanan & Keuangan -->
@@ -132,7 +143,7 @@
 
                     <!-- Publikasi -->
                     <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
-                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['berita', 'agenda', 'galeri', 'umkm']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
+                        <button class="flex items-center gap-1 whitespace-nowrap font-medium text-[13px] px-2.5 lg:px-3 py-2 rounded-lg transition-all {{ request()->routeIs(['berita', 'agenda', 'galeri']) ? 'text-emerald-700 font-bold bg-emerald-50' : 'text-slate-600 hover:text-emerald-700 hover:bg-slate-100' }}">
                             Publikasi
                             <svg class="w-3.5 h-3.5 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
@@ -142,8 +153,6 @@
                             <div class="border-t border-slate-100 my-1"></div>
                             <a href="/agenda" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Agenda Kegiatan</a>
                             <a href="/galeri" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Galeri Foto</a>
-                            <div class="border-t border-slate-100 my-1"></div>
-                            <a href="/umkm" wire:navigate class="block px-4 py-2.5 text-sm text-slate-600 hover:bg-emerald-50 hover:text-emerald-700 transition font-medium whitespace-nowrap">Direktori UMKM</a>
                         </div>
                     </div>
 
@@ -203,7 +212,17 @@
 
                     <a href="/posyandu" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
                         <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
-                        Posyandu Komplek Jayanti Residence
+                        Posyandu Tulip 1
+                    </a>
+
+                    <a href="/karang-taruna" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        Karang Taruna
+                    </a>
+
+                    <a href="/umkm" class="text-slate-700 font-bold px-4 py-3 rounded-xl hover:bg-slate-50 flex items-center gap-2 transition" wire:navigate @click="mobileMenuOpen=false">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                        UMKM Warga
                     </a>
 
                     <!-- Layanan Warga -->
@@ -238,7 +257,6 @@
                             <a href="/berita?tab=pengumuman" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-orange-500" wire:navigate @click="mobileMenuOpen=false">Pengumuman</a>
                             <a href="/agenda" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Agenda Kegiatan</a>
                             <a href="/galeri" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Galeri Foto</a>
-                            <a href="/umkm" class="block py-2.5 text-sm font-medium text-slate-600 hover:text-emerald-600" wire:navigate @click="mobileMenuOpen=false">Direktori UMKM</a>
                         </div>
                     </div>
 
@@ -310,7 +328,6 @@
                             <li><a href="/berita" class="hover:text-emerald-400 transition-colors" wire:navigate>Berita & Pengumuman</a></li>
                             <li><a href="/agenda" class="hover:text-emerald-400 transition-colors" wire:navigate>Agenda Kegiatan</a></li>
                             <li><a href="/galeri" class="hover:text-emerald-400 transition-colors" wire:navigate>Galeri Foto</a></li>
-                            <li><a href="/umkm" class="hover:text-emerald-400 transition-colors" wire:navigate>Direktori UMKM</a></li>
                         </ul>
                     </div>
 
@@ -323,7 +340,9 @@
                             <li><a href="/iuran-rw" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Warga</a></li>
                             <li><a href="/iuran-ruko" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran Ruko</a></li>
                             <li><a href="/iuran-k3" class="hover:text-emerald-400 transition-colors" wire:navigate>Info Iuran K3</a></li>
-                            <li><a href="/posyandu" class="hover:text-emerald-400 transition-colors" wire:navigate>Posyandu Komplek Jayanti Residence</a></li>
+                            <li><a href="/posyandu" class="hover:text-emerald-400 transition-colors" wire:navigate>Posyandu Tulip 1</a></li>
+                            <li><a href="/karang-taruna" class="hover:text-emerald-400 transition-colors" wire:navigate>Karang Taruna</a></li>
+                            <li><a href="/umkm" class="hover:text-emerald-400 transition-colors" wire:navigate>UMKM Warga</a></li>
                             <li><a href="/dkm" class="hover:text-emerald-400 transition-colors" wire:navigate>DKM Al-Muqimin</a></li>
                             <li><a href="/dokumen" class="hover:text-emerald-400 transition-colors" wire:navigate>Download Dokumen</a></li>
                             <li><a href="/faq" class="hover:text-emerald-400 transition-colors" wire:navigate>Tanya Jawab (FAQ)</a></li>
@@ -359,14 +378,13 @@
                 </div>
             </div>
         </footer>
-    </div>
 
     @livewireScripts
 
     <!-- AOS Init -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const aosOptions = { once: true, offset: 50, duration: 750, easing: 'ease-out-cubic' };
+        var aosOptions = { once: true, offset: 50, duration: 750, easing: 'ease-out-cubic' };
         AOS.init(aosOptions);
         
         document.addEventListener('livewire:navigated', () => {

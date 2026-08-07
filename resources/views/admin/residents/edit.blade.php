@@ -13,87 +13,65 @@
             @method('PUT')
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Nama Lengkap -->
+                <!-- Block -->
+                <div>
+                    <label for="block" class="block text-sm font-semibold text-gray-900 mb-2">Block / Rumah <span class="text-red-500">*</span></label>
+                    <input type="text" name="block" id="block" value="{{ old('block', $resident->block) }}" required
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error('block')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- RT -->
+                <div>
+                    <label for="rt" class="block text-sm font-semibold text-gray-900 mb-2">RT</label>
+                    <input type="text" name="rt" id="rt" value="{{ old('rt', $resident->rt) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error('rt')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Nama Ayah -->
+                <div>
+                    <label for="nama_ayah" class="block text-sm font-semibold text-gray-900 mb-2">Nama Ayah</label>
+                    <input type="text" name="nama_ayah" id="nama_ayah" value="{{ old('nama_ayah', $resident->nama_ayah) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error('nama_ayah')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Nama Ibu -->
+                <div>
+                    <label for="nama_ibu" class="block text-sm font-semibold text-gray-900 mb-2">Nama Ibu</label>
+                    <input type="text" name="nama_ibu" id="nama_ibu" value="{{ old('nama_ibu', $resident->nama_ibu) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error('nama_ibu')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Anak 1-6 -->
+                @for($i = 1; $i <= 6; $i++)
+                @php $field = 'nama_anak_' . $i; @endphp
+                <div>
+                    <label for="{{ $field }}" class="block text-sm font-semibold text-gray-900 mb-2">Nama Anak {{ $i }}</label>
+                    <input type="text" name="{{ $field }}" id="{{ $field }}" value="{{ old($field, $resident->$field) }}"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
+                    @error($field)
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                @endfor
+
+                <!-- Keterangan -->
                 <div class="md:col-span-2">
-                    <label for="nama_lengkap" class="block text-sm font-semibold text-gray-900 mb-2">Nama Lengkap <span class="text-red-500">*</span></label>
-                    <input type="text" name="nama_lengkap" id="nama_lengkap" value="{{ old('nama_lengkap', $resident->nama_lengkap) }}" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('nama_lengkap')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- NIK -->
-                <div>
-                    <label for="nik" class="block text-sm font-semibold text-gray-900 mb-2">NIK</label>
-                    <input type="text" name="nik" id="nik" value="{{ old('nik', $resident->nik) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('nik')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- No KK -->
-                <div>
-                    <label for="no_kk" class="block text-sm font-semibold text-gray-900 mb-2">Nomor KK</label>
-                    <input type="text" name="no_kk" id="no_kk" value="{{ old('no_kk', $resident->no_kk) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('no_kk')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Blok / Rumah -->
-                <div>
-                    <label for="blok_rumah" class="block text-sm font-semibold text-gray-900 mb-2">Blok / Nomor Rumah</label>
-                    <input type="text" name="blok_rumah" id="blok_rumah" value="{{ old('blok_rumah', $resident->blok_rumah) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('blok_rumah')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- No HP -->
-                <div>
-                    <label for="no_hp" class="block text-sm font-semibold text-gray-900 mb-2">Nomor HP</label>
-                    <input type="text" name="no_hp" id="no_hp" value="{{ old('no_hp', $resident->no_hp) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('no_hp')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Status Warga -->
-                <div>
-                    <label for="status_warga" class="block text-sm font-semibold text-gray-900 mb-2">Status Warga</label>
-                    <select name="status_warga" id="status_warga"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                        <option value="">-- Pilih Status --</option>
-                        <option value="Pemilik" {{ old('status_warga', $resident->status_warga) == 'Pemilik' ? 'selected' : '' }}>Pemilik</option>
-                        <option value="Penyewa" {{ old('status_warga', $resident->status_warga) == 'Penyewa' ? 'selected' : '' }}>Penyewa / Kontrak</option>
-                        <option value="Keluarga Pemilik" {{ old('status_warga', $resident->status_warga) == 'Keluarga Pemilik' ? 'selected' : '' }}>Keluarga Pemilik</option>
-                    </select>
-                    @error('status_warga')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Agama -->
-                <div>
-                    <label for="agama" class="block text-sm font-semibold text-gray-900 mb-2">Agama</label>
-                    <input type="text" name="agama" id="agama" value="{{ old('agama', $resident->agama) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('agama')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Pekerjaan -->
-                <div class="md:col-span-2">
-                    <label for="pekerjaan" class="block text-sm font-semibold text-gray-900 mb-2">Pekerjaan</label>
-                    <input type="text" name="pekerjaan" id="pekerjaan" value="{{ old('pekerjaan', $resident->pekerjaan) }}"
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">
-                    @error('pekerjaan')
+                    <label for="keterangan" class="block text-sm font-semibold text-gray-900 mb-2">Keterangan</label>
+                    <textarea name="keterangan" id="keterangan" rows="3"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full px-4 py-3">{{ old('keterangan', $resident->keterangan) }}</textarea>
+                    @error('keterangan')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>

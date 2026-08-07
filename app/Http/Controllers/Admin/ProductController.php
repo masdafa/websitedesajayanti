@@ -27,13 +27,15 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'            => 'required|string|max:255',
-            'price'           => 'nullable|integer|min:0',
-            'description'     => 'nullable|string',
-            'images'          => 'nullable|array|max:10',
-            'images.*'        => 'image|mimes:jpeg,png,jpg,webp|max:2048',
-            'seller_name'     => 'nullable|string|max:255',
-            'whatsapp_number' => 'nullable|string|max:20',
+            'name'              => 'required|string|max:255',
+            'price'             => 'nullable|integer|min:0',
+            'description'       => 'nullable|string',
+            'images'            => 'nullable|array|max:10',
+            'images.*'          => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'seller_name'       => 'nullable|string|max:255',
+            'whatsapp_number'   => 'nullable|string|max:20',
+            'social_media_link' => 'nullable|string|max:255',
+            'ecommerce_link'    => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('images')) {
@@ -56,13 +58,15 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $data = $request->validate([
-            'name'            => 'required|string|max:255',
-            'price'           => 'nullable|integer|min:0',
-            'description'     => 'nullable|string',
-            'images'          => 'nullable|array|max:10',
-            'images.*'        => 'image|mimes:jpeg,png,jpg,webp|max:2048',
-            'seller_name'     => 'nullable|string|max:255',
-            'whatsapp_number' => 'nullable|string|max:20',
+            'name'              => 'required|string|max:255',
+            'price'             => 'nullable|integer|min:0',
+            'description'       => 'nullable|string',
+            'images'            => 'nullable|array|max:10',
+            'images.*'          => 'image|mimes:jpeg,png,jpg,webp|max:2048',
+            'seller_name'       => 'nullable|string|max:255',
+            'whatsapp_number'   => 'nullable|string|max:20',
+            'social_media_link' => 'nullable|string|max:255',
+            'ecommerce_link'    => 'nullable|string|max:255',
         ]);
 
         if ($request->hasFile('images')) {

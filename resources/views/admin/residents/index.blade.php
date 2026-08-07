@@ -41,10 +41,10 @@
             <table class="w-full text-sm text-left text-gray-600">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b border-gray-200">
                     <tr>
-                        <th scope="col" class="px-6 py-4 font-bold">Nama Lengkap</th>
                         <th scope="col" class="px-6 py-4 font-bold">Blok / Rumah</th>
-                        <th scope="col" class="px-6 py-4 font-bold">Status</th>
-                        <th scope="col" class="px-6 py-4 font-bold">No. HP</th>
+                        <th scope="col" class="px-6 py-4 font-bold">RT</th>
+                        <th scope="col" class="px-6 py-4 font-bold">Nama Ayah</th>
+                        <th scope="col" class="px-6 py-4 font-bold">Nama Ibu</th>
                         <th scope="col" class="px-6 py-4 text-right font-bold">Aksi</th>
                     </tr>
                 </thead>
@@ -52,22 +52,16 @@
                     @forelse($residents as $person)
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4 font-bold text-gray-900">
-                                {{ $person->nama_lengkap }}
+                                {{ $person->block ?? '-' }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $person->blok_rumah ?? '-' }}
+                                {{ $person->rt ?? '-' }}
                             </td>
                             <td class="px-6 py-4">
-                                @if($person->status_warga)
-                                    <span class="bg-gray-100 text-gray-700 font-bold px-3 py-1 rounded-full text-xs">
-                                        {{ $person->status_warga }}
-                                    </span>
-                                @else
-                                    -
-                                @endif
+                                {{ $person->nama_ayah ?? '-' }}
                             </td>
                             <td class="px-6 py-4">
-                                {{ $person->no_hp ?? '-' }}
+                                {{ $person->nama_ibu ?? '-' }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
